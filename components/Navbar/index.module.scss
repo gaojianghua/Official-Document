@@ -1,0 +1,81 @@
+.navbar {
+    width: 100%;
+    height: 60px;
+    background-color: #fFF;
+    display: flex;
+    align-items: center;
+    padding: 0 20%;
+    position: fixed;
+    z-index: 8;
+    backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    background-color:rgba(255,255,255,.2);
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        padding: 2px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #B3B9BA 0%, #DFDEDE 21%, #DAD9D8 67%, #fb7299 100%);
+        box-shadow: 0px 2px 2px rgba(251, 114, 153, 0.3);
+    }
+
+    .logoArea {
+        font-size: 26px;
+        font-weight: bolder;
+        margin-right: 60px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-left: 12px;
+        color: #fb7299;
+    }
+
+    .linkArea {
+        height: 100%;
+        display: flex;
+
+        div {
+            height: 100%;
+            padding: 0 20px;
+
+            a {
+                font-size: 15px;
+                color: #515767;
+                height: 58px;
+                display: flex;
+                box-sizing: content-box;
+                align-items: center;
+            }
+        }
+
+        .menu{
+            color: #ffffff;
+        }
+
+        .active {
+            font-weight: bold;
+            color: #fb7299;
+        }
+
+        div:hover>a {
+            border-bottom: 2px solid #fb7299;
+        }
+    }
+
+    .operationArea {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        button {
+            background-color: #fb7299;
+            margin-left: 20px;
+            border: none;
+        }
+
+        .avatar {
+            margin-left: 20px;
+        }
+    }
+}

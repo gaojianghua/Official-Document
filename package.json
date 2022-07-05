@@ -9,9 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@babel/core": "^7.18.5",
+    "@babel/plugin-proposal-class-properties": "^7.17.12",
+    "@babel/plugin-proposal-decorators": "^7.18.2",
+    "antd": "^4.21.3",
+    "axios": "^0.27.2",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "clsx": "^1.1.1",
+    "mobx": "^6.6.0",
+    "mobx-react-lite": "^3.4.0",
     "next": "12.1.6",
+    "next-remove-imports": "^1.0.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sass": "^1.53.0"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
@@ -20,5 +32,8 @@
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
     "typescript": "4.7.4"
-  }
+  },
+  "main": "index.js",
+  "author": "高江华 <g598670138@163.com>",
+  "license": "MIT"
 }

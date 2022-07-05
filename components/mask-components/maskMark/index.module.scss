@@ -1,0 +1,161 @@
+.mark {
+    width: 350px;
+    padding: 24px;
+    position: relative;
+    z-index: 99;
+    border-radius: 10px;
+    backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    background-color:rgba(255, 255, 255,.4);
+
+    .avatar {
+        position: absolute;
+        top: -96px;
+        left: 50%;
+        z-index: 9;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 120px;
+        padding: 5px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #B3B9BA 0%, #DFDEDE 21%, #DAD9D8 67%, #fb7299 100%);
+        box-shadow: 0px 5px 2px rgba(251, 114, 153, 0.3);
+    }
+
+    .title{
+        .titleText{
+            color: #fff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        svg{
+            color: #fff;
+            font-size: 24px;
+        }
+    }
+
+    .formUpload{
+        margin-top: 12px;
+        .uploadDrag{
+            width: 296px !important;
+            height: 156px !important;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+            -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+            background-color:rgba(255, 255, 255,.4);
+            .uploadBtn{
+                width: 296px;
+                height: 156px;
+                .uploadIcon{
+                    font-size: 45px;
+                    color: #fb7299 !important;
+                }
+                .uploadText{
+                    margin-top: 24px;
+                    font-size: 16px;
+                    color: #fb7299 !important;
+                    line-height: 16px;
+                }
+            }
+        }
+        .uploadDrag:hover {
+            border: 1px dashed #fb7299 !important;
+        }
+    }
+
+    .drag{
+        width: 80px;
+        height: 80px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        border-radius: 5px;
+        backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+        background-color:rgba(255, 255, 255,.4);
+        .uploadBtn{
+            .uploadIcon{
+                font-size: 20px;
+                color: #fb7299 !important;
+            }
+            .uploadText{
+                margin-top: 12px;
+                font-size: 12px;
+                color: #fb7299 !important;
+                line-height: 12px;
+            }
+        }
+        
+    }
+    .drag:hover {
+        border: 1px dashed #fb7299 !important;
+    }
+    .bcdrag{
+        margin-bottom: 0px;
+    }
+    .formItem{
+        height: 40px;
+        margin-bottom: 12px;
+        
+        .group{
+            position: relative;
+        }
+        .input{
+            background: #FFFFFF55;
+            border-radius: 44px;
+            height: 40px;
+            padding: 0 16px;
+            caret-color: #fb7299;
+            color: #fb7299;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .input::placeholder{
+            color: #11111145;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .btn{
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            z-index: 999;
+            height: 34px;
+            border-radius: 44px;
+            background: #fb7299;
+            border-color: #fff;
+        }
+
+        .input:hover, .input:focus{
+            background: #FFFFFF88;
+            border-color: #fb7299;
+            box-shadow: 0px 2px 2px #fb729966;
+        }
+
+        .btn:hover{
+            color: #fb7299 !important;
+            background: #fff;
+            border-color: #fb7299;
+        }
+
+        .markBtn{
+            top: 0px;
+            right: 0px;
+            width: 100%;
+            height: 40px;
+            box-shadow: 0px 2px 2px #fb729966;
+        }
+    }
+    .agreement{
+        color: #767676;
+        .agreChild{
+            color: #fb7299 !important;
+        }
+        .agreChild:hover{
+            color: #fff !important;
+        }
+    }
+}
+
+
