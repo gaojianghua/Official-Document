@@ -4,10 +4,6 @@ export const navs = [
         value: '/',
     },
     {
-        label: 'UI',
-        value: '/ui',
-    },
-    {
         label: '前端',
         value: '/before',
     },
