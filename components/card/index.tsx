@@ -9,7 +9,7 @@ import { FormOutlined } from '@ant-design/icons';
 const Card: NextPage<ICardProps> = (props) => {
     const { item, isManagement, checkSwitchF, editorMark } = props
     return (
-        <div style={{backgroundImage: 'url(' + `${item.bg_img}` + ')'}} className={clsx(styles.mark, 'dflex', 'acenter', 'jcenter')} key={item.id}>
+        <div style={{backgroundImage: 'url(' + `${item.bg_img}` + ')'}} className={clsx(styles.mark, 'dflex', 'acenter', 'jcenter', 'cur')} key={item.id}>
             <div className={clsx(styles.glass, 'dflex', 'acenter', 'jcenter')}>
                 <a href={item.url} target="_blank" onClick={(e)=> isManagement ? e.preventDefault() : ''} className={clsx('dflex', 'acenter', 'jcenter', 'flexcolumn', 'positionrelative')}>
                     <div className={clsx(styles.cardLogo, 'dflex', 'acenter')}>

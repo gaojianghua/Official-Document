@@ -14,7 +14,7 @@ const Footer: NextPage = () => {
                 <Button type="primary" className={clsx(styles.btnn)} target="_blank" href="http://gaojianghua.cn/">服务官网</Button>
             </div>
             <div className={clsx(styles.text, 'cur')}>邮箱：g598670138@163.com 个人微信号：woshigaojianghua</div>
-            <div className={clsx(styles.text, 'cur')}>Copyright © 2022-present JiangHua Gao 版权所有 浙ICP备2022001576号</div>
+            <a target="_blank" href='https://beian.miit.gov.cn' className={clsx(styles.text, 'cur')}>Copyright © 2022-present JiangHua Gao 版权所有 浙ICP备2022001576号</a>
         </div>
     )
 };

@@ -5,17 +5,15 @@
     border-radius: 5px;
     margin-top: 20px;
     box-shadow: 0 5px 5px rgba(200, 200, 200);
-    overflow: hidden;
     background-image: url('https://gaojianghua.oss-cn-hangzhou.aliyuncs.com/home/bcg.jpg');
-    background-size: 100% 100%;
+    background-size: cover;
 
     .addMarkCont {
         width: 100%;
         height: 100%;
-        border-radius: 5px;
-        backdrop-filter: saturate(150%) contrast(50%) blur(8px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(8px);
-        background-color: rgba(255, 255, 255, .2);
+        backdrop-filter: saturate(150%) contrast(70%) blur(1px);
+        -webkit-backdrop-filter: saturate(150%) contrast(70%) blur(1px);
+        background-color: rgba(255, 255, 255, .5);
 
         .addMarkIcon {
             font-size: 50px;
@@ -48,5 +46,54 @@
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .2);
+    }
+}
+
+.addMark:hover {
+    position: relative;
+
+    & .addMarkCont {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background-color: transparent;
+    }
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 2px solid #fb7299;
+        transition: all .6s;
+        animation: clippath 6s infinite linear;
+        border-radius: 5px;
+    }
+
+    &::after {
+        animation: clippath 6s infinite -3s linear;
+    }
+
+
+    @keyframes clippath {
+
+        0%,
+        100% {
+            clip-path: inset(95% 0 0 0);
+        }
+
+        25% {
+            clip-path: inset(0 95% 0 0);
+        }
+
+        50% {
+            clip-path: inset(0 0 95% 0);
+        }
+
+        75% {
+            clip-path: inset(0 0 0 95%);
+        }
     }
 }
