@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { useStore } from 'store/index';
-import { Image, Form, Input, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import styles from './index.module.scss';
 import { Avatar } from 'components';

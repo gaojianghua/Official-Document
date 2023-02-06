@@ -13,11 +13,11 @@ interface IProps {
 }
 
 function MyApp({ initialValue, Component, pageProps }: IProps) {
-  return (<StoreProvider initialValue={initialValue}>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
-        </StoreProvider>)
+    return (<StoreProvider initialValue={initialValue}>
+        <Layout>
+            <Component {...pageProps} />
+        </Layout>
+    </StoreProvider>)
 }
 
 // MyApp.getInitialProps = async (ctx: any) => {

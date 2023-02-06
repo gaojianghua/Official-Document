@@ -16,6 +16,7 @@
     "antd": "^4.21.3",
     "axios": "^0.27.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "caniuse-lite": "^1.0.30001281",
     "clsx": "^1.1.1",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",

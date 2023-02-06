@@ -7,7 +7,7 @@ import { IColumnProps } from 'types/global';
 
 const Column: NextPage<IColumnProps> = ({ data }) => {
     return (<div className={clsx(styles.column)}>
-        <div className={clsx(styles.columnTitle, 'dflex', 'acenter')}>
+        <div className={clsx(styles.columnTitle, 'dflex')}>
             {(ANTD_ICONS as any)[data?.column_Icon]?.render()}
             <div className={clsx(styles.columnTitle, 'ml1')}>
                 {data?.column_Name}
