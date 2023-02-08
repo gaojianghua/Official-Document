@@ -26,6 +26,16 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <meta data-n-head="ssr" name="description" content="官网印记 灰太狼" />
             <link rel="icon" href="/Wolffy.ico" />
         </Head>
+        <div className={styles.left}>
+            <div className={styles.leftbtn}>
+                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
+                    <p>工</p>
+                    <p>具</p>
+                    <p>栏</p>
+                </div>
+            </div>
+        </div>
+        <div className={styles.right}></div>
         {
             pathname === '/' ? (
                 <div className={clsx(styles.search)}>

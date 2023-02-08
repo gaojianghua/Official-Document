@@ -35,7 +35,7 @@ const Navbar: NextPage = () => {
     }
     return (
         <div className={styles.navbar}>
-            <Avatar className={styles.avatar} />
+            <Avatar className={clsx(styles.avatar, 'flexshrink')} />
             <section className={clsx(styles.logoArea, 'cur')}>Wolffy</section>
             <section className={styles.linkArea}>
                 {navs?.map((nav) => (

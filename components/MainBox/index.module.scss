@@ -7,18 +7,92 @@
     flex: 1;
     background-image: url('https://official-document.oss-cn-hangzhou.aliyuncs.com/141b53c86d1f6dc174982e6f122dcbfc.jpg');
     background-size: cover;
-    .home{
+    position: relative;
+
+    .left {
+        position: absolute;
+        left: 0;
+        top: 60px;
+        height: calc(100vh - 60px);
+        width: 200px;
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(255, 255, 255, .5);
+        z-index: 1000;
+
+        .leftbtn {
+            position: absolute;
+            top: 50%;
+            right: -58px;
+            transform: translateY(-40px) rotate(90deg);
+
+            .btn {
+                height: 36px;
+                width: 80px;
+                backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                background-color: rgba(255, 255, 255, .5);
+                border-radius: 12px 12px 0 0;
+                p{
+                    transform: rotate(-90deg)
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    left: -20px;
+                    bottom: 0;
+                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    background: #000;
+                    background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    right: -20px;
+                    bottom: 0;
+                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    background: #000;
+                    background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+                }
+            }
+        }
+    }
+
+    .right {
+        position: absolute;
+        right: 0;
+        top: 60px;
+        height: calc(100vh - 60px);
+        width: 200px;
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(255, 255, 255, .5);
+        z-index: 1000;
+    }
+
+    .home {
         height: calc(100vh - 296px);
     }
-    .other{
+
+    .other {
         height: calc(100vh - 204px);
     }
+
     .content {
         margin-top: 12px;
-        width: 1300px;
-        border-radius: 5px;
+        width: 1305px;
         background-color: #fFF;
         padding: 20px 20px 8px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .5);
@@ -29,24 +103,29 @@
             border-radius: 5px;
 
         }
-        
+
     }
+
     .search {
         width: 785px;
         margin-top: 12px;
         height: 80px;
-        border-radius: 5px;
         background-color: #fFF;
         padding: 17.5px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .5);
-        .formItem{
+
+        .formItem {
             height: 45px;
-            .group{
+
+            .group {
                 position: relative;
             }
-            .input{
+
+            .input {
                 background: #FFFFFF55;
                 border-radius: 25px;
                 height: 45px;
@@ -56,7 +135,8 @@
                 color: #fb7299;
                 font-size: 20px;
             }
-            .btn{
+
+            .btn {
                 position: absolute;
                 top: 2px;
                 right: 2px;
@@ -67,14 +147,15 @@
                 padding: 0 30px;
                 border-color: #fff;
             }
-    
-            .input:hover, .input:focus{
+
+            .input:hover,
+            .input:focus {
                 background: #FFFFFF;
                 border-color: #fb7299;
                 box-shadow: 0px 2px 2px #fb729966;
             }
-    
-            .btn:hover{
+
+            .btn:hover {
                 color: #fb7299 !important;
                 background: #fff;
                 border-color: #fb7299;
