@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Form, Input, Button } from 'antd'
 import styles from './index.module.scss'
 import { useRouter } from 'next/router';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
     children: any;
@@ -13,8 +13,16 @@ interface Props {
 const MainBox: NextPage<Props> = ({ children }) => {
     const { pathname } = useRouter();
     const [input, setInput] = useState()
+    const [leftShow, setLeftShow] = useState(false)
+    const [rightShow, setRightShow] = useState(false)
     const onFinish = () => {
         window.open('https://www.baidu.com/s?wd=' + input)
+    };
+    const leftBtnClick = () => {
+        setLeftShow(!leftShow)
+    };
+    const rightBtnClick = () => {
+        setRightShow(!rightShow)
     };
     const onChange = (e: any) => {
         setInput(e.target.value)
@@ -26,8 +34,8 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <meta data-n-head="ssr" name="description" content="官网印记 灰太狼" />
             <link rel="icon" href="/Wolffy.ico" />
         </Head>
-        <div className={styles.left}>
-            <div className={styles.leftbtn}>
+        <div className={clsx(styles.left, leftShow ? styles.leftOpen : styles.leftClose)}>
+            <div className={styles.leftbtn} onClick={leftBtnClick}>
                 <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
                     <p>工</p>
                     <p>具</p>
@@ -35,7 +43,15 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 </div>
             </div>
         </div>
-        <div className={styles.right}></div>
+        <div className={clsx(styles.right, rightShow ? styles.rightOpen : styles.rightClose)}>
+            <div className={styles.rightbtn} onClick={rightBtnClick}>
+                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
+                    <p>栏</p>
+                    <p>捷</p>
+                    <p>便</p>
+                </div>
+            </div>
+        </div>
         {
             pathname === '/' ? (
                 <div className={clsx(styles.search)}>

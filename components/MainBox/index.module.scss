@@ -1,18 +1,13 @@
 .container {
-    height: 100vh;
-    padding-top: 62px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
-    background-image: url('https://official-document.oss-cn-hangzhou.aliyuncs.com/141b53c86d1f6dc174982e6f122dcbfc.jpg');
-    background-size: cover;
-    position: relative;
+    padding-top: 62px;
 
     .left {
-        position: absolute;
-        left: 0;
-        top: 60px;
+        position: fixed;
+        left: -200px;
+        bottom: 0;
         height: calc(100vh - 60px);
         width: 200px;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
@@ -65,17 +60,93 @@
             }
         }
     }
+    .leftOpen{
+        animation: leftWidthOpen linear .3s both;
+        @keyframes leftWidthOpen {
+            from {left: -200px;}
+            to {left: 0;}
+        }
+    }
+    .leftClose{
+        animation: leftWidthClose linear .3s both;
+        @keyframes leftWidthClose {
+            from {left: 0;}
+            to {left: -200px;}
+        }
+    }
 
     .right {
-        position: absolute;
-        right: 0;
-        top: 60px;
+        position: fixed;
+        right: -200px;
+        bottom: 0;
         height: calc(100vh - 60px);
         width: 200px;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .5);
         z-index: 1000;
+        .rightbtn {
+            position: absolute;
+            top: 50%;
+            left: -58px;
+            transform: translateY(-40px) rotate(-90deg);
+
+            .btn {
+                height: 36px;
+                width: 80px;
+                backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                background-color: rgba(255, 255, 255, .5);
+                border-radius: 12px 12px 0 0;
+                p{
+                    transform: rotate(90deg)
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    left: -20px;
+                    bottom: 0;
+                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    background: #000;
+                    background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    right: -20px;
+                    bottom: 0;
+                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+                    background: #000;
+                    background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+                }
+            }
+        }
+    }
+    .rightOpen{
+        animation: rightWidthOpen linear .3s both;
+        @keyframes rightWidthOpen {
+            from {right: -200px;}
+            to {right: 0;}
+        }
+    }
+    .rightClose {
+        animation: rightWidthClose linear .3s both;
+        @keyframes rightWidthClose {
+            from {
+                right: 0;
+            }
+            to {
+                right: -200px;
+            }
+        }
     }
 
     .home {
@@ -99,7 +170,7 @@
 
         .list {
             width: 100%;
-            max-height: 100%;
+            //max-height: 100%;
             border-radius: 5px;
 
         }
@@ -152,7 +223,7 @@
             .input:focus {
                 background: #FFFFFF;
                 border-color: #fb7299;
-                box-shadow: 0px 2px 2px #fb729966;
+                box-shadow: 0 2px 2px #fb729966;
             }
 
             .btn:hover {
