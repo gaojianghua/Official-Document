@@ -3,8 +3,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Form, Input, Button } from 'antd'
 import styles from './index.module.scss'
+import { leftList, rightList } from '@/data';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface Props {
     children: any;
@@ -34,7 +36,16 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <meta data-n-head="ssr" name="description" content="官网印记 灰太狼" />
             <link rel="icon" href="/Wolffy.ico" />
         </Head>
-        <div className={clsx(styles.left, leftShow ? styles.leftOpen : styles.leftClose)}>
+        <div className={clsx(styles.left, 'py2', 'px2', leftShow ? styles.leftOpen : styles.leftClose)}>
+            <div className={clsx(styles.leftList, 'dflex', 'flexcolumn', 'acenter')}>
+                {leftList?.map((item, index) => (
+                    <Link key={index} href={item?.url}>
+                        <div className={clsx(styles.leftItem, 'dflex', 'acenter', 'jcenter')}>
+                            {item?.name}
+                        </div>
+                    </Link>
+                ))}
+            </div>
             <div className={styles.leftbtn} onClick={leftBtnClick}>
                 <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
                     <p>工</p>
@@ -43,7 +54,16 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 </div>
             </div>
         </div>
-        <div className={clsx(styles.right, rightShow ? styles.rightOpen : styles.rightClose)}>
+        <div className={clsx(styles.right, 'py2', 'px2', rightShow ? styles.rightOpen : styles.rightClose)}>
+            <div className={clsx(styles.rightList, 'dflex', 'flexcolumn', 'acenter')}>
+                {rightList?.map((item, index) => (
+                    <Link key={index} href={item?.url}>
+                        <div className={clsx(styles.rightItem, 'dflex', 'acenter', 'jcenter')}>
+                            {item?.name}
+                        </div>
+                    </Link>
+                ))}
+            </div>
             <div className={styles.rightbtn} onClick={rightBtnClick}>
                 <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
                     <p>栏</p>

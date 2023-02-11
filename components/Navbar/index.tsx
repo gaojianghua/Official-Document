@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
-import { useStore } from 'store/index';
+import { useStore } from '@/store';
 import { useRouter } from 'next/router';
 import clsx from 'clsx'
-import { Button, Image } from 'antd';
+import { Button } from 'antd';
 import { Avatar } from 'components'
-import { navs } from './config';
+import { navs } from '@/data';
 import styles from './index.module.scss';
-import request from 'service/fetch';
 
 const Navbar: NextPage = () => {
     const store = useStore();

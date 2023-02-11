@@ -1,236 +1,304 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 62px;
 
-    .left {
-        position: fixed;
+  .left {
+    position: fixed;
+    left: -200px;
+    bottom: 0;
+    height: calc(100vh - 60px);
+    width: 200px;
+    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    background-color: rgba(255, 255, 255, .5);
+    z-index: 1000;
+
+    .leftList {
+      .leftItem {
+        margin-top: 10px;
+        width: 160px;
+        height: 36px;
+        color: #FFFFFF;
+        clip-path: polygon(
+                        0 0,
+                        25px 50%,
+                        0 100%,
+                        calc(100% - 25px) 100%,
+                        100% 50%,
+                        calc(100% - 25px) 0
+        );
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(251, 114, 153);
+      }
+
+      .leftItem:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .leftbtn {
+      position: absolute;
+      top: 50%;
+      right: -63px;
+      transform: translateY(-40px) rotate(90deg);
+
+      .btn {
+        height: 36px;
+        width: 90px;
+        padding: 0 8px;
+        color: #fb7299;
+        font-weight: 600;
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(255, 255, 255, .5);
+        border-radius: 12px 12px 0 0;
+
+        p {
+          transform: rotate(-90deg)
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          left: -20px;
+          bottom: 0;
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background: #000;
+          background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          right: -20px;
+          bottom: 0;
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background: #000;
+          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+        }
+      }
+    }
+  }
+
+  .leftOpen {
+    animation: leftWidthOpen linear .3s both;
+    @keyframes leftWidthOpen {
+      from {
         left: -200px;
-        bottom: 0;
-        height: calc(100vh - 60px);
-        width: 200px;
+      }
+      to {
+        left: 0;
+      }
+    }
+  }
+
+  .leftClose {
+    animation: leftWidthClose linear .3s both;
+    @keyframes leftWidthClose {
+      from {
+        left: 0;
+      }
+      to {
+        left: -200px;
+      }
+    }
+  }
+
+  .right {
+    position: fixed;
+    right: -200px;
+    bottom: 0;
+    height: calc(100vh - 60px);
+    width: 200px;
+    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    background-color: rgba(255, 255, 255, .5);
+    z-index: 1000;
+
+    .rightList {
+      .rightItem {
+        margin-top: 10px;
+        width: 160px;
+        height: 36px;
+        color: #FFFFFF;
+        clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(251, 114, 153);
+      }
+
+      .rightItem:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .rightbtn {
+      position: absolute;
+      top: 50%;
+      left: -63px;
+      transform: translateY(-40px) rotate(-90deg);
+
+      .btn {
+        height: 36px;
+        width: 90px;
+        padding: 0 8px;
+        color: #fb7299;
+        font-weight: 600;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .5);
-        z-index: 1000;
+        border-radius: 12px 12px 0 0;
 
-        .leftbtn {
-            position: absolute;
-            top: 50%;
-            right: -58px;
-            transform: translateY(-40px) rotate(90deg);
-
-            .btn {
-                height: 36px;
-                width: 80px;
-                backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                background-color: rgba(255, 255, 255, .5);
-                border-radius: 12px 12px 0 0;
-                p{
-                    transform: rotate(-90deg)
-                }
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    left: -20px;
-                    bottom: 0;
-                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    background: #000;
-                    background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
-                }
-
-                &::after {
-                    content: "";
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    right: -20px;
-                    bottom: 0;
-                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    background: #000;
-                    background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
-                }
-            }
+        p {
+          transform: rotate(90deg)
         }
-    }
-    .leftOpen{
-        animation: leftWidthOpen linear .3s both;
-        @keyframes leftWidthOpen {
-            from {left: -200px;}
-            to {left: 0;}
-        }
-    }
-    .leftClose{
-        animation: leftWidthClose linear .3s both;
-        @keyframes leftWidthClose {
-            from {left: 0;}
-            to {left: -200px;}
-        }
-    }
 
-    .right {
-        position: fixed;
+        &::before {
+          content: "";
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          left: -20px;
+          bottom: 0;
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background: #000;
+          background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          right: -20px;
+          bottom: 0;
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background: #000;
+          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+        }
+      }
+    }
+  }
+
+  .rightOpen {
+    animation: rightWidthOpen linear .3s both;
+    @keyframes rightWidthOpen {
+      from {
         right: -200px;
-        bottom: 0;
-        height: calc(100vh - 60px);
-        width: 200px;
-        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(255, 255, 255, .5);
-        z-index: 1000;
-        .rightbtn {
-            position: absolute;
-            top: 50%;
-            left: -58px;
-            transform: translateY(-40px) rotate(-90deg);
-
-            .btn {
-                height: 36px;
-                width: 80px;
-                backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                background-color: rgba(255, 255, 255, .5);
-                border-radius: 12px 12px 0 0;
-                p{
-                    transform: rotate(90deg)
-                }
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    left: -20px;
-                    bottom: 0;
-                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    background: #000;
-                    background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
-                }
-
-                &::after {
-                    content: "";
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    right: -20px;
-                    bottom: 0;
-                    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-                    background: #000;
-                    background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
-                }
-            }
-        }
+      }
+      to {
+        right: 0;
+      }
     }
-    .rightOpen{
-        animation: rightWidthOpen linear .3s both;
-        @keyframes rightWidthOpen {
-            from {right: -200px;}
-            to {right: 0;}
-        }
+  }
+
+  .rightClose {
+    animation: rightWidthClose linear .3s both;
+    @keyframes rightWidthClose {
+      from {
+        right: 0;
+      }
+      to {
+        right: -200px;
+      }
     }
-    .rightClose {
-        animation: rightWidthClose linear .3s both;
-        @keyframes rightWidthClose {
-            from {
-                right: 0;
-            }
-            to {
-                right: -200px;
-            }
-        }
-    }
+  }
 
-    .home {
-        height: calc(100vh - 296px);
-    }
+  .home {
+    height: calc(100vh - 296px);
+  }
 
-    .other {
-        height: calc(100vh - 204px);
-    }
+  .other {
+    height: calc(100vh - 204px);
+  }
 
-    .content {
-        margin-top: 12px;
-        width: 1305px;
-        background-color: #fFF;
-        padding: 20px 20px 8px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(255, 255, 255, .5);
+  .content {
+    margin-top: 12px;
+    width: 1305px;
+    background-color: #fFF;
+    padding: 20px 20px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    background-color: rgba(255, 255, 255, .5);
 
-        .list {
-            width: 100%;
-            //max-height: 100%;
-            border-radius: 5px;
-
-        }
+    .list {
+      width: 100%;
+      //max-height: 100%;
+      border-radius: 5px;
 
     }
 
-    .search {
-        width: 785px;
-        margin-top: 12px;
-        height: 80px;
-        background-color: #fFF;
-        padding: 17.5px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(255, 255, 255, .5);
+  }
 
-        .formItem {
-            height: 45px;
+  .search {
+    width: 785px;
+    margin-top: 12px;
+    height: 80px;
+    background-color: #fFF;
+    padding: 17.5px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    background-color: rgba(255, 255, 255, .5);
 
-            .group {
-                position: relative;
-            }
+    .formItem {
+      height: 45px;
 
-            .input {
-                background: #FFFFFF55;
-                border-radius: 25px;
-                height: 45px;
-                line-height: 45px;
-                padding: 0 20px;
-                caret-color: #fb7299;
-                color: #fb7299;
-                font-size: 20px;
-            }
+      .group {
+        position: relative;
+      }
 
-            .btn {
-                position: absolute;
-                top: 2px;
-                right: 2px;
-                z-index: 999;
-                height: 41px;
-                border-radius: 25px;
-                background: #fb7299;
-                padding: 0 30px;
-                border-color: #fff;
-            }
+      .input {
+        background: #FFFFFF55;
+        border-radius: 25px;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 20px;
+        caret-color: #fb7299;
+        color: #fb7299;
+        font-size: 20px;
+      }
 
-            .input:hover,
-            .input:focus {
-                background: #FFFFFF;
-                border-color: #fb7299;
-                box-shadow: 0 2px 2px #fb729966;
-            }
+      .btn {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        z-index: 999;
+        height: 41px;
+        border-radius: 25px;
+        background: #fb7299;
+        padding: 0 30px;
+        border-color: #fff;
+      }
 
-            .btn:hover {
-                color: #fb7299 !important;
-                background: #fff;
-                border-color: #fb7299;
-            }
-        }
+      .input:hover,
+      .input:focus {
+        background: #FFFFFF;
+        border-color: #fb7299;
+        box-shadow: 0 2px 2px #fb729966;
+      }
+
+      .btn:hover {
+        color: #fb7299 !important;
+        background: #fff;
+        border-color: #fb7299;
+      }
     }
+  }
 }
