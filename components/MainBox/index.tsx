@@ -40,14 +40,14 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <div className={clsx(styles.leftList, 'dflex', 'flexcolumn', 'acenter')}>
                 {leftList?.map((item, index) => (
                     <Link key={index} href={item?.url}>
-                        <div className={clsx(styles.leftItem, 'dflex', 'acenter', 'jcenter')}>
+                        <div className={clsx(styles.leftItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}
                         </div>
                     </Link>
                 ))}
             </div>
             <div className={styles.leftbtn} onClick={leftBtnClick}>
-                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
+                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter', 'cur')}>
                     <p>工</p>
                     <p>具</p>
                     <p>栏</p>
@@ -58,14 +58,14 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <div className={clsx(styles.rightList, 'dflex', 'flexcolumn', 'acenter')}>
                 {rightList?.map((item, index) => (
                     <Link key={index} href={item?.url}>
-                        <div className={clsx(styles.rightItem, 'dflex', 'acenter', 'jcenter')}>
+                        <div className={clsx(styles.rightItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}
                         </div>
                     </Link>
                 ))}
             </div>
             <div className={styles.rightbtn} onClick={rightBtnClick}>
-                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter')}>
+                <div className={clsx(styles.btn, 'dflex', 'jsa', 'acenter', 'jcenter', 'cur')}>
                     <p>栏</p>
                     <p>捷</p>
                     <p>便</p>

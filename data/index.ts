@@ -27,6 +27,10 @@ export const leftList = [
         url: 'https://tool.lu/'
     },
     {
+        name: '开发者工具集',
+        url: 'https://smalldev.tools/'
+    },
+    {
         name: '文件压缩',
         url: 'https://docsmall.com/'
     },
@@ -37,6 +41,14 @@ export const leftList = [
     {
         name: '中国色彩',
         url: 'http://zhongguose.com/'
+    },
+    {
+        name: '极简插件',
+        url: 'http://zhongguose.com/'
+    },
+    {
+        name: 'CSS3动画',
+        url: 'https://www.webhek.com/post/css3-animation-sniplet-collection'
     },
     {
         name: 'CSS动画库',
@@ -65,7 +77,28 @@ export const leftList = [
     {
         name: 'Lottie动画素材',
         url: 'https://app.lottiefiles.com/'
-    }
+    },
+    {
+        name: '炫彩表情符号',
+        url: 'https://www.emojiall.com/zh-hans/'
+    },
+    {
+        name: '75CDN资源库',
+        url: 'https://cdn.baomitu.com/'
+    },
+    {
+        name: 'BootCDN资源库',
+        url: 'https://www.bootcdn.cn/'
+    },
+    {
+        name: '字体库',
+        url: 'https://www.fonts.net.cn/'
+    },
+    {
+        name: 'UI配色方案',
+        url: 'https://colorhunt.co/'
+    },
+
 ]
 
 export const rightList = [
@@ -132,5 +165,17 @@ export const rightList = [
     {
         name: '开源中国',
         url: 'https://www.oschina.net/'
+    },
+    {
+        name: '五百丁简历',
+        url: 'https://www.500d.me/'
+    },
+    {
+        name: '浏览器兼容查询',
+        url: 'https://caniuse.com/'
+    },
+    {
+        name: 'CSS技巧学习',
+        url: 'https://css-tricks.com/'
     }
 ]

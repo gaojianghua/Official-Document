@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
+    "build": "next build && PORT=8000 npm start",
     "lint": "next lint"
   },
   "dependencies": {
