@@ -19,6 +19,7 @@ const Avatar: NextPage<IAvatarProps> = ({className}) => {
         <Image
             rootClassName={clsx(styles.image)}
             preview={false}
+            alt={''}
             src="/Wolffy.png"
         />
     </div>);

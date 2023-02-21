@@ -17,6 +17,8 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const [input, setInput] = useState()
     const [leftShow, setLeftShow] = useState(false)
     const [rightShow, setRightShow] = useState(false)
+    const [lList] = useState(leftList)
+    const [rList] = useState(rightList)
     const onFinish = () => {
         window.open('https://www.baidu.com/s?wd=' + input)
     };
@@ -38,7 +40,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
         </Head>
         <div className={clsx(styles.left, 'py2', 'px2', leftShow ? styles.leftOpen : styles.leftClose)}>
             <div className={clsx(styles.leftList, 'dflex', 'flexcolumn', 'acenter')}>
-                {leftList?.map((item, index) => (
+                {lList?.map((item, index) => (
                     <Link key={index} href={item?.url}>
                         <div className={clsx(styles.leftItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}
@@ -56,7 +58,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
         </div>
         <div className={clsx(styles.right, 'py2', 'px2', rightShow ? styles.rightOpen : styles.rightClose)}>
             <div className={clsx(styles.rightList, 'dflex', 'flexcolumn', 'acenter')}>
-                {rightList?.map((item, index) => (
+                {rList?.map((item, index) => (
                     <Link key={index} href={item?.url}>
                         <div className={clsx(styles.rightItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}

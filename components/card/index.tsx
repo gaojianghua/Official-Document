@@ -11,9 +11,9 @@ const Card: NextPage<ICardProps> = (props) => {
     return (
         <div style={{backgroundImage: 'url(' + `${item.bg_img}` + ')'}} className={clsx(styles.mark, 'dflex', 'acenter', 'jcenter', 'cur')} key={item.id}>
             <div className={clsx(styles.glass, 'dflex', 'acenter', 'jcenter')}>
-                <a href={item.url} target="_blank" onClick={(e)=> isManagement ? e.preventDefault() : ''} className={clsx('dflex', 'acenter', 'jcenter', 'flexcolumn', 'positionrelative')}>
+                <a href={item.url} rel="noreferrer" target="_blank" onClick={(e)=> isManagement ? e.preventDefault() : ''} className={clsx('dflex', 'acenter', 'jcenter', 'flexcolumn', 'positionrelative')}>
                     <div className={clsx(styles.cardLogo, 'dflex', 'acenter')}>
-                        <Image className={clsx(styles.cardImage, 'rounded')} preview={false} src={item.logo} />
+                        <Image alt={''} className={clsx(styles.cardImage, 'rounded')} preview={false} src={item.logo} />
                     </div>
                     <div className={clsx(styles.text, 'mt1', 'fontdr')}>{item.label}</div>
                     {

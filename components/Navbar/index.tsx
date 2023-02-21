@@ -15,6 +15,7 @@ const Navbar: NextPage = () => {
     const { isManagement } = store.public.publicData
     const { pathname } = useRouter();
     const [ managementText, setManagementText ] = useState('管理印记')
+    const [ menu] = useState(navs)
 
     useEffect(() => {
         if (isManagement) {
@@ -37,16 +38,10 @@ const Navbar: NextPage = () => {
             <Avatar className={clsx(styles.avatar, 'flexshrink')} />
             <section className={clsx(styles.logoArea, 'cur')}>Wolffy</section>
             <section className={styles.linkArea}>
-                {navs?.map((nav) => (
+                {menu?.map((nav) => (
                     <Link key={nav?.label} href={nav?.value}>
-                        <div className={clsx('flexshrink')}>
-                            <a
-                                className={
-                                    pathname === nav?.value ? styles.active : styles.menu
-                                }
-                            >
-                                {nav?.label}
-                            </a>
+                        <div className={clsx('flexshrink dflex acenter', pathname === nav.value ? styles.active : styles.menu)}>
+                            {nav?.label}
                         </div>
                     </Link>
                 ))}

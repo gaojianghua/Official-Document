@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStore } from 'store/index';
+import { useStore } from '@/store';
 import styles from './index.module.scss'
-import { urls } from './data'
+import { urls } from '@/data'
 import clsx from 'clsx';
 import { Card } from 'components/index'
 import { FolderAddOutlined } from '@ant-design/icons'

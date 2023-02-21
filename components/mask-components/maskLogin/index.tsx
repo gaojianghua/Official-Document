@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
-import { useStore } from 'store/index';
+import { useStore } from '@/store';
 import { Form, Input, Button } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import styles from './index.module.scss';
@@ -56,8 +56,8 @@ const MaskLogin: NextPage = () => {
             </Form>
             <div className={clsx(styles.agreement, 'dflex', 'acenter', 'jcenter', 'mt2')}>
                 <span>注册登录即表示同意</span>
-                <span className={clsx('ml1', 'cur')}><a className={clsx(styles.agreChild)} target="_blank" href="http://gaojianghua.cn/tianlun">用户协议</a></span>
-                <span className={clsx('ml1', 'cur')}><a className={clsx(styles.agreChild)} target="_blank" href="http://gaojianghua.cn/tianlun">隐私政策</a></span>
+                <span className={clsx('ml1', 'cur')}><a  rel="noreferrer" className={clsx(styles.agreChild)} target="_blank" href="http://gaojianghua.cn/tianlun">用户协议</a></span>
+                <span className={clsx('ml1', 'cur')}><a  rel="noreferrer" className={clsx(styles.agreChild)} target="_blank" href="http://gaojianghua.cn/tianlun">隐私政策</a></span>
             </div>
         </div>
     );

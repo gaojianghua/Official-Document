@@ -13,7 +13,7 @@ const Layout: NextPage<Props> = ({ children }) => {
     return (
         <div className={styles.all}>
             <Navbar />
-            <MainBox children={children}></MainBox>
+            <MainBox>{children}</MainBox>
             <Footer />
             <Mask />
         </div>
