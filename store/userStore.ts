@@ -1,8 +1,8 @@
+
 export interface IUserInfo {
-    userId?: number | null,
-    id?: number | null,
-    nickname?: string,
-    avatar?: string
+    name?: string,
+    avatar?: string,
+    signature?: string,
 }
 
 export interface IUserStore {

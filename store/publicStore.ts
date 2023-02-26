@@ -1,8 +1,10 @@
+
 export interface IPublic {
     isManagement: boolean,
     maskShow: boolean,
     maskComponentId: number, // 1login, 2mark
     isAddAndEditor: number, // 1add, 2editor
+    token: string,
 }
 
 export interface IPublicStore {
@@ -11,6 +13,7 @@ export interface IPublicStore {
     setMaskShow: (value: boolean) => void,
     setMaskComponentId: (value: number) => void,
     setIsAddAndEditor: (value: number) => void,
+    setToken: (value: string) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -19,7 +22,8 @@ const publicStore = (): IPublicStore => {
             maskShow: false,
             isManagement: false,
             maskComponentId: 0,
-            isAddAndEditor: 0
+            isAddAndEditor: 0,
+            token: ''
         },
         setIsManagement: function (value) {
             this.publicData.isManagement = value
@@ -32,6 +36,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsAddAndEditor: function (value) {
             this.publicData.isAddAndEditor = value
+        },
+        setToken: function (value) {
+            this.publicData.token = value
         }
     }
 }

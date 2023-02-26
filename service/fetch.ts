@@ -1,11 +1,15 @@
 import axios from "axios";
+import { getSession } from '@/utils';
 
 const request = axios.create({
-    baseURL: '/'
+    baseURL: 'http://gaojianghua.cn:8888'
 })
 
 
-request.interceptors.request.use(config => config, error => Promise.reject(error))
+request.interceptors.request.use(config => {
+    config.headers!['Authorization'] = `Bearer ${getSession('token')}`;
+    return config
+}, error => Promise.reject(error))
 request.interceptors.response.use(response => {
     if (response?.status === 200) {
         return response?.data

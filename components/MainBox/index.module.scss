@@ -14,8 +14,9 @@
     -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     background-color: rgba(255, 255, 255, .5);
     z-index: 1000;
+
     .leftList {
-      height: 100%;
+      height: calc(100% - 20px);
       overflow-y: scroll;
 
       .leftItem {
@@ -31,10 +32,35 @@
                         100% 50%,
                         calc(100% - 25px) 0
         );
-        border: 1px solid rgba(255, 255, 255, 0.18);
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(251, 114, 153);
+      }
+
+      .addLItem{
+        width: 160px;
+        height: 36px;
+        color: #fb7299;
+        clip-path: polygon(
+                        0 0,
+                        25px 50%,
+                        0 100%,
+                        calc(100% - 25px) 100%,
+                        100% 50%,
+                        calc(100% - 25px) 0
+        );
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: #fff;
+      }
+      .addLItem:hover{
+        background: #fb7299;
+        color: #FFFFFF;
+      }
+
+      .leftItem:hover{
+        background: #FFFFFF;
+        color: #fb7299;
       }
 
       a:first-child>.leftItem {
@@ -91,7 +117,20 @@
       }
     }
   }
-
+  .manage{
+    position: absolute;
+    top: 8px;
+    left: 45px;
+    width: 110px;
+    height: 6px;
+    border-radius: 50px;
+    backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+    background-color: #ababab66;
+  }
+  .manage:hover{
+    background-color: #f1f1f1;
+  }
   .leftOpen {
     animation: leftWidthOpen linear .3s both;
     @keyframes leftWidthOpen {
@@ -136,10 +175,30 @@
         height: 36px;
         color: #FFFFFF;
         clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
-        border: 1px solid rgba(255, 255, 255, 0.18);
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(251, 114, 153);
+        box-shadow: 0 2px 2px #fb729966;
+      }
+      .addRItem{
+        margin-top: 10px;
+        width: 160px;
+        height: 36px;
+        color: #fb7299;
+        clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(251, 114, 153);
+        box-shadow: 0 2px 2px #fb729966;
+        background-color: #fff;
+      }
+      .addRItem:hover{
+        background: #fb7299;
+        color: #FFFFFF;
+      }
+      .rightItem:hover{
+        background: #FFFFFF;
+        color: #fb7299;
       }
 
       a:first-child>.rightItem {
@@ -163,6 +222,7 @@
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255, 255, 255, .5);
         border-radius: 12px 12px 0 0;
+        border-color: #FFFFFF;
 
         p {
           transform: rotate(90deg)
@@ -194,6 +254,7 @@
           background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
         }
       }
+
     }
   }
 
@@ -233,7 +294,7 @@
     margin-top: 12px;
     width: 1305px;
     background-color: #fFF;
-    padding: 20px 20px 8px;
+    padding: 20px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     backdrop-filter: saturate(150%) contrast(50%) blur(2px);
@@ -242,11 +303,9 @@
 
     .list {
       width: 100%;
-      //max-height: 100%;
+      height: 100%;
       border-radius: 5px;
-
     }
-
   }
 
   .search {

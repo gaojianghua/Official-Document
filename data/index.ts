@@ -17,6 +17,10 @@ export const navs = [
         label: '其他',
         value: '/other',
     },
+    {
+        label: '链库',
+        value: '/links',
+    },
 ]
 
 export const leftList = [

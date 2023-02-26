@@ -1,47 +1,62 @@
 import clsx from 'clsx';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Form, Input, Button } from 'antd'
-import styles from './index.module.scss'
+import { Form, Input, Button, message } from 'antd';
+import styles from './index.module.scss';
 import { leftList, rightList } from '@/data';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Link from 'next/link';
+import { PlusOutlined } from '@ant-design/icons';
+import { useStore } from '@/store';
 
 interface Props {
     children: any;
 }
 
 const MainBox: NextPage<Props> = ({ children }) => {
+    useStore();
     const { pathname } = useRouter();
-    const [input, setInput] = useState()
-    const [leftShow, setLeftShow] = useState(false)
-    const [rightShow, setRightShow] = useState(false)
-    const [lList] = useState(leftList)
-    const [rList] = useState(rightList)
+    const [input, setInput] = useState();
+    const [leftShow, setLeftShow] = useState(false);
+    const [rightShow, setRightShow] = useState(false);
+    const [lList] = useState(leftList);
+    const [rList] = useState(rightList);
+    const [lManage, setLManage] = useState(false);
+    const [rManage, setRManage] = useState(false);
     const onFinish = () => {
-        window.open('https://www.baidu.com/s?wd=' + input)
+        if (!input) return message.warning('请输入关键词');
+        window.open('https://www.baidu.com/s?wd=' + input);
     };
     const leftBtnClick = () => {
-        setLeftShow(!leftShow)
+        setLeftShow(!leftShow);
     };
     const rightBtnClick = () => {
-        setRightShow(!rightShow)
+        setRightShow(!rightShow);
     };
     const onChange = (e: any) => {
-        setInput(e.target.value)
-    }
+        setInput(e.target.value);
+    };
     return (<div className={styles.container}>
         <Head>
             <title>Wolffy印记</title>
-            <meta data-n-head="ssr" name="description" content="next app vue react uniapp taro" />
-            <meta data-n-head="ssr" name="description" content="官网印记 灰太狼" />
-            <link rel="icon" href="/Wolffy.ico" />
+            <meta data-n-head='ssr' name='description' content='next app vue react uniapp taro' />
+            <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
+            <link rel='icon' href='/Wolffy.ico' />
         </Head>
-        <div className={clsx(styles.left, 'py2', 'px2', leftShow ? styles.leftOpen : styles.leftClose)}>
+        <div className={clsx(styles.left, 'pt3', 'pb-2', 'px2', leftShow ? styles.leftOpen : styles.leftClose)}>
+            <div className={clsx(styles.manage, 'cur')} onClick={()=>setLManage(!lManage)}>
+            </div>
             <div className={clsx(styles.leftList, 'dflex', 'flexcolumn', 'acenter')}>
+                {
+                    lManage ? <Link href={'#'}>
+                        <div className={clsx(styles.addLItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
+                            <PlusOutlined style={{ fontSize: '18px', marginRight: '5px' }} />新增
+                        </div>
+                    </Link> : <></>
+                }
                 {lList?.map((item, index) => (
-                    <Link key={index} href={item?.url}>
+                    <Link key={index} target={'_blank'} href={item?.url}>
                         <div className={clsx(styles.leftItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}
                         </div>
@@ -58,8 +73,16 @@ const MainBox: NextPage<Props> = ({ children }) => {
         </div>
         <div className={clsx(styles.right, 'py2', 'px2', rightShow ? styles.rightOpen : styles.rightClose)}>
             <div className={clsx(styles.rightList, 'dflex', 'flexcolumn', 'acenter')}>
+                <div className={clsx(styles.manage, 'cur')} onClick={()=>setRManage(!rManage)}>
+                </div>
+                {
+                    rManage ?
+                        <div className={clsx(styles.addRItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
+                            新增<PlusOutlined style={{ fontSize: '18px', marginLeft: '5px' }} />
+                        </div> : <></>
+                }
                 {rList?.map((item, index) => (
-                    <Link key={index} href={item?.url}>
+                    <Link key={index} target={'_blank'} href={item?.url}>
                         <div className={clsx(styles.rightItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}>
                             {item?.name}
                         </div>
@@ -78,19 +101,19 @@ const MainBox: NextPage<Props> = ({ children }) => {
             pathname === '/' ? (
                 <div className={clsx(styles.search)}>
                     <Form
-                        name="search"
+                        name='search'
                         initialValues={{ remember: true }}
                         onFinish={onFinish}
-                        autoComplete="off"
+                        autoComplete='off'
                     >
 
                         <Form.Item
                             className={clsx(styles.formItem, 'w100')}
-                            name="input"
+                            name='input'
                         >
                             <Input.Group className={clsx(styles.group, 'dflex')} compact>
                                 <Input className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
-                                <Button type="primary" className={clsx(styles.btn)} htmlType="submit">百度一下</Button>
+                                <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>百度一下</Button>
                             </Input.Group>
                         </Form.Item>
                     </Form>

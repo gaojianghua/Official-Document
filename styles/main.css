@@ -980,3 +980,10 @@ body{
 .cur {
   cursor: pointer;
 }
+
+.wauto{
+  width: auto !important;
+}
+.mainColor{
+  color: #fb7299;
+}
