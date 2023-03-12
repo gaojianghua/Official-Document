@@ -50,27 +50,40 @@
             }
         }
     }
-
-    .checkbox {
-        position: absolute;
-        top: 8px;
-        right: 10px;
-    }
-
-    .editor {
-        position: absolute;
-        top: 8px;
-        left: 10px;
+    .btn{
+        padding: 2px 8px;
+        border-radius: 4px;
+        z-index: 10;
 
         svg {
             width: 14px;
             height: 14px;
-            color: #fff;
         }
+    }
 
-        .editorText {
-            color: #fff;
-        }
+    .delete {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background-color: var(--danger);
+        color: #FFFFFF;
+
+    }
+    .delete:hover{
+        background-color: #fff;
+        color: var(--danger);
+    }
+
+    .editor {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        color: #FFFFFF;
+        background-color: var(--warning);
+    }
+    .editor:hover{
+        background-color: #fff;
+        color: var(--warning);
     }
 }
 

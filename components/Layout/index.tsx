@@ -15,17 +15,18 @@ interface Props {
 const Layout: NextPage<Props> = ({ children }) => {
     const store = useStore()
     useEffect(() => {
-        store.public.setToken(getSession('token'))
-        store.user.setUserInfo(getSession('userInfo'))
+        store.public.setToken(getSession('token')!)
+        store.user.setUserInfo( JSON.parse(getSession('userInfo')!) || {})
     }, []);
     return (
         <div className={styles.all}>
-            <Navbar />
+            <Navbar/>
             <MainBox>{children}</MainBox>
             <Footer />
             <Mask />
         </div>
     );
 };
+
 
 export default Layout;

@@ -7,15 +7,15 @@ import styles from './index.module.scss';
 import { MAvatar } from 'components';
 import { register } from '@/service/api';
 
-const MaskLogin: NextPage = () => {
+const MaskRegister: NextPage = () => {
     const store = useStore();
     const onFinish = async (e: any) => {
+        if (!e.mobile) return message.warning('请输入手机号');
+        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
+        if (!e.password) return message.warning('请输入密码');
+        if (!e.name) return message.warning('请输入昵称');
         let res: any = await register(e);
         if (res.code == 200) {
-            if (!e.mobile) return message.warning('请输入手机号');
-            if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
-            if (!e.password) return message.warning('请输入密码');
-            if (!e.name) return message.warning('请输入昵称');
             store.public.setMaskShow(false);
             message.success('注册成功');
         }
@@ -74,4 +74,4 @@ const MaskLogin: NextPage = () => {
     );
 };
 
-export default MaskLogin;
+export default MaskRegister;

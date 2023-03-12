@@ -8,6 +8,7 @@ import { MAvatar } from 'components';
 import { login } from '@/service/api';
 import { useState } from 'react';
 import { setSession } from '@/utils';
+import { observer } from 'mobx-react-lite';
 
 const MaskLogin: NextPage = () => {
     const store = useStore();
@@ -58,7 +59,7 @@ const MaskLogin: NextPage = () => {
                             className={clsx(styles.formItem)}
                             name='password'
                         >
-                            <Input placeholder='请输入密码!' className={clsx(styles.input, 'w100')} />
+                            <Input type={'password'} placeholder='请输入密码!' className={clsx(styles.input, 'w100')} />
                         </Form.Item> :
                         <Form.Item
                             className={clsx(styles.formItem, 'w100')}
@@ -93,4 +94,4 @@ const MaskLogin: NextPage = () => {
     );
 };
 
-export default MaskLogin;
+export default observer(MaskLogin);

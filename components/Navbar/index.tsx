@@ -5,20 +5,20 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import { Avatar, Button, Form } from 'antd';
+import { Avatar, Button, Form, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { MAvatar } from 'components';
-import { navs } from '@/data';
 import styles from './index.module.scss';
 import { removeSession } from '@/utils';
+import { logout } from '@/service/api';
+
 
 const Navbar: NextPage = () => {
     const store = useStore();
-    const { isManagement } = store.public.publicData;
+    const { isManagement, token } = store.public.publicData;
     const { pathname } = useRouter();
     const [managementText, setManagementText] = useState('管理印记');
     const [isShowMenu, setIsShowMenu] = useState(false);
-    const [menu] = useState(navs);
 
     useEffect(() => {
         if (isManagement) {
@@ -29,6 +29,7 @@ const Navbar: NextPage = () => {
     }, [isManagement]);
     // 打开编辑印记
     const openManagement = () => {
+        if (!token) return
         store.public.setIsManagement(!isManagement);
     };
     // 打开登录弹框
@@ -43,39 +44,42 @@ const Navbar: NextPage = () => {
     };
     // 修改资料
     const updateInfo = () => {
-        store.public.setMaskComponentId(3);
+        store.public.setMaskComponentId(6);
         store.public.setMaskShow(true);
     };
     // 申请投稿
     const apply = () => {
-        store.public.setMaskComponentId(3);
+        store.public.setMaskComponentId(5);
         store.public.setMaskShow(true);
     };
     // 退出登录
-    const logout = async () => {
-        store.public.setToken('')
-        store.user.setUserInfo({})
-        removeSession('token')
-        removeSession('userInfo')
-        await logout()
+    const openLogout = async () => {
+        let res: any = await logout()
+        if (res.code == 200) {
+            store.public.setToken('')
+            store.user.setUserInfo({})
+            removeSession('token')
+            removeSession('userInfo')
+            message.success('退出登录成功')
+        }
     };
     return (
         <div className={styles.navbar}>
             <MAvatar className={clsx(styles.avatar, 'flexshrink')} />
             <section className={clsx(styles.logoArea, 'cur')}>Wolffy</section>
             <section className={styles.linkArea}>
-                {menu?.map((nav) => (
-                    <Link key={nav?.label} href={nav?.value}>
+                {store.public.publicData.menu?.map((nav) => (
+                    <Link key={nav?.id} href={nav?.router}>
                         <div
-                            className={clsx('flexshrink dflex acenter', pathname === nav.value ? styles.active : styles.menu)}>
-                            {nav?.label}
+                            className={clsx('flexshrink dflex acenter', pathname === nav.router ? styles.active : styles.menu)}>
+                            {nav?.class_name}
                         </div>
                     </Link>
                 ))}
             </section>
             <section className={styles.operationArea}>
                 {
-                    pathname === '/' ? (
+                    pathname === '/' && token ? (
                             <Form>
                                 <Form.Item className={clsx(styles.formItem)}>
                                     <Button className={clsx(styles.btn, styles.tabBtn)}  type='primary' onClick={openManagement}>
@@ -87,8 +91,8 @@ const Navbar: NextPage = () => {
                 }
                 {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
-                            <Avatar icon={store.user.userInfo.avatar ? '' : <UserOutlined />}
-                                    src={store.user.userInfo.avatar} size={50} onClick={() => setIsShowMenu(!isShowMenu)} />
+                            <Avatar src={store.user.userInfo.avatar} icon={store.user.userInfo.avatar ? '' : <UserOutlined />}
+                                 size={50} onClick={() => setIsShowMenu(!isShowMenu)} />
                             {
                                 isShowMenu ?
                                     <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
@@ -97,7 +101,7 @@ const Navbar: NextPage = () => {
                                         <div className={clsx('mt1', 'mainColor')}>
                                             {store.user.userInfo.name}
                                         </div>
-                                        <div className={clsx('mt1', 'mainColor')}>
+                                        <div className={clsx('mt1', 'mainColor', 'textcenter')}>
                                             {store.user.userInfo.signature}
                                         </div>
                                     <Form>
@@ -112,7 +116,7 @@ const Navbar: NextPage = () => {
                                             </Button>
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem,styles.menuItem, 'mt1')}>
-                                            <Button className={clsx(styles.btn)} type='primary' onClick={logout}>
+                                            <Button className={clsx(styles.btn)} type='primary' onClick={openLogout}>
                                                 退出登录
                                             </Button>
                                         </Form.Item>

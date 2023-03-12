@@ -1,10 +1,11 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import '../styles/animate.css'
-import '../styles/main.css'
-import { StoreProvider } from 'store/index';
+import '../styles/globals.css';
+import '../styles/animate.css';
+import '../styles/main.css';
+import { StoreProvider } from '@/store';
 import Layout from 'components/Layout';
 import { NextPage } from 'next';
+import { getClassList } from '@/service/api';
+import { Menu } from '@/types/res';
 
 interface IProps {
     initialValue: Record<any, any>
@@ -15,39 +16,32 @@ interface IProps {
 function MyApp({ initialValue, Component, pageProps }: IProps) {
     return (<StoreProvider initialValue={initialValue}>
         <Layout>
-            <Component {...pageProps} />
+            <Component {...pageProps} initialValue={initialValue} />
         </Layout>
-    </StoreProvider>)
+    </StoreProvider>);
 }
 
-// MyApp.getInitialProps = async (ctx: any) => {
-//   if (ctx.ctx.req) {
-//       const { userId, nickname, avatar } = await ctx?.ctx.req.cookies
-//       return {
-//           initialValue: {
-//               user: {
-//                   userInfo: {
-//                       userId,
-//                       nickname,
-//                       avatar
-//                   }
-//               }
-//           }
-//       }
-//   }else {
-//       const { userId, nickname, avatar } = document.cookie as any
-//       return {
-//           initialValue: {
-//               user: {
-//                   userInfo: {
-//                       userId,
-//                       nickname,
-//                       avatar
-//                   }
-//               }
-//           }
-//       }
-//   }
-// }
+MyApp.getInitialProps = async () => {
+    let res: any = await getClassList();
+    let menu: Menu[] = [];
+    if (res.code == 200) {
+        res.data.forEach((item: Menu) => {
+            if (item.router == '/') {
+                menu.unshift(item);
+            } else {
+                menu.push(item);
+            }
+        });
+    }
+    return {
+        initialValue: {
+            public: {
+                publicData: {
+                    menu
+                }
+            }
+        },
+    };
+};
 
-export default MyApp
+export default MyApp;

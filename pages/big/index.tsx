@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import { getCards } from '@/service/api';
 
-const Other: NextPage = () => {
+const Big: NextPage = () => {
     const [urlList, setUrlList] = useState([])
     const { pathname } = useRouter();
     const store = useStore()
@@ -38,4 +38,4 @@ const Other: NextPage = () => {
     </>)
 }
 
-export default Other
+export default Big

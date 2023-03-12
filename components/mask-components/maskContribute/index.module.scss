@@ -1,8 +1,8 @@
-.login {
+.register {
     width: 350px;
     padding: 24px;
     position: relative;
-    z-index: 9999999;
+    z-index: 99;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     backdrop-filter:saturate(150%) contrast(50%) blur(2px);
@@ -39,9 +39,6 @@
     .formItem{
         height: 40px;
         margin-bottom: 12px;
-        .group{
-            position: relative;
-        }
         .input{
             background: #FFFFFF55;
             border-radius: 44px;
@@ -79,10 +76,7 @@
             background: #fff;
             border-color: #fb7299;
         }
-        .orBtn{
-            position: initial;
-            padding: 0 20px;
-        }
+
         .loginBtn{
             top: 0;
             right: 0;
@@ -90,14 +84,16 @@
             height: 40px;
             box-shadow: 0 2px 2px #fb729966;
         }
+
+
     }
-    .agreement{
-        color: #767676;
-        .agreChild{
-            color: #fb7299 !important;
-        }
-        .agreChild:hover{
-            color: #fff !important;
+    .textArea{
+        height: 100px;
+        .textAreaItem{
+            border-radius: 10px;
+            padding: 6px 8px;
+            height: 100px;
+            resize: none;
         }
     }
 }

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import { getCards } from '@/service/api';
 
-const Other: NextPage = () => {
+const Android: NextPage = () => {
     const [urlList, setUrlList] = useState([])
     const { pathname } = useRouter();
     const store = useStore()
@@ -13,7 +13,7 @@ const Other: NextPage = () => {
 
     useEffect(()=> {
         getCardData()
-    }, [])
+    })
 
 
     const getCardData = async () => {
@@ -38,4 +38,4 @@ const Other: NextPage = () => {
     </>)
 }
 
-export default Other
+export default Android

@@ -13,31 +13,78 @@
     backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     background-color: rgba(255, 255, 255, .5);
-    z-index: 1000;
+    z-index: 5;
 
     .leftList {
-      height: calc(100% - 20px);
+      height: 100%;
       overflow-y: scroll;
 
-      .leftItem {
+      .leftBox {
         margin-top: 10px;
-        width: 160px;
-        height: 36px;
-        color: #FFFFFF;
-        clip-path: polygon(
-                        0 0,
-                        25px 50%,
-                        0 100%,
-                        calc(100% - 25px) 100%,
-                        100% 50%,
-                        calc(100% - 25px) 0
-        );
-        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(251, 114, 153);
+        .leftEdit {
+          height: 20px;
+          font-size: 12px;
+          padding: 0 5px;
+          background-color: var(--warning);
+          color: #FFFFFF;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          line-height: 20px;
+          text-align: center;
+        }
+        .leftEdit:hover{
+          background-color: #fff;
+          color: var(--warning);
+        }
+
+        .leftDel {
+          padding: 0 5px;
+          height: 20px;
+          font-size: 12px;
+          background-color: var(--danger);
+          color: #FFFFFF;
+          line-height: 20px;
+          text-align: center;
+          margin-left: auto;
+          margin-right: 25px;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+        }
+        .leftDel:hover{
+          background-color: #fff;
+          color: var(--danger);
+        }
+        .leftItem {
+          width: 160px;
+          height: 36px;
+          color: #FFFFFF;
+          clip-path: polygon(
+                          0 0,
+                          25px 50%,
+                          0 100%,
+                          calc(100% - 25px) 100%,
+                          100% 50%,
+                          calc(100% - 25px) 0
+          );
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background-color: rgba(251, 114, 153);
+        }
+
+
+        .leftItem:hover {
+          background: #FFFFFF;
+          color: #fb7299;
+        }
+
+        a:first-child > .leftItem {
+          margin-top: 0;
+        }
+
+
       }
 
-      .addLItem{
+      .addLItem {
         width: 160px;
         height: 36px;
         color: #fb7299;
@@ -53,19 +100,13 @@
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: #fff;
       }
-      .addLItem:hover{
+
+      .addLItem:hover {
         background: #fb7299;
         color: #FFFFFF;
       }
 
-      .leftItem:hover{
-        background: #FFFFFF;
-        color: #fb7299;
-      }
 
-      a:first-child>.leftItem {
-        margin-top: 0;
-      }
     }
 
     .leftbtn {
@@ -82,7 +123,7 @@
         font-weight: 600;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(255, 255, 255, .5);
+        background-color: rgba(210, 210, 210, .8);
         border-radius: 12px 12px 0 0;
 
         p {
@@ -98,8 +139,7 @@
           bottom: 0;
           backdrop-filter: saturate(150%) contrast(50%) blur(2px);
           -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-          background: #000;
-          background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+          background: radial-gradient(circle at 0 0, transparent 20px, rgba(210, 210, 210, .8) 21px);
         }
 
         &::after {
@@ -111,13 +151,13 @@
           bottom: 0;
           backdrop-filter: saturate(150%) contrast(50%) blur(2px);
           -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-          background: #000;
-          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(210, 210, 210, .8) 21px);
         }
       }
     }
   }
-  .manage{
+
+  .manage {
     position: absolute;
     top: 8px;
     left: 45px;
@@ -128,9 +168,11 @@
     -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     background-color: #ababab66;
   }
-  .manage:hover{
+
+  .manage:hover {
     background-color: #f1f1f1;
   }
+
   .leftOpen {
     animation: leftWidthOpen linear .3s both;
     @keyframes leftWidthOpen {
@@ -164,23 +206,72 @@
     backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
     background-color: rgba(255, 255, 255, .5);
-    z-index: 1000;
+    z-index: 5;
 
     .rightList {
       height: 100%;
       overflow-y: scroll;
-      .rightItem {
+      .rightBox {
         margin-top: 10px;
-        width: 160px;
-        height: 36px;
-        color: #FFFFFF;
-        clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
-        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(251, 114, 153);
-        box-shadow: 0 2px 2px #fb729966;
+        .rightEdit {
+          height: 20px;
+          font-size: 12px;
+          padding: 0 5px;
+          background-color: var(--warning);
+          color: #FFFFFF;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          line-height: 20px;
+          text-align: center;
+          margin-left: auto;
+        }
+        .rightEdit:hover{
+          background-color: #fff;
+          color: var(--warning);
+        }
+
+        .rightDel {
+          padding: 0 5px;
+          height: 20px;
+          font-size: 12px;
+          background-color: var(--danger);
+          color: #FFFFFF;
+          line-height: 20px;
+          text-align: center;
+          margin-left: 25px;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+        }
+        .rightDel:hover{
+          background-color: #fff;
+          color: var(--danger);
+        }
+
+        .rightItem {
+          width: 160px;
+          height: 36px;
+          color: #FFFFFF;
+          clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
+          backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+          background-color: rgba(251, 114, 153);
+          box-shadow: 0 2px 2px #fb729966;
+        }
+
+
+        .rightItem:hover {
+          background: #FFFFFF;
+          color: #fb7299;
+        }
+
+        a:first-child > .rightItem {
+          margin-top: 0;
+        }
+
+
       }
-      .addRItem{
+
+      .addRItem {
         margin-top: 10px;
         width: 160px;
         height: 36px;
@@ -188,21 +279,13 @@
         clip-path: polygon(25px 0, 100% 0, calc(100% - 25px) 50%, 100% 100%, 25px 100%, 0 50%);
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(251, 114, 153);
         box-shadow: 0 2px 2px #fb729966;
         background-color: #fff;
       }
-      .addRItem:hover{
+
+      .addRItem:hover {
         background: #fb7299;
         color: #FFFFFF;
-      }
-      .rightItem:hover{
-        background: #FFFFFF;
-        color: #fb7299;
-      }
-
-      a:first-child>.rightItem {
-        margin-top: 0;
       }
     }
 
@@ -220,7 +303,7 @@
         font-weight: 600;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-        background-color: rgba(255, 255, 255, .5);
+        background-color: rgba(210, 210, 210, .8);
         border-radius: 12px 12px 0 0;
         border-color: #FFFFFF;
 
@@ -237,8 +320,7 @@
           bottom: 0;
           backdrop-filter: saturate(150%) contrast(50%) blur(2px);
           -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-          background: #000;
-          background: radial-gradient(circle at 0 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+          background: radial-gradient(circle at 0 0, transparent 20px, rgba(210, 210, 210, .8) 21px);
         }
 
         &::after {
@@ -250,8 +332,7 @@
           bottom: 0;
           backdrop-filter: saturate(150%) contrast(50%) blur(2px);
           -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
-          background: #000;
-          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(255, 255, 255, .5) 21px);
+          background: radial-gradient(circle at 100% 0, transparent 20px, rgba(210, 210, 210, .8) 21px);
         }
       }
 
@@ -342,7 +423,7 @@
         position: absolute;
         top: 2px;
         right: 2px;
-        z-index: 999;
+        z-index: 5;
         height: 41px;
         border-radius: 25px;
         background: #fb7299;

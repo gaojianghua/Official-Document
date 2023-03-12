@@ -2,16 +2,24 @@ import Card from './card'
 import Mask from './mask'
 import MAvatar from './mavatar'
 import Column from './column'
+import LinkBtn from 'C/LinkBtn';
 import MaskLogin from './mask-components/maskLogin'
 import MaskMark from './mask-components/maskMark'
-import MaskRegister from './mask-components/maskRegister'
+import MaskRegister from 'C/mask-components/maskRegister'
+import MaskLink from 'C/mask-components/maskLink';
+import MaskUpdateUser from 'C/mask-components/maskUpdateUser';
+import MaskContribute from 'C/mask-components/maskContribute';
 
 export {
     Card,
+    LinkBtn,
     Mask,
     MaskLogin,
     MaskMark,
     MaskRegister,
     MAvatar,
-    Column
+    Column,
+    MaskLink,
+    MaskUpdateUser,
+    MaskContribute
 }

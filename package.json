@@ -6,6 +6,7 @@
     "dev": "next dev -p 8000",
     "start": "next start -p 8000",
     "build": "next build && PORT=8000 npm start",
+    "pm2start": "pm2 start npm --name woflly-imprinting -- run start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,7 +14,9 @@
     "@babel/core": "^7.18.5",
     "@babel/plugin-proposal-class-properties": "^7.17.12",
     "@babel/plugin-proposal-decorators": "^7.18.2",
+    "@types/react-beautiful-dnd": "^13.1.3",
     "antd": "^4.21.3",
+    "antd-img-crop": "^4.8.0",
     "axios": "^0.27.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "caniuse-lite": "^1.0.30001281",
@@ -23,6 +26,7 @@
     "next": "13.1.6",
     "next-remove-imports": "^1.0.6",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "sass": "^1.53.0"
   },
