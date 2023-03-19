@@ -12,7 +12,7 @@ const Before: NextPage = () => {
     const store = useStore();
     useEffect(() => {
         getCardData()
-    });
+    },[]);
     // 获取card数据
     const getCardData = async () => {
         let uid: string;

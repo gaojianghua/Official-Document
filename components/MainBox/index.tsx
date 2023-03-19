@@ -35,13 +35,11 @@ const MainBox: NextPage<Props> = ({ children }) => {
             setLList(() => []);
             setRList(() => []);
         }
-    }, [token]);
-    useEffect(() => {
         if (success) {
             getUserLinkList();
             store.link.setSuccess(false);
         }
-    }, [success]);
+    }, [token,success]);
     // 获取数据
     const getUserLinkList = async () => {
         if (!token) return;

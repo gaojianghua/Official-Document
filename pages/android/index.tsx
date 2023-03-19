@@ -13,7 +13,7 @@ const Android: NextPage = () => {
 
     useEffect(()=> {
         getCardData()
-    })
+    }, [])
 
 
     const getCardData = async () => {
