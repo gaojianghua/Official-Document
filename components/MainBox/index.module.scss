@@ -418,6 +418,29 @@
         color: #fb7299;
         font-size: 20px;
       }
+      .close{
+        position: absolute;
+        top: 50%;
+        right: 140px;
+        z-index: 5;
+        transform: translateY(-50%);
+        border: 1px solid #dcdcdc;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        font-size: 13px;
+        backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
+        background-color: rgba(255,255,255,.2);
+        color: #999;
+      }
+      .close:hover{
+        color: #FFFFFF;
+        border-color: #FFFFFF;
+        background-color: #fb7299;
+      }
 
       .btn {
         position: absolute;

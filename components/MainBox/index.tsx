@@ -5,7 +5,13 @@ import { Form, Input, Button, message, Popconfirm } from 'antd';
 import styles from './index.module.scss';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { EditOutlined, PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import {
+    EditOutlined,
+    PlusOutlined,
+    DeleteOutlined,
+    ExclamationCircleOutlined,
+    CloseOutlined,
+} from '@ant-design/icons';
 import { useStore } from '@/store';
 import { getUserLinks, userLinkDel } from '@/service/api';
 import { observer } from 'mobx-react-lite';
@@ -19,7 +25,7 @@ interface Props {
 const MainBox: NextPage<Props> = ({ children }) => {
     const store = useStore();
     const { pathname } = useRouter();
-    const [input, setInput] = useState();
+    const [input, setInput] = useState('');
     const [leftShow, setLeftShow] = useState(false);
     const [rightShow, setRightShow] = useState(false);
     const [lList, setLList] = useState<ULink[]>([]);
@@ -115,6 +121,10 @@ const MainBox: NextPage<Props> = ({ children }) => {
         store.link.setTmpLink(e);
         store.public.setMaskShow(true);
     };
+    // 清空input
+    const closeInput = () => {
+        setInput('')
+    }
     return <div className={styles.container}>
         <Head>
             <title>Wolffy印记</title>
@@ -218,6 +228,9 @@ const MainBox: NextPage<Props> = ({ children }) => {
                     >
                         <Input.Group className={clsx(styles.group, 'dflex')} compact>
                             <Input className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
+                            {input ? <div className={clsx(styles.close, 'dflex', 'jcenter', 'acenter', 'cur')} onClick={closeInput}>
+                                <CloseOutlined />
+                            </div>: <></>}
                             <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>百度一下</Button>
                         </Input.Group>
                     </Form.Item>
