@@ -3,6 +3,7 @@ export interface IUserInfo {
     name?: string,
     avatar?: string,
     signature?: string,
+    mobile?: string
 }
 
 export interface IUserStore {

@@ -22,3 +22,4 @@ export const userCardDel = (params: any = {}, config = {}) => request.post('/api
 export const userCardAdd = (params: any = {}, config = {}) => request.post('/api/user/card/add', params, config)
 export const userCardUpdate = (params: any = {}, config = {}) => request.post('/api/user/card/update', params, config)
 export const applyContribute = (params: any = {}, config = {}) => request.post('/api/contribute/apply', params, config)
+export const adminLogin = (params: any = {}, config = {}) => request.post('/api/user/verify', params, config)

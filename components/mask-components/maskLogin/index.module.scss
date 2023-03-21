@@ -100,6 +100,40 @@
             color: #fff !important;
         }
     }
+    .realPerson{
+        position: absolute;
+        left: 24px;
+        bottom: 72px;
+        height: 0;
+        z-index: 10;
+        padding-bottom: 30px;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .show{
+        display: block;
+        animation: slide-fwd-top 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        @keyframes slide-fwd-top {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 280px;
+            }
+        }
+    }
+    .hide{
+        animation: slide-fwd-bom 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        @keyframes slide-fwd-bom {
+            0% {
+                height: 280px;
+            }
+            100% {
+                height: 0;
+            }
+        }
+    }
 }
 
 

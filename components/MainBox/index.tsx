@@ -221,7 +221,6 @@ const MainBox: NextPage<Props> = ({ children }) => {
                     onFinish={onFinish}
                     autoComplete='off'
                 >
-
                     <Form.Item
                         className={clsx(styles.formItem, 'w100')}
                         name='input'

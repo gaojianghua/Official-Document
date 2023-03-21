@@ -1,0 +1,184 @@
+.real {
+  width: 300px;
+  height: 280px;
+  position: relative;
+
+  .verImg {
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    @function randomNum($max, $min: 0, $u: 1) {
+      @return ($min + random($max)) * $u;
+    }
+
+    @function randomColor() {
+      @return rgb(randomNum(255), randomNum(255), randomNum(255));
+    }
+
+    @function shadowSet($maxWidth, $maxHeight, $count) {
+      $shadow: 0 0 0 0 randomColor();
+
+      @for $i from 0 through $count {
+        $x: #{random(10000) / 10000 * $maxWidth};
+        $y: #{random(10000) / 10000 * $maxHeight};
+
+
+        $shadow: $shadow, #{$x} #{$y} 0 #{random(5)}px randomColor();
+      }
+
+      @return $shadow;
+    }
+
+    .gContainer {
+      margin: auto;
+      perspective: 5px;
+      perspective-origin: 50% 50%;
+      position: relative;
+      animation: hueRotate 20s infinite linear;
+    }
+
+    .gGroup {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      left: -50vw;
+      top: -50vh;
+      transform-style: preserve-3d;
+      animation: move 8s infinite linear;
+    }
+
+    .gGroup:nth-child(2) {
+      animation: move 8s infinite linear;
+      animation-delay: -4s;
+    }
+
+    .item {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(#05040a, #03010e);
+      background-size: cover;
+      opacity: 1;
+      animation: fade 8s infinite linear;
+    }
+
+    .item::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 1px;
+      height: 1px;
+      border-radius: 50%;
+      box-shadow: shadowSet(100vw, 100vh, 500);
+    }
+
+    .gGroup:nth-child(2) .item {
+      animation-delay: -4s;
+    }
+
+    .itemRight {
+      transform: rotateY(90deg) translateZ(500px);
+    }
+
+    .itemLeft {
+      transform: rotateY(-90deg) translateZ(500px);
+    }
+
+    .itemTop {
+      transform: rotateX(90deg) translateZ(500px);
+    }
+
+    .itemBottom {
+      transform: rotateX(-90deg) translateZ(500px);
+    }
+
+    .itemMiddle {
+      transform: rotateX(180deg) translateZ(1000px);
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateZ(-200px) rotate(0deg);
+      }
+      100% {
+        transform: translateZ(150px) rotate(0deg);
+      }
+    }
+
+    @keyframes fade {
+      0% {
+        opacity: .2;
+      }
+      25%,
+      60% {
+        opacity: 1;
+      }
+      100% {
+        opacity: .2;
+      }
+    }
+
+    @keyframes hueRotate {
+      0% {
+        filter: hue-rotate(0);
+      }
+      100% {
+        filter: hue-rotate(360deg);
+      }
+    }
+  }
+
+  .formItem {
+    height: 40px;
+    position: absolute;
+    left: 0;
+    bottom: 15px;
+
+    .group {
+      position: relative;
+    }
+
+    .input {
+      background: #FFFFFF55;
+      border-radius: 10px;
+      width: 298px;
+      height: 40px;
+      line-height: 38px;
+      padding: 0 20px;
+      caret-color: #fb7299;
+      color: #fb7299;
+      margin-left: 1px;
+      font-size: 14px;
+    }
+
+    .btn {
+      position: absolute;
+      top: 2px;
+      right: 3px;
+      z-index: 5;
+      height: 36px;
+      border-radius: 8px;
+      background: #fb7299;
+      padding: 0 20px;
+      border-color: #fff;
+    }
+
+    .input:hover,
+    .input:focus {
+      background: #FFFFFF;
+      border-color: #fb7299;
+      box-shadow: 0 2px 2px #fb729966;
+    }
+
+    .btn:hover {
+      color: #fb7299 !important;
+      background: #fff;
+      border-color: #fb7299;
+    }
+  }
+}

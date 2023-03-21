@@ -49,8 +49,14 @@ const Navbar: NextPage = () => {
     };
     // 申请投稿
     const apply = () => {
-        store.public.setMaskComponentId(5);
-        store.public.setMaskShow(true);
+        if (store.user.userInfo.mobile === '15257184434') {
+            store.public.setIsAdministrator(true)
+            store.public.setMaskComponentId(1);
+            store.public.setMaskShow(true);
+        }else {
+            store.public.setMaskComponentId(5);
+            store.public.setMaskShow(true);
+        }
     };
     // 退出登录
     const openLogout = async () => {
@@ -112,7 +118,7 @@ const Navbar: NextPage = () => {
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={apply}>
-                                                投稿申请
+                                                {store.user.userInfo.mobile === '15257184434' ? '系统管理' : '投稿申请'}
                                             </Button>
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem,styles.menuItem, 'mt1')}>
