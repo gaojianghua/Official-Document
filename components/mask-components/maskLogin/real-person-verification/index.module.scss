@@ -9,6 +9,7 @@
     overflow: hidden;
     display: flex;
     width: 100%;
+    position: relative;
     @function randomNum($max, $min: 0, $u: 1) {
       @return ($min + random($max)) * $u;
     }
@@ -130,6 +131,50 @@
       100% {
         filter: hue-rotate(360deg);
       }
+    }
+
+    .verCode {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 12px;
+      height: 200px;
+
+      .verText {
+        font-size: 70px;
+        font-weight: 600;
+        height: 70px;
+        color: transparent;
+        background: -webkit-linear-gradient(30deg, #32c5ff 25%, #b620e0 50%, #f7b500 75%, #20e050 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: auto;
+        animation: gradientText 3s infinite linear;
+        -webkit-animation: gradientText 3s infinite linear;
+
+        @keyframes gradientText {
+          0% {
+            background-position: 280px;
+          }
+          50% {
+            background-position: 0;
+          }
+          100% {
+            background-position: 280px;
+          }
+        }
+      }
+    }
+    .close{
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 10;
+      color: #999;
+      font-size: 22px;
+    }
+    .close:hover{
+      color: #FFFFFF;
     }
   }
 

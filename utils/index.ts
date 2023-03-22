@@ -45,3 +45,8 @@ export const beforeUpload = (file: RcFile) => {
     }
     return isJpgOrPng && isLt2M;
 };
+
+//获取指定大小区间的随机数
+export const getRandomNum = (min:number, max:number) => {
+    return Math.floor(Math.random() * (max - min)) + min
+}

@@ -1,20 +1,25 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
-import { useStore } from '@/store';
 import { Form, Input, Button, message } from 'antd';
 import styles from './index.module.scss';
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 interface IProps {
     reslPerson?: any
+    numberOne?: number
+    numberTwo?: number
+    char?: string
+    closeVerCode?: any
 }
 
 const RealPersonVerification: NextPage<IProps> = (props) => {
-    const { reslPerson } = props
+    const { reslPerson, numberOne, numberTwo, char, closeVerCode } = props
     const [input, setInput] = useState('');
     const onFinish = () => {
         reslPerson(input)
+        setInput('')
     };
     // 验证输入框变化事件
     const onChange = (e: any) => {
@@ -39,6 +44,24 @@ const RealPersonVerification: NextPage<IProps> = (props) => {
                         <div className={clsx(styles.item, styles.itemMiddle)}></div>
                     </div>
                 </div>
+                <div className={clsx(styles.verCode, 'dflex', 'jcenter', 'acenter', 'flexwrap')}>
+                    <div className={clsx(styles.verText, 'dflex', 'jcenter', 'acenter', 'px1')}>
+                        {numberOne}
+                    </div>
+                    <div className={clsx(styles.verText, 'dflex', 'jcenter', 'acenter', 'px1')}>
+                        {char}
+                    </div>
+                    <div className={clsx(styles.verText, 'dflex', 'jcenter', 'acenter', 'px1')}>
+                        {numberTwo}
+                    </div>
+                    <div className={clsx(styles.verText, 'dflex', 'jcenter', 'acenter', 'px2')}>
+                        =
+                    </div>
+                    <div className={clsx(styles.verText, 'dflex', 'jcenter', 'acenter', 'px2')}>
+                        ?
+                    </div>
+                </div>
+                <CloseCircleOutlined className={clsx(styles.close, 'cur')} onClick={closeVerCode} />
             </div>
             <Form
                 name='verification'

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { useStore } from '@/store';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Spin } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { MAvatar } from 'components';
@@ -9,6 +9,7 @@ import { adminLogin, login } from '@/service/api';
 import { useState } from 'react';
 import { setSession } from '@/utils';
 import { observer } from 'mobx-react-lite';
+import { getRandomNum } from '@/utils'
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';
 
 interface UserLogin {
@@ -18,22 +19,56 @@ interface UserLogin {
 
 const MaskLogin: NextPage = () => {
     const store = useStore();
+    const arr = ['＋', '－', '＊']
     const [isCodeOrPassword, setIsCodeOrPassword] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [isRealPerson, setIsRealPerson] = useState(0);
+    const [numberOne, setNumberOne] = useState(0);
+    const [numberTwo, setNumberTwo] = useState(0);
+    const [char, setChar] = useState('');
+    const [formData, setFormData] = useState<UserLogin>();
     const onFinish = async (e: UserLogin) => {
         if (!e.mobile) return message.warning('请输入手机号')
         if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号')
         if (!e.password) return message.warning('请输入密码')
-        setIsRealPerson(1)
-        // store.public.publicData.isAdministrator ? await _adminLogin(e) : await _userLogin(e)
+        setFormData(e)
+        setCalculationNumber()
     };
+    // 设置计算值
+    const setCalculationNumber = () => {
+        let num = getRandomNum(0, 3)
+        let numberOne = getRandomNum(3, 100)
+        setNumberOne(numberOne)
+        setChar(arr[num])
+        num == 1 ? setNumberTwo(getRandomNum(0, numberOne)) : setNumberTwo(getRandomNum(0, 100))
+        setLoading(true)
+        setIsRealPerson(1)
+    }
     // 真人验证
     const reslPerson = (e: number) => {
-        console.log(e)
+        let intger: number = 0
+        let index: number = arr.map(item => item).indexOf(char)
+        switch (index) {
+            case 0:
+                intger = numberOne + numberTwo
+                break;
+            case 1:
+                intger = numberOne - numberTwo
+                break;
+            case 2:
+                intger = numberOne * numberTwo
+                break;
+        }
+        if (intger == e) {
+            store.public.publicData.isAdministrator ? _adminLogin() : _userLogin()
+            setLoading(false)
+        }else {
+            message.warning('答案错误')
+        }
     }
     // 管理员登录
-    const _adminLogin = async (e: UserLogin) => {
-        let res: any = await adminLogin(e);
+    const _adminLogin = async () => {
+        let res: any = await adminLogin(formData);
         if (res.code == 200) {
             store.public.setAdminToken(res.data.admin_token);
             setSession('adminToken', res.data.admin_token)
@@ -42,8 +77,8 @@ const MaskLogin: NextPage = () => {
         }
     }
     // 用户登录
-    const _userLogin = async (e: UserLogin) => {
-        let res: any = await login(e);
+    const _userLogin = async () => {
+        let res: any = await login(formData);
         if (res.code == 200) {
             store.public.setToken(res.data.access_token);
             store.user.setUserInfo(res.data.userInfo);
@@ -62,6 +97,11 @@ const MaskLogin: NextPage = () => {
         store.public.setIsAdministrator(false)
         store.public.setMaskShow(false);
     };
+    // 关闭验证框
+    const closeVerCode = () => {
+        setIsRealPerson(2)
+        setLoading(false)
+    }
     return (
         <div className={clsx(styles.login)}>
             <MAvatar className={styles.avatar} />
@@ -106,7 +146,15 @@ const MaskLogin: NextPage = () => {
                 {/*</Form.Item>*/}
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>
-                        立即登录
+                        {loading ?
+                            <div className={clsx('dflex', 'acenter', 'jcenter')}>
+                                <p>刷新计算</p>
+                                <p className={clsx(styles.loading)}>登录中...</p>
+                                <Spin className={clsx(styles.spin)} />
+                            </div>
+                            :
+                            '立即登录'
+                        }
                     </Button>
                 </Form.Item>
             </Form>
@@ -128,7 +176,7 @@ const MaskLogin: NextPage = () => {
                     )
             }
             <div className={clsx(styles.realPerson, isRealPerson == 1 ? styles.show : isRealPerson == 2 ? styles.hide : '')}>
-                <RealPersonVerification reslPerson={reslPerson}></RealPersonVerification>
+                <RealPersonVerification closeVerCode={closeVerCode} numberOne={numberOne} numberTwo={numberTwo} char={char} reslPerson={reslPerson}></RealPersonVerification>
             </div>
         </div>
     );
