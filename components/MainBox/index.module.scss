@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   padding-top: 62px;
+  position: relative;
+  z-index: 2;
 
   .left {
     position: fixed;

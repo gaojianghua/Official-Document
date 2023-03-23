@@ -9,6 +9,7 @@ import MaskRegister from 'C/mask-components/maskRegister'
 import MaskLink from 'C/mask-components/maskLink';
 import MaskUpdateUser from 'C/mask-components/maskUpdateUser';
 import MaskContribute from 'C/mask-components/maskContribute';
+import Meteor from 'C/meteor';
 
 export {
     Card,
@@ -21,5 +22,6 @@ export {
     Column,
     MaskLink,
     MaskUpdateUser,
-    MaskContribute
+    MaskContribute,
+    Meteor
 }

@@ -4,7 +4,7 @@ import '../styles/main.css';
 import { StoreProvider } from '@/store';
 import Layout from 'components/Layout';
 import { NextPage } from 'next';
-import { getClassList } from '@/service/api';
+import { getClassList, getPublicKey } from '@/service/api';
 import { Menu } from '@/types/res';
 
 interface IProps {
@@ -33,11 +33,13 @@ MyApp.getInitialProps = async () => {
             }
         });
     }
+    let publicKey: any = await getPublicKey()
     return {
         initialValue: {
             public: {
                 publicData: {
-                    menu
+                    menu,
+                    publicKey: publicKey.data
                 }
             }
         },

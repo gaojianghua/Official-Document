@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 import { useEffect } from 'react';
 import {useStore} from '@/store';
 import { getSession } from '@/utils';
+import Meteor from 'C/meteor';
 
 interface Props {
     children: any;
@@ -20,7 +21,8 @@ const Layout: NextPage<Props> = ({ children }) => {
     }, []);
     return (
         <div className={styles.all}>
-            <Navbar/>
+            <Meteor />
+            <Navbar />
             <MainBox>{children}</MainBox>
             <Footer />
             <Mask />

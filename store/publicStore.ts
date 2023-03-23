@@ -9,7 +9,8 @@ export interface IPublic {
     token: string,
     adminToken: string,
     menu: Menu[],
-    isAdministrator: boolean
+    isAdministrator: boolean,
+    publicKey: string
 }
 
 export interface IPublicStore {
@@ -22,7 +23,7 @@ export interface IPublicStore {
     setToken: (value: string) => void,
     setAdminToken: (value: string) => void,
     setMenu: (value: Menu[]) => void,
-    setIsAdministrator: (value: boolean) => void,
+    setIsAdministrator: (value: boolean) => void
 }
 
 const publicStore = (): IPublicStore => {
@@ -36,7 +37,8 @@ const publicStore = (): IPublicStore => {
             token: '',
             adminToken: '',
             menu: [],
-            isAdministrator: false
+            isAdministrator: false,
+            publicKey: ''
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
