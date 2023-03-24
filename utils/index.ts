@@ -85,7 +85,7 @@ export const aesEncryteData = (data:string, key:string) => {
 };
 
 
-//加签
+//前端做RSA加签，字符过长，node-forge不支持，请使用其他库
 export const signPri = (signData: string) => {
     const priAForrmat = PRIVATE_KEY
     let privateKey = forge.pki.privateKeyFromPem(priAForrmat);
@@ -94,4 +94,18 @@ export const signPri = (signData: string) => {
     let decrypttext = privateKey.sign(md);
     let baseText = forge.util.encode64(decrypttext);
     return baseText;
+};
+
+//加密
+export const encryte = (str:string, pubKey:string) => {
+    const pub = forge.pki.publicKeyFromPem(pubKey);
+    let byteData = str;
+    let encrypted = pub.encrypt(byteData, "RSA-OAEP", {
+        md: forge.md.sha256.create(),
+        mgf1: {
+            md: forge.md.sha256.create(),
+        },
+    });
+    let encryptText = forge.util.encode64(encrypted);
+    return encryptText;
 };

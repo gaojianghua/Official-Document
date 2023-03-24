@@ -7,10 +7,11 @@ import styles from './index.module.scss';
 import { MAvatar } from 'components';
 import { adminLogin, login } from '@/service/api';
 import { useState } from 'react';
-import { setSession } from '@/utils';
+import { aesEncryteData, encryte, getKey, setSession, signPri } from '@/utils';
 import { observer } from 'mobx-react-lite';
 import { getRandomNum } from '@/utils'
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';
+import { PUBLIC_KEY } from '@/constant';
 
 interface UserLogin {
     mobile: string,
@@ -68,7 +69,16 @@ const MaskLogin: NextPage = () => {
     }
     // 管理员登录
     const _adminLogin = async () => {
-        let res: any = await adminLogin(formData);
+        let data = formData?.password
+        let aes_key = getKey()
+        let aesData = aesEncryteData(data!, aes_key)
+        let serverRsaData = encryte(aesData, store.public.publicData.serverPublicKey)
+        let form = {
+            ...formData,
+            password: serverRsaData,
+            aes_key
+        }
+        let res: any = await adminLogin(form);
         if (res.code == 200) {
             store.public.setAdminToken(res.data.admin_token);
             setSession('adminToken', res.data.admin_token)

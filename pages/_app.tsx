@@ -39,7 +39,7 @@ MyApp.getInitialProps = async () => {
             public: {
                 publicData: {
                     menu,
-                    publicKey: publicKey.data
+                    serverPublicKey: publicKey.data.server_public_key
                 }
             }
         },
