@@ -72,7 +72,7 @@ export const getKey = () => {
 export const aesEncryteData = (data:string, key:string) => {
     // 加密选项
     let CBCOptions = {
-        iv: CryptoJS.enc.Utf8.parse(key.substr(0, 16)),
+        iv: CryptoJS.enc.Utf8.parse(key.substring(0, 16)),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7,
     };
@@ -100,12 +100,7 @@ export const signPri = (signData: string) => {
 export const encryte = (str:string, pubKey:string) => {
     const pub = forge.pki.publicKeyFromPem(pubKey);
     let byteData = str;
-    let encrypted = pub.encrypt(byteData, "RSA-OAEP", {
-        md: forge.md.sha256.create(),
-        mgf1: {
-            md: forge.md.sha256.create(),
-        },
-    });
+    let encrypted = pub.encrypt(byteData);
     let encryptText = forge.util.encode64(encrypted);
     return encryptText;
 };

@@ -76,19 +76,30 @@ const MaskLogin: NextPage = () => {
         let form = {
             ...formData,
             password: serverRsaData,
-            aes_key
+            aes_key,
+            iv: aes_key.substring(0, 16)
         }
         let res: any = await adminLogin(form);
         if (res.code == 200) {
-            store.public.setAdminToken(res.data.admin_token);
-            setSession('adminToken', res.data.admin_token)
+            // store.public.setAdminToken(res.data.admin_token);
+            // setSession('adminToken', res.data.admin_token)
             closeMaskLogin()
             message.success('登录成功')
         }
     }
     // 用户登录
     const _userLogin = async () => {
-        let res: any = await login(formData);
+        let data = formData?.password
+        let aes_key = getKey()
+        let aesData = aesEncryteData(data!, aes_key)
+        let serverRsaData = encryte(aesData, store.public.publicData.serverPublicKey)
+        let form = {
+            ...formData,
+            password: serverRsaData,
+            aes_key,
+            iv: aes_key.substring(0, 16)
+        }
+        let res: any = await login(form);
         if (res.code == 200) {
             store.public.setToken(res.data.access_token);
             store.user.setUserInfo(res.data.userInfo);
