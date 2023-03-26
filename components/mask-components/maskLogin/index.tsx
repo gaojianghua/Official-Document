@@ -7,11 +7,11 @@ import styles from './index.module.scss';
 import { MAvatar } from 'components';
 import { adminLogin, login } from '@/service/api';
 import { useState } from 'react';
-import { aesEncryteData, encryte, getKey, setSession, signPri } from '@/utils';
+import { aesEncryteData, encryte, getKey, setSession } from '@/utils';
 import { observer } from 'mobx-react-lite';
 import { getRandomNum } from '@/utils'
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';
-import { PUBLIC_KEY } from '@/constant';
+import { useRouter } from 'next/router'
 
 interface UserLogin {
     mobile: string,
@@ -20,6 +20,7 @@ interface UserLogin {
 
 const MaskLogin: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const arr = ['＋', '－', '＊']
     const [isCodeOrPassword, setIsCodeOrPassword] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -81,10 +82,12 @@ const MaskLogin: NextPage = () => {
         }
         let res: any = await adminLogin(form);
         if (res.code == 200) {
-            // store.public.setAdminToken(res.data.admin_token);
-            // setSession('adminToken', res.data.admin_token)
+            store.public.setAdminToken(res.data.crypto_data);
+            setSession('adminToken', res.data.crypto_data)
             closeMaskLogin()
             message.success('登录成功')
+            await router.push('/admin/home')
+            store.public.setIsAdminPages(true)
         }
     }
     // 用户登录

@@ -9,7 +9,8 @@ const request = axios.create({
 
 
 request.interceptors.request.use(config => {
-    config.headers!.Authorization = 'Bearer ' +  getSession('token')
+    config.headers!.Authorization = 'Bearer ' +  getSession('token');
+    config.headers!.AdminToken = getSession('adminToken')!;
     return config
 }, error => Promise.reject(error))
 request.interceptors.response.use(response => {
@@ -17,6 +18,7 @@ request.interceptors.response.use(response => {
         if (response?.data.code === 40100) {
             removeSession('token')
             removeSession('userInfo')
+            removeSession('adminToken')
             message.success(response?.data.message);
             let time = setTimeout(()=> {
                 location.reload()

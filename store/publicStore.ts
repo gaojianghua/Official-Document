@@ -10,7 +10,8 @@ export interface IPublic {
     adminToken: string,
     menu: Menu[],
     isAdministrator: boolean,
-    serverPublicKey: string
+    serverPublicKey: string,
+    isAdminPages: boolean
 }
 
 export interface IPublicStore {
@@ -23,7 +24,8 @@ export interface IPublicStore {
     setToken: (value: string) => void,
     setAdminToken: (value: string) => void,
     setMenu: (value: Menu[]) => void,
-    setIsAdministrator: (value: boolean) => void
+    setIsAdministrator: (value: boolean) => void,
+    setIsAdminPages: (value: boolean) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -38,7 +40,8 @@ const publicStore = (): IPublicStore => {
             adminToken: '',
             menu: [],
             isAdministrator: false,
-            serverPublicKey: ''
+            serverPublicKey: '',
+            isAdminPages: false
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
@@ -66,6 +69,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsAdministrator: function(value) {
             this.publicData.isAdministrator = value;
+        },
+        setIsAdminPages: function(value) {
+            this.publicData.isAdminPages = value;
         },
     };
 };
