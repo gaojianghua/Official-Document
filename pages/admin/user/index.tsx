@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import { getCards } from '@/service/api';
+import clsx from 'clsx';
+import styles from '@/pages/admin/link/index.module.scss';
+import MSearch from 'C/mSearch';
 
-const AdminHome: NextPage = () => {
+const AdminUser: NextPage = () => {
     const [urlList, setUrlList] = useState([])
     const { pathname } = useRouter();
     const store = useStore()
@@ -29,13 +32,14 @@ const AdminHome: NextPage = () => {
         //     setUrlList(res.data)
         // }
     }
+    const inputSubmit = (e:string) => {
+
+    };
     return (<>
-        {
-            urlList?.map((item, index) => (
-                <Column data={item} key={index} />
-            ))
-        }
+        <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
+            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+        </div>
     </>)
 }
 
-export default AdminHome
+export default AdminUser

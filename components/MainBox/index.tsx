@@ -26,8 +26,8 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const store = useStore();
     const { pathname } = useRouter();
     const [input, setInput] = useState('');
-    const [leftShow, setLeftShow] = useState(false);
-    const [rightShow, setRightShow] = useState(false);
+    const [leftShow, setLeftShow] = useState(0);
+    const [rightShow, setRightShow] = useState(0);
     const [lList, setLList] = useState<ULink[]>([]);
     const [rList, setRList] = useState<ULink[]>([]);
     const [lManage, setLManage] = useState(false);
@@ -79,11 +79,11 @@ const MainBox: NextPage<Props> = ({ children }) => {
     };
     // 左侧栏开关
     const leftBtnClick = () => {
-        setLeftShow(!leftShow);
+        leftShow == 1 ? setLeftShow(2) : setLeftShow(1);
     };
     // 右侧栏开关
     const rightBtnClick = () => {
-        setRightShow(!rightShow);
+        rightShow == 1 ? setRightShow(2) : setRightShow(1);
     };
     // 左侧链接管理开关
     const openLManage = () => {
@@ -132,7 +132,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
             <link rel='icon' href='/Wolffy.ico' />
         </Head>
-        <div className={clsx(styles.left, 'py2', 'px2', leftShow ? styles.leftOpen : styles.leftClose)}>
+        <div className={clsx(styles.left, 'py2', 'px2', leftShow == 1 ? styles.leftOpen : leftShow == 2 ? styles.leftClose : '')}>
             <div className={clsx(styles.manage, lManage ? 'bc-color' : '', 'cur')} onClick={openLManage}>
             </div>
             <div className={clsx(styles.leftList, 'dflex', 'flexcolumn', 'acenter')}>
@@ -176,7 +176,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 </div>
             </div>
         </div>
-        <div className={clsx(styles.right, 'py2', 'px2', rightShow ? styles.rightOpen : styles.rightClose)}>
+        <div className={clsx(styles.right, 'py2', 'px2', rightShow == 1 ? styles.rightOpen : rightShow == 2 ? styles.rightClose : '')}>
             <div className={clsx(styles.rightList, 'dflex', 'flexcolumn', 'acenter')}>
                 <div className={clsx(styles.manage, rManage ? 'bc-color' : '', 'cur')} onClick={openRManage}>
                 </div>

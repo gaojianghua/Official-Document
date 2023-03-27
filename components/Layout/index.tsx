@@ -4,7 +4,7 @@ import Footer from 'components/Footer';
 import MainBox from 'components/MainBox';
 import { Mask } from 'components/index';
 import styles from './index.module.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {useStore} from '@/store';
 import { getSession } from '@/utils';
 import Meteor from 'C/meteor';
@@ -20,6 +20,7 @@ interface Props {
 
 const Layout: NextPage<Props> = ({ children }) => {
     const store = useStore()
+    const [isSwitch, setIsSwitch] = useState(true)
     useEffect(() => {
         store.public.setToken(getSession('token')!)
         store.public.setAdminToken(getSession('adminToken')!)
@@ -31,6 +32,10 @@ const Layout: NextPage<Props> = ({ children }) => {
             store.public.setIsAdminPages(true)
         }
     }
+    const updateSwitch = () => {
+        setIsSwitch(() => !isSwitch)
+        return isSwitch
+    }
     return (
         <>
             {
@@ -38,9 +43,9 @@ const Layout: NextPage<Props> = ({ children }) => {
                     <div className={styles.all}>
                         <Meteor />
                         <div className={clsx('positionabsolute', 'w100', 'h100', 'index3', 'dflex', 'p1')}>
-                            <AdminMenu/>
+                            <AdminMenu isSwitch={isSwitch}/>
                             <div className={clsx(styles.right, 'dflex', 'flexcolumn')}>
-                                <AdminHeader/>
+                                <AdminHeader updateSwitch={updateSwitch} isSwitch={isSwitch} />
                                 <AdminMain>{children}</AdminMain>
                             </div>
                         </div>

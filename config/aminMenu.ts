@@ -12,6 +12,11 @@ export const MenuList:IMenu[] = [
         icon: 'RadarChartOutlined'
     },
     {
+        path: '/admin/user',
+        name: '用户管理',
+        icon: 'TeamOutlined'
+    },
+    {
         path: '/admin/card',
         name: '印记管理',
         icon: 'FireOutlined'

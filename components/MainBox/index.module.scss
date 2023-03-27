@@ -176,7 +176,7 @@
   }
 
   .leftOpen {
-    animation: leftWidthOpen linear .3s both;
+    animation: leftWidthOpen linear .2s both;
     @keyframes leftWidthOpen {
       from {
         left: -200px;
@@ -188,7 +188,7 @@
   }
 
   .leftClose {
-    animation: leftWidthClose linear .3s both;
+    animation: leftWidthClose linear .2s both;
     @keyframes leftWidthClose {
       from {
         left: 0;
@@ -342,7 +342,7 @@
   }
 
   .rightOpen {
-    animation: rightWidthOpen linear .3s both;
+    animation: rightWidthOpen linear .2s both;
     @keyframes rightWidthOpen {
       from {
         right: -200px;
@@ -354,7 +354,7 @@
   }
 
   .rightClose {
-    animation: rightWidthClose linear .3s both;
+    animation: rightWidthClose linear .2s both;
     @keyframes rightWidthClose {
       from {
         right: 0;

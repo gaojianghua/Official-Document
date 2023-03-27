@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { Form, Input, Button, message } from 'antd';
+import MSearch from 'C/mSearch';
 import styles from './index.module.scss';
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
@@ -16,15 +17,6 @@ interface IProps {
 
 const RealPersonVerification: NextPage<IProps> = (props) => {
     const { reslPerson, numberOne, numberTwo, char, closeVerCode } = props
-    const [input, setInput] = useState('');
-    const onFinish = () => {
-        reslPerson(input)
-        setInput('')
-    };
-    // 验证输入框变化事件
-    const onChange = (e: any) => {
-        setInput(e.target.value);
-    };
     return (
         <div className={clsx(styles.real)}>
             <div className={clsx(styles.verImg)}>
@@ -63,22 +55,9 @@ const RealPersonVerification: NextPage<IProps> = (props) => {
                 </div>
                 <CloseCircleOutlined className={clsx(styles.close, 'cur')} onClick={closeVerCode} />
             </div>
-            <Form
-                name='verification'
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                autoComplete='off'
-            >
-                <Form.Item
-                    className={clsx(styles.formItem, 'w100')}
-                    name='input'
-                >
-                    <Input.Group className={clsx(styles.group, 'dflex')} compact>
-                        <Input type={'number'} className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
-                        <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>确认</Button>
-                    </Input.Group>
-                </Form.Item>
-            </Form>
+            <div className={styles.versform}>
+                <MSearch inputSubmit={reslPerson}></MSearch>
+            </div>
         </div>
     );
 };

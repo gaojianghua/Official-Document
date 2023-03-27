@@ -1,0 +1,46 @@
+.formItem {
+    height: 40px;
+    margin-bottom: 0 !important;
+
+    .group {
+        position: relative;
+    }
+
+    .input {
+        background: #FFFFFF55;
+        border-radius: 10px !important;
+        width: 298px;
+        height: 40px;
+        line-height: 38px;
+        padding: 0 20px;
+        caret-color: #fb7299;
+        color: #fb7299;
+        margin-left: 1px;
+        font-size: 14px;
+    }
+
+    .btn {
+        position: absolute;
+        top: 2px;
+        right: 1px;
+        z-index: 5;
+        height: 36px;
+        border-radius: 8px !important;
+        background: #fb7299;
+        padding: 0 20px;
+        border-color: #fff;
+    }
+
+    .input:hover,
+    .input:focus {
+        background: #FFFFFF;
+        border-color: #fb7299;
+        box-shadow: 0 2px 2px #fb729966;
+    }
+
+    .btn:hover {
+        color: #fb7299 !important;
+        background: #fff;
+        border-color: #fb7299;
+    }
+}
