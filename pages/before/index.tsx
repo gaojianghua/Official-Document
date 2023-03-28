@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { Column } from 'components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getCards } from '@/service/api';
+import { getCardList } from '@/service/api';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 
@@ -22,7 +22,7 @@ const Before: NextPage = () => {
             }
         });
         // @ts-ignore
-        const res: any = await getCards({ id: uid });
+        const res: any = await getCardList({ id: uid });
         if (res.code == 200) {
             setBefore(res.data);
         }

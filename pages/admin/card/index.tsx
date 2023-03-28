@@ -1,58 +1,186 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import type { ColumnsType } from 'antd/es/table';
+import update from 'immutability-helper';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import MSearch from 'C/mSearch';
-import { getCards } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
+import { Table } from 'antd';
+import { getAdminCardList, getAdminUserCardList } from '@/service/api';
+import { isWindow } from '@/utils';
+
+interface DataType {
+    key: string;
+    name: string;
+    src: string;
+    logo: string;
+    bg: string
+}
+
+interface DraggableBodyRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    index: number;
+    moveRow: (dragIndex: number, hoverIndex: number) => void;
+}
+
+const type = 'DraggableBodyRow';
+
+const DraggableBodyRow = ({
+                              index,
+                              moveRow,
+                              className,
+                              style,
+                              ...restProps
+                          }: DraggableBodyRowProps) => {
+    const ref = useRef<HTMLTableRowElement>(null);
+    const [{ isOver, dropClassName }, drop] = useDrop({
+        accept: type,
+        collect: monitor => {
+            const { index: dragIndex } = monitor.getItem() || {};
+            if (dragIndex === index) {
+                return {};
+            }
+            return {
+                isOver: monitor.isOver(),
+                dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
+            };
+        },
+        drop: (item: { index: number }) => {
+            moveRow(item.index, index);
+        },
+    });
+    const [, drag] = useDrag({
+        type,
+        item: { index },
+        collect: monitor => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+    drop(drag(ref));
+
+    return (
+        <tr
+            ref={ref}
+            className={`${className}${isOver ? dropClassName : ''}`}
+            style={{ cursor: 'move', ...style }}
+            {...restProps}
+        />
+    );
+};
+
+const columns: ColumnsType<DataType> = [
+    {
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
+        width: '100px'
+    },
+    {
+        title: '地址',
+        dataIndex: 'src',
+        key: 'src',
+    },
+    {
+        title: '标志',
+        dataIndex: 'logo',
+        key: 'logo',
+    },
+    {
+        title: '背景',
+        dataIndex: 'image_bg',
+        key: 'image_bg',
+    },
+];
 
 const AdminCard: NextPage = () => {
-    const [urlList, setUrlList] = useState([]);
     const { pathname } = useRouter();
     const store = useStore();
+    const [data, setData] = useState([]);
+    const [current, setCurrent] = useState(1);
+    const components = {
+        body: {
+            row: DraggableBodyRow,
+        },
+    };
+    const moveRow = useCallback(
+        (dragIndex: number, hoverIndex: number) => {
+            const dragRow = data[dragIndex];
+            setData(
+                update(data, {
+                    $splice: [
+                        [dragIndex, 1],
+                        [hoverIndex, 0, dragRow],
+                    ],
+                }),
+            );
+        },
+        [data],
+    );
 
 
     useEffect(() => {
-        getCardData();
+        if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
+            if (isWindow()) {
+                getCardData();
+            }
+        }
     }, []);
 
 
     const getCardData = async () => {
-        // let uid: string
-        // store.public.publicData.menu.forEach((item) => {
-        //     if (item.router == pathname) {
-        //         uid = String(item.class_id)
-        //     }
-        // })
-        // // @ts-ignore
-        // const res: any = await getCards({id: uid})
-        // if(res.code == 200) {
-        //     setUrlList(res.data)
-        // }
+        let res: any
+        if(current == 1) {
+            res = await getAdminCardList()
+        }else if (current == 2) {
+            res = await getAdminUserCardList()
+        }
+        if(res.code == 200) {
+            setData(res.data)
+        }
     };
-    const selectCurrent = () => {
+    const selectCurrent = (e: number) => {
+        setCurrent(e)
+        getCardData()
+    };
+    const inputSubmit = (e: string) => {
 
     };
-    const inputSubmit = (e:string) => {
+    const addCard = () => {
 
-    };
-    return (<>
+    }
+    return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter')} onClick={selectCurrent}>
-                系统链接
+            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter')} onClick={() =>selectCurrent(1)}>
+                系统印记
             </div>
             <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'mx1')}
-                 onClick={selectCurrent}>
-                用户链接
+                 onClick={() =>selectCurrent(2)}>
+                用户印记
             </div>
             <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
             <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}
-                 onClick={selectCurrent}>
+                 onClick={addCard}>
                 新增
             </div>
         </div>
-    </>);
+        <DndProvider backend={HTML5Backend}>
+            <Table
+                columns={columns}
+                dataSource={data}
+                components={components}
+                onRow={(_, index) => {
+                    const attr = {
+                        index,
+                        moveRow,
+                    };
+                    return attr as React.HTMLAttributes<any>;
+                }}
+            />
+        </DndProvider>
+    </div>);
 };
 
 export default AdminCard;

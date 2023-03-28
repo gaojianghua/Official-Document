@@ -13,7 +13,7 @@ import {
     CloseOutlined,
 } from '@ant-design/icons';
 import { useStore } from '@/store';
-import { getUserLinks, userLinkDel } from '@/service/api';
+import { getUserLinkList, userLinkDel } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { ULink } from '@/types/res';
 import Link from 'next/link';
@@ -36,22 +36,22 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const { success } = store.link.linkData;
     useEffect(() => {
         if (token) {
-            getUserLinkList();
+            getUserLinkListData();
         } else {
             setLList(() => []);
             setRList(() => []);
         }
         if (success) {
-            getUserLinkList();
+            getUserLinkListData();
             store.link.setSuccess(false);
         }
     }, [token,success]);
     // 获取数据
-    const getUserLinkList = async () => {
+    const getUserLinkListData = async () => {
         if (!token) return;
         let larray: ULink[] = [];
         let rarray: ULink[] = [];
-        let res: any = await getUserLinks();
+        let res: any = await getUserLinkList();
         if (res?.code == 200) {
             res.data.forEach((item: any) => {
                 if (item.user_link_type == 1) {
@@ -110,7 +110,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const itemDelClick = async (e: any) => {
         let res: any = await userLinkDel({ id: String(e.id) });
         if (res.code == 200) {
-            getUserLinkList();
+            getUserLinkListData();
             message.success('删除成功');
         }
     };

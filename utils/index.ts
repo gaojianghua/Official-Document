@@ -29,10 +29,12 @@ export const removeSession = (key: string) => {
     }
 };
 
-export const isWindow = (key: any) => {
+export const isWindow = () => {
     const isBrowser: boolean = ((): boolean => typeof window !== 'undefined')();
     if (isBrowser) {
-        return key
+        return true
+    }else {
+        return false
     }
 };
 

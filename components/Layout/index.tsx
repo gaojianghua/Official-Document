@@ -13,6 +13,7 @@ import AdminMain from 'C/Admin/AdminMain';
 import AdminHeader from 'C/Admin/AdminHeader';
 import AdminMenu from 'C/Admin/AdminMenu';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 interface Props {
     children: any;
@@ -20,6 +21,7 @@ interface Props {
 
 const Layout: NextPage<Props> = ({ children }) => {
     const store = useStore()
+    const router = useRouter()
     const [isSwitch, setIsSwitch] = useState(true)
     useEffect(() => {
         store.public.setToken(getSession('token')!)
@@ -30,6 +32,11 @@ const Layout: NextPage<Props> = ({ children }) => {
     const init = () => {
         if (store.public.publicData.adminToken) {
             store.public.setIsAdminPages(true)
+        }else {
+            store.public.setIsAdminPages(false)
+            if (router.pathname.includes('admin')) {
+                router.push('/')
+            }
         }
     }
     const updateSwitch = () => {

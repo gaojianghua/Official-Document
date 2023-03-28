@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { Card } from 'components/index'
 import { FolderAddOutlined } from '@ant-design/icons'
 import { Mark } from 'types/res';
-import { getCardLinks, userCardDel } from '@/service/api';
+import { getUserCardList, userCardDel } from '@/service/api';
 import { message } from 'antd';
 
 const Home: NextPage = () => {
@@ -17,14 +17,14 @@ const Home: NextPage = () => {
   const [ cardArr, setCardArr ] = useState<Mark[]>([])
   useEffect(() => {
     if (token || success) {
-      getUserCard()
+      getUserCardListData()
     } else {
       setCardArr(() => [])
     }
   },[token, success])
   // 获取数据
-  const getUserCard = async () => {
-    let res: any = await getCardLinks()
+  const getUserCardListData = async () => {
+    let res: any = await getUserCardList()
     if (res.code == 200) {
         setCardArr(res.data)
         store.mark.setSuccess(false)

@@ -3,7 +3,7 @@ import { Column } from 'components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
-import { getCards } from '@/service/api';
+import { getCardList } from '@/service/api';
 
 const Ios: NextPage = () => {
     const [urlList, setUrlList] = useState([])
@@ -24,7 +24,7 @@ const Ios: NextPage = () => {
             }
         })
         // @ts-ignore
-        const res: any = await getCards({id: uid})
+        const res: any = await getCardList({id: uid})
         if(res.code == 200) {
             setUrlList(res.data)
         }
