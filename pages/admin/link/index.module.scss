@@ -1,10 +1,34 @@
-.pageTitle{
-    width: 100%;
-    height: 50px;
-    .switch{
-        width: auto;
-        height: 36px;
-        padding: 10px 16px;
+.page {
+    .pageTitle{
+        width: 100%;
+        height: 50px;
+        .switch{
+            width: auto;
+            height: 36px;
+            padding: 10px 16px;
+            border-radius: 12px; // 圆角
+            overflow: hidden; // 超出隐藏
+            background-color: #e2e6eb22; // 背景色
+            box-shadow: inset 8px 8px 6px #d9dce6,
+            inset -5px -5px 15px #f5f9fd,
+            inset -5px -5px 15px #f5f9fd,
+            inset 7px 7px 6px #d9dce6;
+            transition: all 0.2s linear;
+        }
+        .add{
+            height: 45px;
+        }
+        .active{
+            color: #fff;
+            box-shadow: inset 8px 8px 6px #fb7299,
+            inset -5px -5px 15px #fb7299,
+            inset -5px -5px 15px #fb7299,
+            inset 7px 7px 6px #fb7299;
+        }
+    }
+    :global(.ant-table) {
+        margin-top: 10px;
+        height: calc(100vh - 252px);
         border-radius: 12px; // 圆角
         overflow: hidden; // 超出隐藏
         background-color: #e2e6eb22; // 背景色
@@ -12,9 +36,43 @@
         inset -5px -5px 15px #f5f9fd,
         inset -5px -5px 15px #f5f9fd,
         inset 7px 7px 6px #d9dce6;
-        transition: all 0.2s linear;
     }
-    .add{
-        height: 45px;
+    :global(.ant-table-thead > tr > th) {
+        background-color: transparent;
+    }
+    :global(.ant-pagination-prev > .ant-pagination-item-link) {
+        background-color: transparent !important;
+        border-color: #ffffff !important;
+    }
+    :global(.ant-pagination-next > .ant-pagination-item-link) {
+        background-color: transparent !important;
+        border-color: #ffffff !important;
+    }
+    :global(.ant-pagination-prev > .ant-pagination-item-link):hover {
+        color: #fb7299;
+    }
+    :global(.ant-pagination-next > .ant-pagination-item-link):hover {
+        color: #fb7299;
+    }
+    :global(.ant-pagination-item) {
+        background-color: transparent !important;
+        border-color: #ffffff !important;
+        a{
+            color: #333 !important;
+        }
+    }
+    :global(.ant-pagination-item):hover {
+        background-color: transparent !important;
+        border-color: #fb7299 !important;
+        a{
+            color: #fb7299 !important;
+        }
+    }
+    :global(.ant-pagination-item-active) {
+        background-color: transparent !important;
+        border-color: #fb7299 !important;
+        a{
+            color: #fb7299 !important;
+        }
     }
 }

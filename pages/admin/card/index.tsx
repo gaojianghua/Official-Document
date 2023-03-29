@@ -76,7 +76,7 @@ const columns: ColumnsType<DataType> = [
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-        width: '100px'
+        width: '150px'
     },
     {
         title: '地址',
@@ -96,7 +96,6 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const AdminCard: NextPage = () => {
-    const { pathname } = useRouter();
     const store = useStore();
     const [data, setData] = useState([]);
     const [current, setCurrent] = useState(1);
@@ -127,7 +126,7 @@ const AdminCard: NextPage = () => {
                 getCardData();
             }
         }
-    }, []);
+    }, [current]);
 
 
     const getCardData = async () => {
@@ -142,8 +141,7 @@ const AdminCard: NextPage = () => {
         }
     };
     const selectCurrent = (e: number) => {
-        setCurrent(e)
-        getCardData()
+        setCurrent(() => e)
     };
     const inputSubmit = (e: string) => {
 
@@ -153,10 +151,10 @@ const AdminCard: NextPage = () => {
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter')} onClick={() =>selectCurrent(1)}>
+            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', current == 1 ? styles.active : '')} onClick={() =>selectCurrent(1)}>
                 系统印记
             </div>
-            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'mx1')}
+            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'mx1', current == 2 ? styles.active : '')}
                  onClick={() =>selectCurrent(2)}>
                 用户印记
             </div>
@@ -170,6 +168,7 @@ const AdminCard: NextPage = () => {
             <Table
                 columns={columns}
                 dataSource={data}
+                scroll={{y: '400px'}}
                 components={components}
                 onRow={(_, index) => {
                     const attr = {
