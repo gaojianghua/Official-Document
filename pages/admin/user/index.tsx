@@ -1,45 +1,85 @@
 import type { NextPage } from 'next'
-import { Column } from 'C/index';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '@/store';
-import { getCards } from '@/service/api';
+import { getAdminUserList } from '@/service/api';
 import clsx from 'clsx';
-import styles from '@/pages/admin/link/index.module.scss';
+import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
+import { isWindow } from '@/utils';
+import AdminTable from 'C/Admin/AdminTable';
+import { ColumnsType } from 'antd/es/table';
+
+
+interface DataType {
+    name: string;
+    avatar: string;
+    mobile: number,
+    signature: string
+}
+
+const columns: ColumnsType<DataType> = [
+    {
+        title: '昵称',
+        dataIndex: 'name',
+        width: '300px',
+    },
+    {
+        title: '头像',
+        dataIndex: 'avatar',
+        render: (e)=> <img className={clsx(styles.imgs)} src={e} />
+    },
+    {
+        title: '手机号',
+        dataIndex: 'mobile',
+    },
+    {
+        title: '个性签名',
+        dataIndex: 'signature',
+    },
+    {
+        title: '操作',
+        dataIndex: '',
+        key: 'x',
+        render: () => <div className={clsx('dflex')}>
+            <div className={clsx(styles.editor, 'cur')}>
+                编辑
+            </div>
+            <div className={clsx(styles.delete, 'cur')}>
+                移除
+            </div>
+        </div>,
+    },
+];
 
 const AdminUser: NextPage = () => {
-    const [urlList, setUrlList] = useState([])
-    const { pathname } = useRouter();
-    const store = useStore()
-
+    const store = useStore();
+    const [dataSource, setDataSource] = useState([]);
 
     useEffect(()=> {
-        getCardData()
+        if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
+            if (isWindow()) {
+                getUserList();
+            }
+        }
     }, [])
 
 
-    const getCardData = async () => {
-        // let uid: string
-        // store.public.publicData.menu.forEach((item) => {
-        //     if (item.router == pathname) {
-        //         uid = String(item.class_id)
-        //     }
-        // })
-        // // @ts-ignore
-        // const res: any = await getCards({id: uid})
-        // if(res.code == 200) {
-        //     setUrlList(res.data)
-        // }
+    const getUserList = async () => {
+        // @ts-ignore
+        const res: any = await getAdminUserList()
+        if(res.code == 200) {
+            setDataSource(res.data)
+        }
     }
     const inputSubmit = (e:string) => {
 
     };
-    return (<>
+    return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
             <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
         </div>
-    </>)
+        <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
+    </div>)
 }
 
 export default AdminUser

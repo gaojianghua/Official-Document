@@ -1,17 +1,13 @@
 import type { NextPage } from 'next';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React, { useEffect, useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
-import update from 'immutability-helper';
-import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import MSearch from 'C/mSearch';
 import clsx from 'clsx';
 import styles from './index.module.scss';
-import { Table } from 'antd';
 import { getAdminCardList, getAdminUserCardList } from '@/service/api';
 import { isWindow } from '@/utils';
+import AdminTable from 'C/Admin/AdminTable';
 
 interface DataType {
     key: string;
@@ -21,62 +17,12 @@ interface DataType {
     bg: string
 }
 
-interface DraggableBodyRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    index: number;
-    moveRow: (dragIndex: number, hoverIndex: number) => void;
-}
-
-const type = 'DraggableBodyRow';
-
-const DraggableBodyRow = ({
-                              index,
-                              moveRow,
-                              className,
-                              style,
-                              ...restProps
-                          }: DraggableBodyRowProps) => {
-    const ref = useRef<HTMLTableRowElement>(null);
-    const [{ isOver, dropClassName }, drop] = useDrop({
-        accept: type,
-        collect: monitor => {
-            const { index: dragIndex } = monitor.getItem() || {};
-            if (dragIndex === index) {
-                return {};
-            }
-            return {
-                isOver: monitor.isOver(),
-                dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
-            };
-        },
-        drop: (item: { index: number }) => {
-            moveRow(item.index, index);
-        },
-    });
-    const [, drag] = useDrag({
-        type,
-        item: { index },
-        collect: monitor => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
-    drop(drag(ref));
-
-    return (
-        <tr
-            ref={ref}
-            className={`${className}${isOver ? dropClassName : ''}`}
-            style={{ cursor: 'move', ...style }}
-            {...restProps}
-        />
-    );
-};
-
 const columns: ColumnsType<DataType> = [
     {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-        width: '150px'
+        width: '120px'
     },
     {
         title: '地址',
@@ -87,38 +33,33 @@ const columns: ColumnsType<DataType> = [
         title: '标志',
         dataIndex: 'logo',
         key: 'logo',
+        width: '100px',
+        render: (e) => <img className={clsx(styles.imgs)} src={e}/>
     },
     {
         title: '背景',
         dataIndex: 'image_bg',
         key: 'image_bg',
+        render: (e) => <img className={clsx(styles.bgs)} src={e}/>
     },
+    {
+        title: '操作',
+        dataIndex: '',
+        key: 'x',
+        render: () => <div className={clsx('dflex')}>
+            <div className={clsx(styles.editor, 'cur')}>
+                编辑
+            </div>
+            <div className={clsx(styles.delete, 'cur')}>
+                移除
+            </div>
+        </div>,
+    }
 ];
-
 const AdminCard: NextPage = () => {
     const store = useStore();
-    const [data, setData] = useState([]);
     const [current, setCurrent] = useState(1);
-    const components = {
-        body: {
-            row: DraggableBodyRow,
-        },
-    };
-    const moveRow = useCallback(
-        (dragIndex: number, hoverIndex: number) => {
-            const dragRow = data[dragIndex];
-            setData(
-                update(data, {
-                    $splice: [
-                        [dragIndex, 1],
-                        [hoverIndex, 0, dragRow],
-                    ],
-                }),
-            );
-        },
-        [data],
-    );
-
+    const [dataSource, setDataSource] = useState([]);
 
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
@@ -137,7 +78,7 @@ const AdminCard: NextPage = () => {
             res = await getAdminUserCardList()
         }
         if(res.code == 200) {
-            setData(res.data)
+            setDataSource(res.data)
         }
     };
     const selectCurrent = (e: number) => {
@@ -164,21 +105,7 @@ const AdminCard: NextPage = () => {
                 新增
             </div>
         </div>
-        <DndProvider backend={HTML5Backend}>
-            <Table
-                columns={columns}
-                dataSource={data}
-                scroll={{y: '400px'}}
-                components={components}
-                onRow={(_, index) => {
-                    const attr = {
-                        index,
-                        moveRow,
-                    };
-                    return attr as React.HTMLAttributes<any>;
-                }}
-            />
-        </DndProvider>
+        <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
     </div>);
 };
 

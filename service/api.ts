@@ -4,6 +4,7 @@ export const register = (params: any, config = {}) => request.post('/api/user/re
 export const login = (params: any, config = {}) => request.post('/api/user/login', params, config)
 export const logout = (params: any = {}, config = {}) => request.post('/api/user/logout', params, config)
 export const userUpdate = (params: any = {}, config = {}) => request.post('/api/user/update', params, config)
+export const getAdminUserList = (params: any = {}, config = {}) => request.post('/api/admin/user/list', params, config)
 export const getLinkList = (params: any = {}, config = {}) => request.post('/api/link/list', params, config)
 export const getCardList = (params: any = {}, config = {}) => request.post('/api/card/list', params, config)
 export const getAdminCardList = (params: any = {}, config = {}) => request.post('/api/admin/card/list', params, config)
