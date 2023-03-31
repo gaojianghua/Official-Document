@@ -1,9 +1,7 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import styles from './index.module.scss';
-import { getCards } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { MenuList } from '@/config/aminMenu';
 import clsx from 'clsx';
@@ -16,10 +14,8 @@ interface IProps {
 }
 
 const AdminMenu: NextPage<IProps> = ({ isSwitch }) => {
-    const [urlList, setUrlList] = useState([]);
     const { pathname } = useRouter();
     const store = useStore();
-
 
     return (
         <div className={clsx(styles.menu, 'p1', isSwitch ? '' : styles.unflod)}>

@@ -3,7 +3,6 @@ import { Column } from 'C/index';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
-import { getCards } from '@/service/api';
 
 const AdminHome: NextPage = () => {
     const [urlList, setUrlList] = useState([])

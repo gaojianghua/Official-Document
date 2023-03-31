@@ -16,10 +16,9 @@ export async function getStaticProps() {
 }
 
 const Links: NextPage<ILinkProps> = ({data}) => {
-    const [urlList] = useState(data)
     return (<>
         {
-            urlList?.map(item => (
+            data?.map(item => (
                 <LinkBtn key={item.id} item={item}/>
             ))
         }
