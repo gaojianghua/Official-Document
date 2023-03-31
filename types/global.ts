@@ -7,11 +7,6 @@ export interface IColumn {
     list: Mark[]
 }
 
-// Props类型
-export interface IProps {
-    urlArr: Mark[]
-}
-
 export interface ICardProps {
     item: Mark,
     isManagement?: boolean,
@@ -37,4 +32,11 @@ export interface IColumnProps {
 
 export interface ILinkProps {
     data: SLink[]
+}
+
+export interface  ICalculation {
+    numberOne: number
+    numberTwo: number
+    index: number
+    integer: number
 }

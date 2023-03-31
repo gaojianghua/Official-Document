@@ -7,9 +7,8 @@ import styles from './index.module.scss';
 import { MAvatar } from 'components';
 import { adminLogin, login } from '@/service/api';
 import { useState } from 'react';
-import { aesEncryteData, encryte, getKey, setSession } from '@/utils';
+import { setDataEncryte, setSession } from '@/utils';
 import { observer } from 'mobx-react-lite';
-import { getRandomNum } from '@/utils'
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';
 import { useRouter } from 'next/router'
 
@@ -21,13 +20,10 @@ interface UserLogin {
 const MaskLogin: NextPage = () => {
     const store = useStore();
     const router = useRouter()
-    const arr = ['＋', '－', '＊']
     const [isCodeOrPassword, setIsCodeOrPassword] = useState(true);
     const [loading, setLoading] = useState(false);
     const [isRealPerson, setIsRealPerson] = useState(0);
-    const [numberOne, setNumberOne] = useState(0);
-    const [numberTwo, setNumberTwo] = useState(0);
-    const [char, setChar] = useState('');
+    const [calculation, setCalculation] = useState(true);
     const [formData, setFormData] = useState<UserLogin>();
     const onFinish = async (e: UserLogin) => {
         if (!e.mobile) return message.warning('请输入手机号')
@@ -36,54 +32,39 @@ const MaskLogin: NextPage = () => {
         setFormData(e)
         setCalculationNumber()
     };
-    // 设置计算值
+    // 控制验证计算值
     const setCalculationNumber = () => {
-        let num = getRandomNum(0, 3)
-        let numberOne = getRandomNum(3, 100)
-        setNumberOne(numberOne)
-        setChar(arr[num])
-        num == 1 ? setNumberTwo(getRandomNum(0, numberOne)) : setNumberTwo(getRandomNum(0, 100))
+        setCalculation(!calculation)
         setLoading(true)
         setIsRealPerson(1)
     }
     // 真人验证
-    const reslPerson = (e: number) => {
-        let intger: number = 0
-        let index: number = arr.map(item => item).indexOf(char)
-        switch (index) {
-            case 0:
-                intger = numberOne + numberTwo
-                break;
-            case 1:
-                intger = numberOne - numberTwo
-                break;
-            case 2:
-                intger = numberOne * numberTwo
-                break;
-        }
-        if (intger == e) {
-            store.public.publicData.isAdministrator ? _adminLogin() : _userLogin()
-            setLoading(false)
+    const reslPerson = (e: boolean, jsonObj: string) => {
+        if (e) {
+            store.public.publicData.isAdministrator ? _adminLogin(jsonObj) : _userLogin(jsonObj)
         }else {
             message.warning('答案错误')
         }
     }
     // 管理员登录
-    const _adminLogin = async () => {
-        let data = formData?.password
-        let aes_key = getKey()
-        let aesData = aesEncryteData(data!, aes_key)
-        let serverRsaData = encryte(aesData, store.public.publicData.serverPublicKey)
+    const _adminLogin = async (jsonObj:string) => {
+        let data = formData?.password!
+        let encryteData = setDataEncryte(data, store.public.publicData.serverPublicKey)
+        let jsonObjEncryteData = setDataEncryte(jsonObj, store.public.publicData.serverPublicKey)
         let form = {
             ...formData,
-            password: serverRsaData,
-            aes_key,
-            iv: aes_key.substring(0, 16)
+            password: encryteData.serverRsaData,
+            aes_key: encryteData.aes_key,
+            iv: encryteData.iv,
+            json_obj_data: jsonObjEncryteData.serverRsaData,
+            json_obj_aes: jsonObjEncryteData.aes_key,
+            json_obj_iv: jsonObjEncryteData.iv
         }
         let res: any = await adminLogin(form);
         if (res.code == 200) {
             store.public.setAdminToken(res.data.crypto_data);
             setSession('adminToken', res.data.crypto_data)
+            setLoading(false)
             closeMaskLogin()
             message.success('登录成功')
             await router.push('/admin/home')
@@ -91,16 +72,18 @@ const MaskLogin: NextPage = () => {
         }
     }
     // 用户登录
-    const _userLogin = async () => {
-        let data = formData?.password
-        let aes_key = getKey()
-        let aesData = aesEncryteData(data!, aes_key)
-        let serverRsaData = encryte(aesData, store.public.publicData.serverPublicKey)
+    const _userLogin = async (jsonObj:string) => {
+        let data = formData?.password!
+        let encryteData = setDataEncryte(data, store.public.publicData.serverPublicKey)
+        let jsonObjEncryteData = setDataEncryte(jsonObj, store.public.publicData.serverPublicKey)
         let form = {
             ...formData,
-            password: serverRsaData,
-            aes_key,
-            iv: aes_key.substring(0, 16)
+            password: encryteData.serverRsaData,
+            aes_key: encryteData.aes_key,
+            iv: encryteData.iv,
+            json_obj_data: jsonObjEncryteData.serverRsaData,
+            json_obj_aes: jsonObjEncryteData.aes_key,
+            json_obj_iv: jsonObjEncryteData.iv
         }
         let res: any = await login(form);
         if (res.code == 200) {
@@ -108,6 +91,7 @@ const MaskLogin: NextPage = () => {
             store.user.setUserInfo(res.data.userInfo);
             setSession('token', res.data.access_token)
             setSession('userInfo', res.data.userInfo)
+            setLoading(false)
             closeMaskLogin()
             message.success('登录成功')
         }
@@ -200,7 +184,7 @@ const MaskLogin: NextPage = () => {
                     )
             }
             <div className={clsx(styles.realPerson, isRealPerson == 1 ? styles.show : isRealPerson == 2 ? styles.hide : '')}>
-                <RealPersonVerification closeVerCode={closeVerCode} numberOne={numberOne} numberTwo={numberTwo} char={char} reslPerson={reslPerson}></RealPersonVerification>
+                <RealPersonVerification calculation={calculation} closeVerCode={closeVerCode} reslPerson={reslPerson}></RealPersonVerification>
             </div>
         </div>
     );

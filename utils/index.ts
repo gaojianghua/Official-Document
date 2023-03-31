@@ -70,11 +70,12 @@ export const getKey = () => {
  * AES加密数据
  * @param {String} data 要加密的数据
  * @param {String} key AES加密密钥
+ * @param {String} iv AES加密iv
  */
-export const aesEncryteData = (data:string, key:string) => {
+export const aesEncryteData = (data:string, key:string, iv:string) => {
     // 加密选项
     let CBCOptions = {
-        iv: CryptoJS.enc.Utf8.parse(key.substring(0, 16)),
+        iv: CryptoJS.enc.Utf8.parse(iv),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7,
     };
@@ -106,3 +107,16 @@ export const encryte = (str:string, pubKey:string) => {
     let encryptText = forge.util.encode64(encrypted);
     return encryptText;
 };
+
+// 对数据进行加密
+export const setDataEncryte = (data: string, rsa_public_key:string) => {
+    let iv = getKey()
+    let aes_key = getKey()
+    let aesData = aesEncryteData(data!, aes_key, iv)
+    let serverRsaData = encryte(aesData, rsa_public_key)
+    return {
+        serverRsaData,
+        aes_key,
+        iv
+    }
+}

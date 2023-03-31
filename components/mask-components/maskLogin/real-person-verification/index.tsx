@@ -3,20 +3,59 @@ import clsx from 'clsx';
 import { Form, Input, Button, message } from 'antd';
 import MSearch from 'C/mSearch';
 import styles from './index.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import { getRandomNum } from '@/utils';
+import { ICalculation } from '@/types/global';
 
 interface IProps {
     reslPerson?: any
-    numberOne?: number
-    numberTwo?: number
-    char?: string
-    closeVerCode?: any
+    closeVerCode?: any,
+    calculation: boolean
 }
 
 const RealPersonVerification: NextPage<IProps> = (props) => {
-    const { reslPerson, numberOne, numberTwo, char, closeVerCode } = props
+    const { reslPerson, closeVerCode, calculation } = props
+    const arr = ['＋', '－', '＊']
+    const [numberOne, setNumberOne] = useState(0);
+    const [numberTwo, setNumberTwo] = useState(0);
+    const [char, setChar] = useState('');
+
+    useEffect(() => {
+        init()
+    }, [calculation])
+
+    const init = () => {
+        let num = getRandomNum(0, 3)
+        let numberOne = getRandomNum(3, 100)
+        setNumberOne(numberOne)
+        setChar(arr[num])
+        num == 1 ? setNumberTwo(getRandomNum(0, numberOne)) : setNumberTwo(getRandomNum(0, 100))
+    }
+    const filterReslPerson = (e: number) => {
+        let integer: number = 0
+        let index: number = arr.map(item => item).indexOf(char)
+        switch (index) {
+            case 0:
+                integer = numberOne + numberTwo
+                break;
+            case 1:
+                integer = numberOne - numberTwo
+                break;
+            case 2:
+                integer = numberOne * numberTwo
+                break;
+        }
+        let obj: ICalculation = {
+            numberOne,
+            numberTwo,
+            index,
+            integer
+        }
+        let jsonObj = JSON.stringify(obj)
+        integer == e ? reslPerson(true, jsonObj) : reslPerson(false, jsonObj)
+    }
     return (
         <div className={clsx(styles.real)}>
             <div className={clsx(styles.verImg)}>
@@ -56,7 +95,7 @@ const RealPersonVerification: NextPage<IProps> = (props) => {
                 <CloseCircleOutlined className={clsx(styles.close, 'cur')} onClick={closeVerCode} />
             </div>
             <div className={styles.versform}>
-                <MSearch inputSubmit={reslPerson}></MSearch>
+                <MSearch inputSubmit={filterReslPerson}></MSearch>
             </div>
         </div>
     );
