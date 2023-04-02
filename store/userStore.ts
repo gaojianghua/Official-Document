@@ -1,21 +1,34 @@
 
 export interface IUserInfo {
+    id?: string,
     name?: string,
     avatar?: string,
     signature?: string,
-    mobile?: string
+    mobile?: string,
+}
+
+export interface IUser {
+    userInfo: IUserInfo
+    tmpUser: IUserInfo
 }
 
 export interface IUserStore {
-    userInfo: IUserInfo,
+    userData: IUser,
     setUserInfo: (value: IUserInfo) => void
+    setTmpUser: (value: IUserInfo) => void
 }
 
 const userStore = (): IUserStore => {
     return {
-        userInfo: {},
+        userData: {
+            userInfo: {},
+            tmpUser: {}
+        },
         setUserInfo: function (value) {
-            this.userInfo = value
+            this.userData.userInfo = value
+        },
+        setTmpUser: function (value) {
+            this.userData.tmpUser = value
         }
     }
 }

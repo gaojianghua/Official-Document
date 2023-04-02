@@ -61,4 +61,7 @@
       color: #fb7299 !important;
     }
   }
+  :global(table){
+    table-layout: initial !important;
+  }
 }

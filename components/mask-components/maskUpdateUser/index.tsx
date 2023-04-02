@@ -10,28 +10,46 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { IUserInfo } from '@/store/userStore';
 import { UploadProps } from 'antd/es/upload/interface';
-import { userUpdate } from '@/service/api';
+import { adminUserUpdate, userUpdate } from '@/service/api';
 import { imageType, uploadUrl } from '@/config';
 import { beforeUpload, getSession, setSession } from '@/utils';
 
 
 const MaskUpdateUser: NextPage = () => {
     const store = useStore();
+    const { userInfo: userData, tmpUser } = store.user.userData
+    const { isAdminPages } = store.public.publicData
     const [loading, setLoading] = useState<boolean>(false);
-    const [userInfo, setUserInfo] = useState(store.user.userInfo);
+    const [userInfo, setUserInfo] = useState(isAdminPages ? tmpUser : userData);
     const onFinish = async (e: IUserInfo) => {
+        if (!e.mobile) return message.warning('请输入手机号')
+        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号')
+        if (!e.name) return message.warning('请输入昵称')
+        if (!e.signature) return message.warning('请输入个性签名')
+        updateUserInfo(e)
+    };
+    // 修改用户信息
+    const updateUserInfo = async (e:IUserInfo) => {
         let obj: IUserInfo = {
+            id: String(tmpUser.id) || '',
             ...e,
             avatar: userInfo.avatar,
         };
-        let res: any = await userUpdate(obj);
+        let res: any
+        if (isAdminPages) {
+            res = await adminUserUpdate(obj)
+        }else{
+            res = await userUpdate(obj)
+        }
         if (res.code == 200) {
-            store.user.setUserInfo(res.data);
-            setSession('userInfo', res.data);
+            if (!isAdminPages) {
+                store.user.setUserInfo(res.data);
+                setSession('userInfo', res.data);
+            }
             closeMaskRegister();
             message.success('修改资料成功');
         }
-    };
+    }
     // 关闭弹框
     const closeMaskRegister = () => {
         store.public.setMaskShow(false);
@@ -97,6 +115,13 @@ const MaskUpdateUser: NextPage = () => {
                     name='name'
                 >
                     <Input type={'text'} placeholder='请输入昵称!'
+                           className={clsx(styles.input, 'w100')} />
+                </Form.Item>
+                <Form.Item
+                    className={clsx(styles.formItem)}
+                    name='mobile'
+                >
+                    <Input type={'number'} placeholder='请输入手机号!'
                            className={clsx(styles.input, 'w100')} />
                 </Form.Item>
                 <Form.Item

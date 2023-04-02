@@ -56,6 +56,7 @@ const Layout: NextPage<Props> = ({ children }) => {
                                 <AdminMain>{children}</AdminMain>
                             </div>
                         </div>
+                        <Mask />
                     </div>
                     :
                     <div className={styles.all}>

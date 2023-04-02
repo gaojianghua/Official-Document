@@ -1,7 +1,7 @@
-import { ULink } from '@/types/res';
+import { ULink, SLink } from '@/types/res';
 
 export interface ILink {
-    tmpLink: ULink,
+    tmpLink: ULink & SLink,
     isLOrR: number, //1工具栏 2便捷栏
     success: boolean, //新增或编辑是否成功
 }

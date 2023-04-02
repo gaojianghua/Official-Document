@@ -1,17 +1,11 @@
 import clsx from 'clsx';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Form, Input, Button, message, Popconfirm } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import styles from './index.module.scss';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-    EditOutlined,
-    PlusOutlined,
-    DeleteOutlined,
-    ExclamationCircleOutlined,
-    CloseOutlined,
-} from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useStore } from '@/store';
 import { getUserLinkList, userLinkDel } from '@/service/api';
 import { observer } from 'mobx-react-lite';
@@ -106,11 +100,27 @@ const MainBox: NextPage<Props> = ({ children }) => {
         store.public.setIsAddOrEdit(1);
         store.public.setMaskShow(true);
     };
+    // 打开确定删除弹框
+    const openDelete = (item: ULink) => {
+        store.public.setMaskComponentId(7);
+        store.model.setTitle('移除链接');
+        store.model.setChildren(<div className={clsx('dflex', 'jcenter', 'acenter', 'textwhite')}>
+            确定移除 {item.user_link_name} 吗？
+        </div>);
+        store.model.setConfirm(() => {
+            itemDelClick(item.id!);
+        });
+        store.model.setCancel(() => {
+            store.public.setMaskShow(false);
+        });
+        store.public.setMaskShow(true);
+    };
     // link删除事件
-    const itemDelClick = async (e: any) => {
-        let res: any = await userLinkDel({ id: String(e.id) });
+    const itemDelClick = async (id: string) => {
+        let res: any = await userLinkDel({ id: String(id) });
         if (res.code == 200) {
             getUserLinkListData();
+            store.public.setMaskShow(false);
             message.success('删除成功');
         }
     };
@@ -149,16 +159,9 @@ const MainBox: NextPage<Props> = ({ children }) => {
                             <div className={clsx(styles.leftEdit, 'cur')} onClick={() => itemEditClick(item)}>
                                 <EditOutlined /> 编辑
                             </div>
-                            <Popconfirm
-                                cancelText='取消'
-                                okText='确认'
-                                onConfirm={() => itemDelClick(item)}
-                                title={`确定删除 ${item?.user_link_name} 吗？`}
-                                icon={<ExclamationCircleOutlined style={{ color: 'red', fontSize: '20px' }} />}>
-                                <div className={clsx(styles.leftDel, 'cur')}>
-                                    <DeleteOutlined /> 删除
-                                </div>
-                            </Popconfirm>
+                            <div className={clsx(styles.leftDel, 'cur')} onClick={() => openDelete(item)}>
+                                <DeleteOutlined /> 删除
+                            </div>
                         </div> : <></>
                     }
                     <Link key={index} target={'_blank'} href={item?.src!}>
@@ -190,7 +193,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 {rList?.map((item, index) => <div key={index} className={clsx(styles.rightBox, 'positionrelative')}>
                     {
                         rManage ? <div className={clsx('dflex')}>
-                            <div className={clsx(styles.rightDel, 'cur')} onClick={() => itemDelClick(item)}>
+                            <div className={clsx(styles.rightDel, 'cur')} onClick={() => openDelete(item)}>
                                 <DeleteOutlined /> 删除
                             </div>
                             <div className={clsx(styles.rightEdit, 'cur')} onClick={() => itemEditClick(item)}>

@@ -6,7 +6,7 @@ import { ICardProps } from 'types/global';
 import { DeleteOutlined, ExclamationCircleOutlined, FormOutlined } from '@ant-design/icons';
 
 const Card: NextPage<ICardProps> = (props) => {
-    const { item, isManagement, deleteMark, editorMark } = props;
+    const { item, isManagement, openDelete, editorMark } = props;
     return (
         <div style={{ backgroundImage: 'url(' + `${item.image_bg}` + ')' }}
              className={clsx(styles.mark, 'dflex', 'acenter', 'jcenter', 'cur')} key={item.id}>
@@ -30,18 +30,10 @@ const Card: NextPage<ICardProps> = (props) => {
                     }
                     {
                         isManagement ? (
-                            <Popconfirm
-                                cancelText='取消'
-                                okText='确认'
-                                onConfirm={() => deleteMark(item.id)}
-                                title={`确定删除 ${item?.name} 吗？`}
-                                icon={<ExclamationCircleOutlined style={{ color: 'red', fontSize: '20px' }} />}>
-
-                                <div className={clsx(styles.btn, styles.delete, 'dflex', 'acenter')}>
-                                    <DeleteOutlined className={clsx(styles.btnIcon, 'dflex', 'acenter')} />
-                                    <div className={clsx(styles.btnText, 'ml')}>移除</div>
-                                </div>
-                            </Popconfirm>
+                            <div className={clsx(styles.btn, styles.delete, 'dflex', 'acenter')} onClick={() => openDelete(item)}>
+                                <DeleteOutlined className={clsx(styles.btnIcon, 'dflex', 'acenter')} />
+                                <div className={clsx(styles.btnText, 'ml')}>移除</div>
+                            </div>
                         ) : <></>
                     }
                 </a>

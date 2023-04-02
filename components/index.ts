@@ -9,6 +9,7 @@ import MaskRegister from 'C/mask-components/maskRegister'
 import MaskLink from 'C/mask-components/maskLink';
 import MaskUpdateUser from 'C/mask-components/maskUpdateUser';
 import MaskContribute from 'C/mask-components/maskContribute';
+import MaskModel from 'C/mask-components/maskModel';
 import Meteor from 'C/meteor';
 
 export {
@@ -23,5 +24,6 @@ export {
     MaskLink,
     MaskUpdateUser,
     MaskContribute,
-    Meteor
+    Meteor,
+    MaskModel
 }

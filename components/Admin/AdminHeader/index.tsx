@@ -14,8 +14,6 @@ interface IProps {
 }
 
 const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
-    const [urlList, setUrlList] = useState([])
-
     const router = useRouter();
     const store = useStore()
     // 左侧菜单栏开关

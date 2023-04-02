@@ -10,7 +10,7 @@ export interface IColumn {
 export interface ICardProps {
     item: Mark,
     isManagement?: boolean,
-    deleteMark?: any,
+    openDelete?: any,
     editorMark?: any,
     isAdd?: boolean
 }
@@ -39,4 +39,15 @@ export interface  ICalculation {
     numberTwo: number
     index: number
     integer: number
+}
+
+export interface MProps {
+    model?: MModelProps
+}
+
+export interface MModelProps {
+    title?: string
+    children?: any
+    confirm?: any
+    cancel?: any
 }

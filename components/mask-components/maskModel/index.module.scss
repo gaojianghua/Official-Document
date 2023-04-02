@@ -1,0 +1,52 @@
+.model {
+    width: 350px;
+    position: relative;
+    z-index: 99;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    background-color:rgba(255, 255, 255,.4);
+    .title{
+        height: 45px;
+        width: 100%;
+        color: #fff;
+        font-size: 16px;
+        background-color: #fb7299;
+        .close{
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #FFFFFF;
+        }
+    }
+
+
+    .confirmBtn{
+        height: 34px;
+        width: 100px;
+        border-radius: 44px;
+        background: #fb7299;
+        border-color: #fff;
+    }
+    .confirmBtn:hover{
+        color: #fb7299 !important;
+        background: #fff;
+        border-color: #fb7299;
+    }
+    .cancelBtn{
+        height: 34px;
+        width: 100px;
+        border-radius: 44px;
+        background: #888;
+        border-color: #555;
+    }
+    .cancelBtn:hover{
+        color: #666 !important;
+        background: #ababab;
+        border-color: #fff;
+    }
+}
+
+

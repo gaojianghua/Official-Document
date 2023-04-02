@@ -14,7 +14,7 @@ import { RadioChangeEvent } from 'antd/es';
 
 const MaskLink: NextPage = () => {
     const store = useStore();
-    const { isAddOrEdit } = store.public.publicData
+    const { isAddOrEdit, isAdminPages } = store.public.publicData
     const { isLOrR } = store.link.linkData
     const [tmpLink] = useState(store.link.linkData.tmpLink)
     const [value, setValue] = useState(isLOrR)
@@ -56,24 +56,25 @@ const MaskLink: NextPage = () => {
         <div className={clsx(styles.register)}>
             <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
-                <div className={clsx(styles.titleText)}>{isAddOrEdit == 1 ? '新增链接' : '编辑链接'}({isLOrR == 1 ? '工具栏' : '便捷栏'})</div>
+                <div className={clsx(styles.titleText)}>{isAddOrEdit == 1 ? '新增链接' : '编辑链接'}
+                    {isAdminPages ? '' : isLOrR == 1 ? '(工具栏)' : '(便捷栏)'}</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskRegister} />
             </div>
             <Form
-                name='login'
+                name='link'
                 initialValues={isAddOrEdit == 1 ? {} : tmpLink}
                 onFinish={onFinish}
                 autoComplete='off'
             >
                 <Form.Item
                     className={clsx(styles.formItem)}
-                    name='user_link_name'
+                    name={tmpLink.link_name ? 'link_name' : 'user_link_name'}
                 >
                     <Input type={'text'} placeholder='请输入链接名称!'
                            className={clsx(styles.input, 'w100')} />
                 </Form.Item>
                 {
-                    isAddOrEdit == 2 ?
+                    isAddOrEdit == 2 && !isAdminPages ?
                         <Form.Item
                             className={clsx(styles.formItem, 'w100', 'mb', 'pl3')}
                             name='user_link_type'

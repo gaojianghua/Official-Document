@@ -49,7 +49,7 @@ const Navbar: NextPage = () => {
     };
     // 申请投稿
     const apply = () => {
-        if (store.user.userInfo.mobile === '15257184434') {
+        if (store.user.userData.userInfo.mobile === '15257184434') {
             store.public.setIsAdministrator(true)
             store.public.setMaskComponentId(1);
             store.public.setMaskShow(true);
@@ -97,18 +97,18 @@ const Navbar: NextPage = () => {
                 }
                 {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
-                            <Avatar src={store.user.userInfo.avatar} icon={store.user.userInfo.avatar ? '' : <UserOutlined />}
+                            <Avatar src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
                                  size={50} onClick={() => setIsShowMenu(!isShowMenu)} />
                             {
                                 isShowMenu ?
                                     <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
-                                        <Avatar icon={store.user.userInfo.avatar ? '' : <UserOutlined />}
-                                                src={store.user.userInfo.avatar} size={80} />
+                                        <Avatar icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
+                                                src={store.user.userData.userInfo.avatar} size={80} />
                                         <div className={clsx('mt1', 'mainColor')}>
-                                            {store.user.userInfo.name}
+                                            {store.user.userData.userInfo.name}
                                         </div>
                                         <div className={clsx('mt1', 'mainColor', 'textcenter')}>
-                                            {store.user.userInfo.signature}
+                                            {store.user.userData.userInfo.signature}
                                         </div>
                                     <Form>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
@@ -118,7 +118,7 @@ const Navbar: NextPage = () => {
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={apply}>
-                                                {store.user.userInfo.mobile === '15257184434' ? '系统管理' : '投稿申请'}
+                                                {store.user.userData.userInfo.mobile === '15257184434' ? '系统管理' : '投稿申请'}
                                             </Button>
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem,styles.menuItem, 'mt1')}>

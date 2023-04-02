@@ -25,5 +25,10 @@ export const MenuList:IMenu[] = [
         path: '/admin/link',
         name: '链接管理',
         icon: 'LinkOutlined'
+    },
+    {
+        path: '/admin/apply',
+        name: '投稿管理',
+        icon: 'SnippetsOutlined'
     }
 ]

@@ -9,32 +9,19 @@ interface IProps {
     dataSource: any[]
 }
 
-type TablePaginationPosition =
-    | 'topLeft'
-    | 'topCenter'
-    | 'topRight'
-    | 'bottomLeft'
-    | 'bottomCenter'
-    | 'bottomRight';
-const bottomOptions = [
-    { label: 'bottomLeft', value: 'bottomLeft' },
-    { label: 'bottomCenter', value: 'bottomCenter' },
-    { label: 'bottomRight', value: 'bottomRight' },
-    { label: 'none', value: 'none' },
-];
-
 const AdminTable: NextPage<IProps> = ({columns, dataSource}) => {
-    const [bottom, setBottom] = useState<TablePaginationPosition>('bottomRight');
+    const [bottom, setBottom] = useState('bottomRight');
     return (
         <div className={styles.page}>
             <Table
                 dataSource={dataSource}
                 columns={columns}
+                rowKey={'id'}
+                key={'table'}
                 scroll={{y: '400px'}}
             />
             <Radio.Group
                 style={{ marginBottom: 10 }}
-                options={bottomOptions}
                 value={bottom}
                 onChange={e => {
                     setBottom(e.target.value);

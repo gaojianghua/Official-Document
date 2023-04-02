@@ -43,8 +43,19 @@ const Home: NextPage = () => {
     store.public.setMaskComponentId(2)
     store.public.setIsAddAndEditor(2)
   }
+  // 打开确定删除弹框
+  const openDelete = (item: Mark) => {
+    store.public.setMaskComponentId(7);
+    store.model.setTitle('移除印记')
+    store.model.setChildren(<div className={clsx('dflex', 'jcenter', 'acenter', 'textwhite')}>
+      确定移除 {item.name} 吗？
+    </div>)
+    store.model.setConfirm(()=>{deleteMark(item.id!)})
+    store.model.setCancel(()=>{store.public.setMaskShow(false)})
+    store.public.setMaskShow(true);
+  }
   // 移除印记
-  const deleteMark = async (id: number)  => {
+  const deleteMark = async (id: string)  => {
     let arr = cardArr
     let res: any = await userCardDel({id: String(id)})
     if (res.code == 200) {
@@ -61,7 +72,7 @@ const Home: NextPage = () => {
     <>
       {
         cardArr?.map(item => (
-            <Card key={item.id} item={item} isManagement={isManagement} deleteMark={deleteMark} editorMark={editorMark}></Card>
+            <Card key={item.id} item={item} isManagement={isManagement} openDelete={openDelete} editorMark={editorMark}></Card>
         ))
       }
       {
