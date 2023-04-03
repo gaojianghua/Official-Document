@@ -17,6 +17,11 @@ export const MenuList:IMenu[] = [
         icon: 'TeamOutlined'
     },
     {
+        path: '/admin/type',
+        name: '分类管理',
+        icon: 'HddOutlined'
+    },
+    {
         path: '/admin/card',
         name: '印记管理',
         icon: 'FireOutlined'

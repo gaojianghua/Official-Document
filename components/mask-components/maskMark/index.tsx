@@ -2,8 +2,8 @@ import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { Image, Form, Input, Button, Upload, message } from 'antd';
-import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Button, Cascader, Form, Image, Input, message, Upload } from 'antd';
+import { CloseCircleOutlined, DownOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import styles from './index.module.scss';
 import { useState } from 'react';
@@ -15,8 +15,42 @@ import { userCardAdd, userCardUpdate } from '@/service/api';
 
 const MaskMark: NextPage = () => {
     const store = useStore();
-    const { isAddAndEditor } = store.public.publicData;
+    const { isAddAndEditor, isUpdateCard } = store.public.publicData;
     const [loading, setLoading] = useState<boolean>(false);
+    const [options, setOptions] = useState([
+        {
+            value: 'zhejiang',
+            label: 'Zhejiang',
+            children: [
+                {
+                    value: 'hangzhou',
+                    label: 'Hangzhou',
+                    children: [
+                        {
+                            value: 'xihu',
+                            label: 'West Lake',
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            value: 'jiangsu',
+            label: 'Jiangsu',
+            children: [
+                {
+                    value: 'nanjing',
+                    label: 'Nanjing',
+                    children: [
+                        {
+                            value: 'zhonghuamen',
+                            label: 'Zhong Hua Men',
+                        },
+                    ],
+                },
+            ],
+        },
+    ])
     const [tmpMark, setTmpMark] = useState<Mark>(store.mark.markData.tmpMark);
     // 关闭新增或者编辑弹窗
     const closeMaskMark = () => {
@@ -85,6 +119,10 @@ const MaskMark: NextPage = () => {
         </div>
     );
 
+    const onChange = () => {
+
+    }
+
     return (
         <div className={clsx(styles.mark)}>
             <MAvatar className={styles.avatar} />
@@ -114,25 +152,35 @@ const MaskMark: NextPage = () => {
                 >
                     <Input placeholder='请输入印记地址!' className={clsx(styles.input, 'w100')} />
                 </Form.Item>
+                {
+                    isUpdateCard ?
+                        <Form.Item
+                            className={clsx(styles.formItem,'w100')}
+                            name='type'
+                        >
+                            <Cascader className={clsx(styles.input)} bordered={false} placeholder='请选择分类!' options={options} onChange={onChange} />
+                        </Form.Item> :
+                        <></>
+                }
                 <Form.Item className={clsx('w100', 'mb0')} name='logo'>
-                        <Upload
-                            showUploadList={false}
-                            maxCount={1}
-                            className={clsx(styles.drag, 'dflex', 'acenter', 'jcenter')}
-                            name='image'
-                            data={imageType}
-                            headers={{
-                                'Authorization': 'Bearer ' + getSession('token'),
-                            }}
-                            beforeUpload={beforeUpload}
-                            onChange={handleLgChange}
-                            action={uploadUrl}>
-                            {tmpMark.logo ? <Image preview={false} src={tmpMark.logo} alt='logo' style={{
-                                width: '80px',
-                                height: '80px',
-                                borderRadius: '5px',
-                            }} /> : uploadButton(1)}
-                        </Upload>
+                    <Upload
+                        showUploadList={false}
+                        maxCount={1}
+                        className={clsx(styles.drag, 'dflex', 'acenter', 'jcenter')}
+                        name='image'
+                        data={imageType}
+                        headers={{
+                            'Authorization': 'Bearer ' + getSession('token'),
+                        }}
+                        beforeUpload={beforeUpload}
+                        onChange={handleLgChange}
+                        action={uploadUrl}>
+                        {tmpMark.logo ? <Image preview={false} src={tmpMark.logo} alt='logo' style={{
+                            width: '80px',
+                            height: '80px',
+                            borderRadius: '5px',
+                        }} /> : uploadButton(1)}
+                    </Upload>
                 </Form.Item>
                 <Form.Item className={clsx(styles.formUpload, 'w100', 'mb0')} name='image_bg'>
                         <Upload

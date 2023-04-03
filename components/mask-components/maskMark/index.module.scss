@@ -105,15 +105,34 @@
         .group{
             position: relative;
         }
+        :global(#mark_type),
+        :global(.ant-select-selection-placeholder),
+        :global(.ant-select-selector),
+        :global(.ant-select-selection-item){
+            height: 36px;
+            line-height: 36px;
+            font-weight: 650;
+        }
         .input{
             background: #FFFFFF55;
             border-radius: 44px;
             height: 40px;
+            line-height: 40px;
             padding: 0 16px;
             caret-color: #fb7299;
             color: #fb7299;
             font-size: 16px;
             font-weight: bold;
+            border: 1px solid #d9d9d9;
+            .icon{
+                font-size: 14px;
+            }
+            :global(.ant-select-selection-placeholder){
+                color: #9b9b9b;
+                font-size: 15px;
+                font-weight: 500;
+            }
+
         }
         .input::placeholder{
             color: #11111145;
@@ -130,11 +149,14 @@
             background: #fb7299;
             border-color: #fff;
         }
-
+        :global(.ant-select-selector){
+            padding: 0;
+        }
         .input:hover, .input:focus{
             background: #FFFFFF;
-            border-color: #fb7299;
-            box-shadow: 0px 2px 2px #fb729966;
+            border: 1px solid #fb7299 !important;
+            box-shadow: 0px 2px 2px #fb729966 !important;
+            transition: all 0.3s ;
         }
 
         .btn:hover{

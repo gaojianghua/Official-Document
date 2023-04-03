@@ -59,6 +59,16 @@ const AdminApply: NextPage = () => {
     // 打开添加弹框
     const openAdd = (record:any) => {
         store.public.setMaskComponentId(7);
+        store.model.setTitle('选择添加类型');
+        store.model.setChildren(<div className={clsx('dflex', 'jcenter', 'acenter', 'textwhite')}>
+
+        </div>);
+        store.model.setConfirm(() => {
+
+        });
+        store.model.setCancel(() => {
+            store.public.setMaskShow(false);
+        });
         store.public.setMaskShow(true);
     }
 

@@ -1,8 +1,10 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 
-const AdminHome: NextPage = () => {
+const AdminType: NextPage = () => {
+    const { pathname } = useRouter();
     const store = useStore()
 
 
@@ -28,4 +30,4 @@ const AdminHome: NextPage = () => {
     </>)
 }
 
-export default AdminHome
+export default AdminType

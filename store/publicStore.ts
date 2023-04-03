@@ -11,7 +11,8 @@ export interface IPublic {
     menu: Menu[],
     isAdministrator: boolean,
     serverPublicKey: string,
-    isAdminPages: boolean
+    isAdminPages: boolean,
+    isUpdateCard: boolean
 }
 
 export interface IPublicStore {
@@ -26,6 +27,7 @@ export interface IPublicStore {
     setMenu: (value: Menu[]) => void,
     setIsAdministrator: (value: boolean) => void,
     setIsAdminPages: (value: boolean) => void,
+    setIsUpdateCard: (value: boolean) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -41,7 +43,8 @@ const publicStore = (): IPublicStore => {
             menu: [],
             isAdministrator: false,
             serverPublicKey: '',
-            isAdminPages: false
+            isAdminPages: false,
+            isUpdateCard: false
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
@@ -72,6 +75,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsAdminPages: function(value) {
             this.publicData.isAdminPages = value;
+        },
+        setIsUpdateCard: function(value) {
+            this.publicData.isUpdateCard = value;
         },
     };
 };

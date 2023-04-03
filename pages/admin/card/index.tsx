@@ -66,6 +66,7 @@ const AdminCard: NextPage = () => {
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
+                store.public.setIsUpdateCard(true)
                 getCardData();
             }
         }
@@ -120,6 +121,7 @@ const AdminCard: NextPage = () => {
         }
     };
     const selectCurrent = (e: number) => {
+        e == 1 ? store.public.setIsUpdateCard(true) : store.public.setIsUpdateCard(false)
         setCurrent(() => e)
     };
     const inputSubmit = (e: string) => {
