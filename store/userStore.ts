@@ -5,6 +5,9 @@ export interface IUserInfo {
     avatar?: string,
     signature?: string,
     mobile?: string,
+    province?: string,
+    city?: string,
+    rectangle?: string
 }
 
 export interface IUser {

@@ -11,6 +11,8 @@ import MaskUpdateUser from 'C/mask-components/maskUpdateUser';
 import MaskContribute from 'C/mask-components/maskContribute';
 import MaskModel from 'C/mask-components/maskModel';
 import Meteor from 'C/meteor';
+import MaskMap from 'C/mask-components/maskMap';
+import MaskClass from 'C/mask-components/maskClass';
 
 export {
     Card,
@@ -25,5 +27,7 @@ export {
     MaskUpdateUser,
     MaskContribute,
     Meteor,
-    MaskModel
+    MaskModel,
+    MaskMap,
+    MaskClass
 }

@@ -1,40 +1,52 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { useStore } from '@/store';
-import { Form, Input, Button, message, Radio } from 'antd';
+import { Button, Form, Input, message, Radio } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { MAvatar } from 'components';
-import { userLinkAdd, userLinkUpdate } from '@/service/api';
+import { linkAdd, linkUpdate, userLinkAdd, userLinkUpdate } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { ULink } from '@/types/res';
+import { ULink, SLink } from '@/types/res';
 import { RadioChangeEvent } from 'antd/es';
 
 
 const MaskLink: NextPage = () => {
     const store = useStore();
-    const { isAddOrEdit, isAdminPages } = store.public.publicData
-    const { isLOrR } = store.link.linkData
+    const { isAddOrEdit, isAdminPages, isUpdateLink } = store.public.publicData;
+    const { isLOrR } = store.link.linkData;
     const [tmpLink] = useState(store.link.linkData.tmpLink)
     const [value, setValue] = useState(isLOrR)
     const onFinish = async (e: ULink) => {
-        if (!e.user_link_name) return message.warning('请输入链接名称')
-        if (!e.src) return message.warning('请输入链接地址')
-        let res: any
-        if (isAddOrEdit == 1) {
-            let obj: ULink = {
-                ...e,
-                user_link_type: isLOrR == 1 ? 1 : 2
+        if (!e.src) return message.warning('请输入链接地址');
+        let res: any;
+        if (isUpdateLink) {
+            if (isAddOrEdit == 1) {
+                res = await linkAdd(e);
+            } else {
+                let obj: SLink = {
+                    ...e,
+                    id: String(tmpLink.id)
+                }
+                res = await linkUpdate(obj);
             }
-            res = await userLinkAdd(obj);
-        }else {
-            let obj: ULink = {
-                ...e,
-                id: String(tmpLink.id),
-                sort_id: 20
+        } else {
+            if (!e.user_link_name) return message.warning('请输入链接名称');
+            if (isAddOrEdit == 1) {
+                let obj: ULink = {
+                    ...e,
+                    user_link_type: isLOrR == 1 ? 1 : 2,
+                };
+                res = await userLinkAdd(obj);
+            } else {
+                let obj: ULink = {
+                    ...tmpLink,
+                    ...e,
+                    id: String(tmpLink.id)
+                }
+                res = await userLinkUpdate(obj);
             }
-            res = await userLinkUpdate(obj);
         }
         if (res.code == 200) {
             store.link.setSuccess(true)
@@ -68,7 +80,7 @@ const MaskLink: NextPage = () => {
             >
                 <Form.Item
                     className={clsx(styles.formItem)}
-                    name={tmpLink.link_name ? 'link_name' : 'user_link_name'}
+                    name={isUpdateLink ? 'link_name' : 'user_link_name'}
                 >
                     <Input type={'text'} placeholder='请输入链接名称!'
                            className={clsx(styles.input, 'w100')} />
@@ -79,7 +91,7 @@ const MaskLink: NextPage = () => {
                             className={clsx(styles.formItem, 'w100', 'mb', 'pl3')}
                             name='user_link_type'
                         >
-                            <Radio.Group value={value} onChange={radioChange}>
+                            <Radio.Group value={value} className={clsx('dflex', 'jsa')} onChange={radioChange}>
                                 <Radio value={1} className={clsx(value == 1 ? 'textmain' : 'textwhite')}> 工具栏 </Radio>
                                 <Radio value={2} className={clsx(value == 2 ? 'textmain' : 'textwhite')}> 便捷栏 </Radio>
                             </Radio.Group>

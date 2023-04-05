@@ -1,9 +1,10 @@
 export interface Menu {
-    id: number
-    class_id: number
-    parent_id: number
-    router: string
-    class_name: string
+    id?: number
+    class_id?: number
+    parent_id?: number
+    router?: string
+    class_name?: string,
+    children?: Menu[]
 }
 
 export interface SLink {
@@ -26,5 +27,7 @@ export interface Mark {
     logo?: string
     image_bg?: string
     src?: string
-    sort_id?: number
+    sort_id?: number,
+    one_type?: number,
+    two_type?: number
 }

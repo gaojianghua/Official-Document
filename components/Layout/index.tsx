@@ -32,6 +32,8 @@ const Layout: NextPage<Props> = ({ children }) => {
     const init = () => {
         if (store.public.publicData.adminToken) {
             store.public.setIsAdminPages(true)
+            store.public.setIsUpdateCard(true)
+            store.public.setIsUpdateLink(true)
         }else {
             store.public.setIsAdminPages(false)
             if (router.pathname.includes('admin')) {

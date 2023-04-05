@@ -1,5 +1,5 @@
 export const config = {
-    // baseURL: 'http://gaojianghua.cn:8888', //生产环境
+    // baseURL: 'https://gaojianghua.cn:8888', //生产环境
     baseURL: 'http://localhost:8888',  //本地环境
 }
 

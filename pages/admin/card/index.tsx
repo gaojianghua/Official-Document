@@ -10,6 +10,7 @@ import { isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { Mark } from '@/types/res';
 import { message } from 'antd';
+import { observer } from 'mobx-react-lite';
 
 interface DataType {
     key: React.Key;
@@ -21,9 +22,10 @@ interface DataType {
 
 const AdminCard: NextPage = () => {
     const store = useStore();
+    const { success } = store.mark.markData
     const [current, setCurrent] = useState(1);
     const [dataSource, setDataSource] = useState([]);
-    const columns: ColumnsType<DataType> = [
+    const currentOne: ColumnsType<DataType> = [
         {
             title: '名称',
             dataIndex: 'name',
@@ -35,6 +37,33 @@ const AdminCard: NextPage = () => {
             dataIndex: 'src',
             key: 'src',
         },
+        {
+            title: '一级分类',
+            dataIndex: 'one_type',
+            key: 'one_type',
+            width: '100px'
+        },
+        {
+            title: '二级分类',
+            dataIndex: 'two_type',
+            key: 'two_type',
+            width: '100px'
+        }
+    ]
+    const currentTwo: ColumnsType<DataType> = [
+        {
+            title: '名称',
+            dataIndex: 'name',
+            key: 'name',
+            width: '120px',
+        },
+        {
+            title: '地址',
+            dataIndex: 'src',
+            key: 'src',
+        }
+    ]
+    const common: ColumnsType<DataType> = [
         {
             title: '标志',
             dataIndex: 'logo',
@@ -61,22 +90,23 @@ const AdminCard: NextPage = () => {
                 </div>
             </div>,
         },
-    ];
+    ]
+    const columns: ColumnsType<DataType> = current == 1 ? [...currentOne, ...common]:
+        [...currentTwo, ...common];
 
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                store.public.setIsUpdateCard(true)
                 getCardData();
             }
         }
-    }, [current]);
+    }, [current, success]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.mark.setTmpMark(record);
-        store.public.setMaskShow(true);
         store.public.setMaskComponentId(2);
         store.public.setIsAddAndEditor(2);
+        store.public.setMaskShow(true);
     };
 
     // 打开确定删除弹框
@@ -118,17 +148,24 @@ const AdminCard: NextPage = () => {
         }
         if (res.code == 200) {
             setDataSource(res.data);
+            store.mark.setSuccess(false)
         }
     };
+    // 切换
     const selectCurrent = (e: number) => {
-        e == 1 ? store.public.setIsUpdateCard(true) : store.public.setIsUpdateCard(false)
         setCurrent(() => e)
+        e == 1 ? store.public.setIsUpdateCard(true) : store.public.setIsUpdateCard(false)
     };
+    // 搜索
     const inputSubmit = (e: string) => {
 
     };
+    // 新增
     const addCard = () => {
-
+        store.public.setMaskComponentId(2);
+        store.public.setIsAddAndEditor(1);
+        store.mark.setTmpMark({})
+        store.public.setMaskShow(true);
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
@@ -155,4 +192,4 @@ const AdminCard: NextPage = () => {
     </div>);
 };
 
-export default AdminCard;
+export default observer(AdminCard);

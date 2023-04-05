@@ -6,13 +6,15 @@ export interface IPublic {
     maskComponentId: number, // 1login, 2mark
     isAddAndEditor: number, // 1add, 2editor
     isAddOrEdit: number, // 1add, 2editor
+    isAddUseEdit: number, // 1add, 2editor
     token: string,
     adminToken: string,
     menu: Menu[],
     isAdministrator: boolean,
     serverPublicKey: string,
     isAdminPages: boolean,
-    isUpdateCard: boolean
+    isUpdateCard: boolean,
+    isUpdateLink: boolean,
 }
 
 export interface IPublicStore {
@@ -22,12 +24,14 @@ export interface IPublicStore {
     setMaskComponentId: (value: number) => void,
     setIsAddAndEditor: (value: number) => void,
     setIsAddOrEdit: (value: number) => void,
+    setIsAddUseEdit: (value: number) => void,
     setToken: (value: string) => void,
     setAdminToken: (value: string) => void,
     setMenu: (value: Menu[]) => void,
     setIsAdministrator: (value: boolean) => void,
     setIsAdminPages: (value: boolean) => void,
     setIsUpdateCard: (value: boolean) => void,
+    setIsUpdateLink: (value: boolean) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -38,13 +42,15 @@ const publicStore = (): IPublicStore => {
             maskComponentId: 0,
             isAddAndEditor: 0,
             isAddOrEdit: 0,
+            isAddUseEdit: 0,
             token: '',
             adminToken: '',
             menu: [],
             isAdministrator: false,
             serverPublicKey: '',
             isAdminPages: false,
-            isUpdateCard: false
+            isUpdateCard: true,
+            isUpdateLink: true
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
@@ -60,6 +66,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsAddOrEdit: function(value) {
             this.publicData.isAddOrEdit = value;
+        },
+        setIsAddUseEdit: function(value) {
+            this.publicData.isAddUseEdit = value;
         },
         setToken: function(value) {
             this.publicData.token = value;
@@ -78,6 +87,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsUpdateCard: function(value) {
             this.publicData.isUpdateCard = value;
+        },
+        setIsUpdateLink: function(value) {
+            this.publicData.isUpdateLink = value;
         },
     };
 };

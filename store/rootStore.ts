@@ -3,6 +3,7 @@ import publicStore, { IPublicStore } from "./publicStore";
 import linkStore, { ILinkStore } from "./linkStore";
 import markStore, { IMarkStore } from './markStore';
 import modelStore, { IModelStore } from './modelStore';
+import classStore, { IClassStore } from './classStore';
 
 
 export interface IStore {
@@ -11,6 +12,7 @@ export interface IStore {
     link: ILinkStore,
     mark: IMarkStore,
     model: IModelStore,
+    class: IClassStore,
 }
 
 export default function createStore(initialValue: any): () => IStore {
@@ -21,6 +23,7 @@ export default function createStore(initialValue: any): () => IStore {
             link: { ...linkStore(), ...initialValue?.link },
             mark: { ...markStore(), ...initialValue?.mark },
             model: { ...modelStore(), ...initialValue?.model },
+            class: { ...classStore(), ...initialValue?.class },
         }
     }
 }

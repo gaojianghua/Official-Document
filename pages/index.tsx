@@ -32,13 +32,15 @@ const Home: NextPage = () => {
   }
   // 增加一个新增印记的编辑框
   const addMarkBox = () => {
-    store.public.setMaskShow(true)
+    store.public.setIsUpdateCard(false)
     store.public.setMaskComponentId(2)
     store.public.setIsAddAndEditor(1)
+    store.public.setMaskShow(true)
   }
   // 打开编辑印记框
   const editorMark = (item: Mark) => {
     store.mark.setTmpMark(item)
+    store.public.setIsUpdateCard(false)
     store.public.setMaskShow(true)
     store.public.setMaskComponentId(2)
     store.public.setIsAddAndEditor(2)

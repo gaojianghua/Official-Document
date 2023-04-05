@@ -1,4 +1,4 @@
-.mark {
+.type {
     width: 350px;
     padding: 24px;
     position: relative;
@@ -8,7 +8,15 @@
     backdrop-filter:saturate(150%) contrast(50%) blur(2px);
     -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
     background-color:rgba(255, 255, 255,.4);
-
+    :global(.ant-radio-checked .ant-radio-inner ) {
+        border-color: #fb7299 !important;
+    }
+    :global(.ant-radio-inner::after) {
+        background-color: #fb7299 !important;
+    }
+    :global(.ant-radio-checked::after) {
+        border-color: #fb7299 !important;
+    }
     .avatar {
         position: absolute;
         top: -96px;
@@ -35,73 +43,10 @@
             font-size: 24px;
         }
     }
-
-    .formUpload{
-        margin-top: 12px;
-        .uploadDrag{
-            width: 296px !important;
-            height: 156px !important;
-            margin-left: 50%;
-            transform: translateX(-50%);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter:saturate(150%) contrast(50%) blur(2px);
-            -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
-            background-color:rgba(255, 255, 255,.4);
-            .uploadBtn{
-                width: 296px;
-                height: 156px;
-                .uploadIcon{
-                    font-size: 45px;
-                    color: #fb7299 !important;
-                }
-                .uploadText{
-                    margin-top: 24px;
-                    font-size: 16px;
-                    color: #fb7299 !important;
-                    line-height: 16px;
-                }
-            }
-        }
-        .uploadDrag:hover {
-            border: 1px dashed #fb7299 !important;
-        }
-    }
-
-    .drag{
-        width: 80px;
-        height: 80px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        backdrop-filter:saturate(150%) contrast(50%) blur(2px);
-        -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
-        background-color:rgba(255, 255, 255,.4);
-        .uploadBtn{
-            .uploadIcon{
-                font-size: 20px;
-                color: #fb7299 !important;
-            }
-            .uploadText{
-                margin-top: 12px;
-                font-size: 12px;
-                color: #fb7299 !important;
-                line-height: 12px;
-            }
-        }
-        
-    }
-    .drag:hover {
-        border: 1px dashed #fb7299 !important;
-    }
-    .bcdrag{
-        margin-bottom: 0px;
-    }
     .formItem{
         height: 40px;
         margin-bottom: 12px;
-        
+
         .group{
             position: relative;
         }
@@ -132,8 +77,9 @@
                 font-size: 15px;
                 font-weight: 500;
             }
+
             :global(.ant-select-selector){
-                padding: 0 16px;
+                padding:  0 16px;
             }
         }
         .select{
@@ -170,7 +116,7 @@
             border-color: #fb7299;
         }
 
-        .markBtn{
+        .loginBtn{
             top: 0px;
             right: 0px;
             width: 100%;

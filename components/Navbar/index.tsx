@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { Avatar, Button, Form, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, UserOutlined } from '@ant-design/icons';
 import { MAvatar } from 'components';
 import styles from './index.module.scss';
 import { removeSession } from '@/utils';
@@ -69,6 +69,11 @@ const Navbar: NextPage = () => {
             message.success('退出登录成功')
         }
     };
+    // 打开定位地图
+    const openMap = () => {
+        store.public.setMaskComponentId(8);
+        store.public.setMaskShow(true);
+    }
     return (
         <div className={styles.navbar}>
             <MAvatar className={clsx(styles.avatar, 'flexshrink')} />
@@ -104,11 +109,15 @@ const Navbar: NextPage = () => {
                                     <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
                                         <Avatar icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
                                                 src={store.user.userData.userInfo.avatar} size={80} />
-                                        <div className={clsx('mt1', 'mainColor')}>
+                                        <div className={clsx('mt1', 'mainColor', 'fontdr')}>
                                             {store.user.userData.userInfo.name}
                                         </div>
-                                        <div className={clsx('mt1', 'mainColor', 'textcenter')}>
+                                        <div className={clsx('mt1', 'textmuted', 'textcenter')}>
                                             {store.user.userData.userInfo.signature}
+                                        </div>
+                                        <div className={clsx('mt1', 'dflex', 'jsb' ,'acenter')} onClick={openMap}>
+                                            <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />
+                                            <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span>
                                         </div>
                                     <Form>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>

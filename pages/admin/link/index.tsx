@@ -9,6 +9,7 @@ import { getAdminUserLinkList, getLinkList, linkDel, userLinkDel } from '@/servi
 import { isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { message } from 'antd';
+import { observer } from 'mobx-react-lite';
 
 
 interface DataType {
@@ -20,6 +21,7 @@ interface DataType {
 
 const AdminLink: NextPage = () => {
     const store = useStore();
+    const { success } = store.link.linkData
     const [current, setCurrent] = useState(1);
     const [dataSource, setDataSource] = useState([]);
     const columns: ColumnsType<DataType> = [
@@ -54,7 +56,7 @@ const AdminLink: NextPage = () => {
                 getLinkData();
             }
         }
-    }, [current]);
+    }, [current, success]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.public.setMaskComponentId(4);
@@ -102,16 +104,24 @@ const AdminLink: NextPage = () => {
         }
         if (res.code == 200) {
             setDataSource(res.data);
+            store.link.setSuccess(false)
         }
     };
+    // 切换
     const selectCurrent = (e: number) => {
         setCurrent(() => e)
+        e == 1 ? store.public.setIsUpdateLink(true) : store.public.setIsUpdateLink(false)
     };
+    // 搜索
     const inputSubmit = (e: string) => {
 
     };
+    // 新增
     const addCard = () => {
-
+        store.public.setMaskComponentId(4);
+        store.public.setIsAddOrEdit(1);
+        store.link.setTmpLink({})
+        store.public.setMaskShow(true);
     }
     return (
         <div className={styles.page}>
@@ -140,4 +150,4 @@ const AdminLink: NextPage = () => {
     );
 };
 
-export default AdminLink;
+export default observer(AdminLink);

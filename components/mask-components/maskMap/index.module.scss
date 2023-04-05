@@ -1,0 +1,23 @@
+.register {
+    padding: 24px;
+    position: relative;
+    z-index: 99;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    background-color:rgba(255, 255, 255,.4);
+    .close{
+        font-size: 30px;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        color: #FFFFFF;
+    }
+    .map{
+        width: 800px;
+        height: 600px;
+    }
+}
+
+

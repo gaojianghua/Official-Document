@@ -18,7 +18,7 @@ const AdminTable: NextPage<IProps> = ({columns, dataSource}) => {
                 columns={columns}
                 rowKey={'id'}
                 key={'table'}
-                scroll={{y: '400px'}}
+                scroll={{y: '387px'}}
             />
             <Radio.Group
                 style={{ marginBottom: 10 }}

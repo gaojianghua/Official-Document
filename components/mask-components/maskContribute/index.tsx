@@ -6,7 +6,7 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { MAvatar } from 'components';
 import { observer } from 'mobx-react-lite';
-import { applyContribute } from '@/service/api';
+import { applyContribute, contributeUpdate } from '@/service/api';
 
 interface IContribute {
     link_name: string
@@ -16,10 +16,26 @@ interface IContribute {
 
 const MaskLink: NextPage = () => {
     const store = useStore();
+    const { isAddUseEdit } = store.public.publicData
+    const { tmpData } = store.model.modelData
     const onFinish = async (e: IContribute) => {
-        let res: any = await applyContribute(e)
+        if (!e.src) return message.warning('请输入链接地址')
+        if (!e.link_name) return message.warning('请输入链接名称')
+        if (!e.link_desc) return message.warning('请输入链接描述')
+        let res: any
+        if (isAddUseEdit) {
+            res = await applyContribute(e)
+        } else {
+            let obj: any = {
+                ...tmpData,
+                ...e,
+                id: String(tmpData.id)
+            }
+            res = await contributeUpdate(obj)
+        }
         if (res.code == 200) {
-            message.success('感谢您的投稿, 祝您一生平安')
+            message.success(isAddUseEdit ? '感谢您的投稿, 祝您一生平安' : '修改成功')
+            store.model.setSuccess(true)
             closeMaskContribute()
         }
     };
@@ -32,12 +48,12 @@ const MaskLink: NextPage = () => {
         <div className={clsx(styles.register)}>
             <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
-                <div className={clsx(styles.titleText)}>链接投稿</div>
+                <div className={clsx(styles.titleText)}>{isAddUseEdit ? '链接投稿' : '编辑链接'}</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskContribute} />
             </div>
             <Form
                 name='contribute'
-                initialValues={{}}
+                initialValues={isAddUseEdit ? {} : tmpData}
                 onFinish={onFinish}
                 autoComplete='off'
             >
@@ -62,7 +78,7 @@ const MaskLink: NextPage = () => {
                 </Form.Item>
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>
-                        立即投递
+                        {isAddUseEdit ? '立即投递' : '修改投稿'}
                     </Button>
                 </Form.Item>
             </Form>

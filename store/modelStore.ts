@@ -4,7 +4,8 @@ export interface IModel {
     children: any,
     title: string,
     cancel: () => void,
-    confirm: (v:number) => void
+    confirm: (v:number) => void,
+    success: boolean
 }
 
 export interface IModelStore {
@@ -14,6 +15,7 @@ export interface IModelStore {
     setTitle: (value: any) => void,
     setCancel: (value: ()=>void) => void,
     setConfirm: (value: ()=>void) => void,
+    setSuccess: (value: boolean) => void,
 }
 
 const modelStore = (): IModelStore => {
@@ -23,7 +25,8 @@ const modelStore = (): IModelStore => {
             children: '',
             title: '提示',
             cancel: () => {},
-            confirm: (v:number) => {}
+            confirm: (v:number) => {},
+            success: false
         },
         setTmpData: function(value) {
             this.modelData.tmpData = value;
@@ -39,6 +42,9 @@ const modelStore = (): IModelStore => {
         },
         setConfirm: function(value) {
             this.modelData.confirm = value;
+        },
+        setSuccess: function(value) {
+            this.modelData.success = value;
         }
     };
 };

@@ -8,6 +8,7 @@ import MSearch from 'C/mSearch';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
+import { observer } from 'mobx-react-lite';
 
 interface DataType {
     link_name: string;
@@ -18,6 +19,7 @@ interface DataType {
 
 const AdminApply: NextPage = () => {
     const store = useStore();
+    const { success } = store.model.modelData
     const [dataSource, setDataSource] = useState([]);
     const columns: ColumnsType<DataType> = [
         {
@@ -54,7 +56,7 @@ const AdminApply: NextPage = () => {
     ];
     useEffect(()=> {
         getContributeData()
-    }, [])
+    }, [success])
 
     // 打开添加弹框
     const openAdd = (record:any) => {
@@ -74,7 +76,8 @@ const AdminApply: NextPage = () => {
 
     // 打开编辑弹框
     const openEditor = (record:any) => {
-        store.public.setMaskComponentId(7);
+        store.public.setMaskComponentId(5);
+        store.model.setTmpData(record)
         store.public.setMaskShow(true);
     }
 
@@ -108,6 +111,7 @@ const AdminApply: NextPage = () => {
         let res: any = await getContributeList()
         if(res.code == 200) {
             setDataSource(res.data)
+            store.model.setSuccess(false)
         }
     }
     const inputSubmit = (e:string) => {
@@ -121,4 +125,4 @@ const AdminApply: NextPage = () => {
     </div>)
 }
 
-export default AdminApply
+export default observer(AdminApply)
