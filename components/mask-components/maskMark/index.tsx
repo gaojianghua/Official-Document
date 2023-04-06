@@ -158,7 +158,7 @@ const MaskMark: NextPage = () => {
             </div>
             <Form
                 name='mark'
-                initialValues={isAddAndEditor == 1 ? {} : tmpMark}
+                initialValues={isAddAndEditor == 1 || tmpMark.name ? tmpMark : {}}
                 onFinish={onFinish}
                 autoComplete='off'
             >

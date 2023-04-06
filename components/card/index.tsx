@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import styles from './index.module.scss';
 import clsx from 'clsx';
-import { Image, Popconfirm } from 'antd';
+import { Image } from 'antd';
 import { ICardProps } from 'types/global';
-import { DeleteOutlined, ExclamationCircleOutlined, FormOutlined } from '@ant-design/icons';
+import { DeleteOutlined, FormOutlined } from '@ant-design/icons';
 
 const Card: NextPage<ICardProps> = (props) => {
     const { item, isManagement, openDelete, editorMark } = props;

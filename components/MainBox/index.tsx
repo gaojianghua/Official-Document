@@ -11,6 +11,7 @@ import { getUserLinkList, userLinkDel } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { ULink } from '@/types/res';
 import Link from 'next/link';
+import { imageType } from '@/config';
 
 interface Props {
     children: any;
@@ -140,7 +141,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
             <title>Wolffy印记</title>
             <meta data-n-head='ssr' name='description' content='next app vue react uniapp taro' />
             <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
-            <link rel='icon' href='/Wolffy.ico' />
+            <link rel='icon' href={imageType.ico} />
         </Head>
         <div className={clsx(styles.left, 'py2', 'px2', leftShow == 1 ? styles.leftOpen : leftShow == 2 ? styles.leftClose : '')}>
             <div className={clsx(styles.manage, lManage ? 'bc-color' : '', 'cur')} onClick={openLManage}>

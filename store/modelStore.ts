@@ -4,8 +4,9 @@ export interface IModel {
     children: any,
     title: string,
     cancel: () => void,
-    confirm: (v:number) => void,
-    success: boolean
+    confirm: () => void,
+    success: boolean,
+    isCardOrLink: boolean
 }
 
 export interface IModelStore {
@@ -16,6 +17,7 @@ export interface IModelStore {
     setCancel: (value: ()=>void) => void,
     setConfirm: (value: ()=>void) => void,
     setSuccess: (value: boolean) => void,
+    setIsCardOrLink: (value: boolean) => void,
 }
 
 const modelStore = (): IModelStore => {
@@ -25,8 +27,9 @@ const modelStore = (): IModelStore => {
             children: '',
             title: '提示',
             cancel: () => {},
-            confirm: (v:number) => {},
-            success: false
+            confirm: () => {},
+            success: false,
+            isCardOrLink: false
         },
         setTmpData: function(value) {
             this.modelData.tmpData = value;
@@ -45,6 +48,9 @@ const modelStore = (): IModelStore => {
         },
         setSuccess: function(value) {
             this.modelData.success = value;
+        },
+        setIsCardOrLink: function(value) {
+            this.modelData.isCardOrLink = value;
         }
     };
 };

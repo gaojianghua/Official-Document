@@ -80,7 +80,7 @@ const Navbar: NextPage = () => {
             <section className={clsx(styles.logoArea, 'cur')}>Wolffy</section>
             <section className={styles.linkArea}>
                 {store.public.publicData.menu?.map((nav) => (
-                    <Link key={nav?.id} href={nav?.router}>
+                    <Link key={nav?.id} href={nav?.router!}>
                         <div
                             className={clsx('flexshrink dflex acenter', pathname === nav.router ? styles.active : styles.menu)}>
                             {nav?.class_name}

@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import { Image } from 'antd'
 import styles from './index.module.scss'
 import { IAvatarProps } from 'types/global';
+import { imageType } from '@/config';
 
 const MAvatar: NextPage<IAvatarProps> = ({className}) => {
     return (<div className={clsx(className, 'dflex', 'acenter', 'jcenter')}>
@@ -20,7 +21,7 @@ const MAvatar: NextPage<IAvatarProps> = ({className}) => {
             rootClassName={clsx(styles.image)}
             preview={false}
             alt={''}
-            src="/Wolffy.png"
+            src={imageType.logo}
         />
     </div>);
 };

@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import * as ANTD_ICONS from '@ant-design/icons';
 import { Avatar } from 'antd';
+import { imageType } from '@/config';
 
 interface IProps {
     isSwitch: boolean;
@@ -21,7 +22,7 @@ const AdminMenu: NextPage<IProps> = ({ isSwitch }) => {
         <div className={clsx(styles.menu, 'p1', isSwitch ? '' : styles.unflod)}>
             <div className={clsx('dflex', 'acenter', 'mb2')}>
                 <div className={clsx(styles.logo, 'dflex', 'flexshrink', 'acenter', 'jcenter')}>
-                    <Avatar src='/Wolffy.png' size={70} />
+                    <Avatar src={imageType.logo} size={70} />
                 </div>
                 <h1 className={clsx(styles.logoText)}>
                     Wolffy

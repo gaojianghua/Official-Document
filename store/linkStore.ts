@@ -8,7 +8,7 @@ export interface ILink {
 
 export interface ILinkStore {
     linkData: ILink,
-    setTmpLink: (value: ULink) => void,
+    setTmpLink: (value: ULink & SLink) => void,
     setIsLOrR: (value: number) => void,
     setSuccess: (value: boolean) => void,
 }

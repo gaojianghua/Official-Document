@@ -74,13 +74,13 @@ const MaskLink: NextPage = () => {
             </div>
             <Form
                 name='link'
-                initialValues={isAddOrEdit == 1 ? {} : tmpLink}
+                initialValues={isAddOrEdit == 1 || tmpLink.link_name ?  tmpLink : {}}
                 onFinish={onFinish}
                 autoComplete='off'
             >
                 <Form.Item
                     className={clsx(styles.formItem)}
-                    name={isUpdateLink ? 'link_name' : 'user_link_name'}
+                    name={isUpdateLink || tmpLink.link_name ? 'link_name' : 'user_link_name'}
                 >
                     <Input type={'text'} placeholder='请输入链接名称!'
                            className={clsx(styles.input, 'w100')} />

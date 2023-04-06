@@ -9,6 +9,7 @@ import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
+import { FireOutlined, LinkOutlined } from '@ant-design/icons';
 
 interface DataType {
     link_name: string;
@@ -62,16 +63,43 @@ const AdminApply: NextPage = () => {
     const openAdd = (record:any) => {
         store.public.setMaskComponentId(7);
         store.model.setTitle('选择添加类型');
-        store.model.setChildren(<div className={clsx('dflex', 'jcenter', 'acenter', 'textwhite')}>
-
-        </div>);
-        store.model.setConfirm(() => {
-
-        });
+        store.model.setChildren(
+            <div className={clsx('dflex', 'jsa', 'acenter', 'textwhite')}>
+                <div className={clsx(styles.typebtn, 'dflex', 'acenter', 'jcenter', 'cur')} onClick={()=>chooseCurrent(1, record)}>
+                    <FireOutlined className={styles.icon} />
+                </div>
+                <div className={clsx(styles.typebtn, 'dflex', 'acenter', 'jcenter', 'cur')} onClick={()=>chooseCurrent(2, record)}>
+                    <LinkOutlined className={styles.icon} />
+                </div>
+            </div>
+        );
+        store.model.setIsCardOrLink(true)
         store.model.setCancel(() => {
             store.public.setMaskShow(false);
         });
         store.public.setMaskShow(true);
+    }
+
+    // 切换
+    const chooseCurrent = (i:number, record:any) => {
+        if (i == 1) {
+            store.public.setMaskComponentId(2);
+            store.public.setIsAddAndEditor(1);
+            store.mark.setTmpMark({
+                name: record.link_name,
+                src: record.src
+            })
+            store.public.setMaskShow(true);
+        }else if (i == 2) {
+            store.public.setMaskComponentId(4);
+            store.public.setIsAddOrEdit(1);
+            store.link.setTmpLink({
+                link_name: record.link_name,
+                src: record.src
+            })
+            store.public.setMaskShow(true);
+        }
+        store.model.setIsCardOrLink(false)
     }
 
     // 打开编辑弹框
