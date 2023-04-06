@@ -2,8 +2,8 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  assetPrefix: "/wolffy", //加前缀
-  basePath: "/wolffy", //node
+  // assetPrefix: "/wolffy",
+  // basePath: "/wolffy",
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname);
     config.resolve.alias['C'] = path.resolve(__dirname, './components');

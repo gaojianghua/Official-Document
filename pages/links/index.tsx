@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import { useState } from 'react';
 import { getLinkList } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { SLink } from '@/types/res';

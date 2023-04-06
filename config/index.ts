@@ -7,6 +7,8 @@ export const uploadUrl = config.baseURL + '/api/image_upload'
 
 export const imageType = {
     business: 'avatar',
-    logo: '/wolffy/Wolffy.png',
-    ico: '/wolffy/Wolffy.ico'
+    // logo: '/wolffy/Wolffy.png',
+    // ico: '/wolffy/Wolffy.ico'
+    logo: '/Wolffy.png',
+    ico: '/Wolffy.ico'
 }
