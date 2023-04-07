@@ -30,6 +30,9 @@ const Layout: NextPage<Props> = ({ children }) => {
         init()
     }, []);
     const init = () => {
+        document.onclick = (e) => {
+            store.user.setIsShowMenu(false)
+        }
         if (store.public.publicData.adminToken) {
             store.public.setIsAdminPages(true)
             store.public.setIsUpdateCard(true)
@@ -37,7 +40,7 @@ const Layout: NextPage<Props> = ({ children }) => {
         }else {
             store.public.setIsAdminPages(false)
             if (router.pathname.includes('admin')) {
-                router.push('/')
+                router.push('/wolffy')
             }
         }
     }

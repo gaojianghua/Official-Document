@@ -26,7 +26,7 @@ MyApp.getInitialProps = async () => {
     let menu: Menu[] = [];
     if (res.code == 200) {
         res.data.forEach((item: Menu) => {
-            if (item.router == '/') {
+            if (item.router == '/wolffy') {
                 menu.unshift(item);
             } else {
                 menu.push(item);

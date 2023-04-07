@@ -4,9 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import styles from './index.module.scss'
 import clsx from 'clsx';
-import { Card } from 'components/index'
+import { Card } from 'C/index'
 import { FolderAddOutlined } from '@ant-design/icons'
-import { Mark } from 'types/res';
+import { Mark } from '@/types/res';
 import { getUserCardList, userCardDel } from '@/service/api';
 import { message } from 'antd';
 

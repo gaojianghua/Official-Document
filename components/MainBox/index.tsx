@@ -218,7 +218,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
             </div>
         </div>
         {
-            pathname === '/' ? <div className={clsx(styles.search)}>
+            pathname === '/wolffy' ? <div className={clsx(styles.search)}>
                 <Form
                     name='search'
                     initialValues={{ remember: true }}
@@ -240,7 +240,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 </Form>
             </div> : <></>
         }
-        <div className={clsx(styles.content, pathname == '/' ? styles.home : styles.other)}>
+        <div className={clsx(styles.content, pathname == '/wolffy' ? styles.home : styles.other)}>
             <div className={clsx(styles.list, 'dflex', 'flexwrap', 'overscr')}>
                 {children}
             </div>

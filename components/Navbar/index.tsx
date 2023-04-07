@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SyntheticEvent } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
@@ -18,7 +18,7 @@ const Navbar: NextPage = () => {
     const { isManagement, token } = store.public.publicData;
     const { pathname } = useRouter();
     const [managementText, setManagementText] = useState('管理印记');
-    const [isShowMenu, setIsShowMenu] = useState(false);
+    const { isShowMenu } = store.user.userData
 
     useEffect(() => {
         if (isManagement) {
@@ -74,6 +74,11 @@ const Navbar: NextPage = () => {
         store.public.setMaskComponentId(8);
         store.public.setMaskShow(true);
     }
+    // 头像信息开关
+    const showHide = (e: any) => {
+        e.stopPropagation()
+        store.user.setIsShowMenu(!isShowMenu)
+    }
     return (
         <div className={styles.navbar}>
             <MAvatar className={clsx(styles.avatar, 'flexshrink')} />
@@ -90,7 +95,7 @@ const Navbar: NextPage = () => {
             </section>
             <section className={styles.operationArea}>
                 {
-                    pathname === '/' && token ? (
+                    pathname === '/wolffy' && token ? (
                             <Form>
                                 <Form.Item className={clsx(styles.formItem)}>
                                     <Button className={clsx(styles.btn, styles.tabBtn)}  type='primary' onClick={openManagement}>
@@ -103,7 +108,7 @@ const Navbar: NextPage = () => {
                 {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
                             <Avatar src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
-                                 size={50} onClick={() => setIsShowMenu(!isShowMenu)} />
+                                 size={50} onClick={showHide} />
                             {
                                 isShowMenu ?
                                     <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>

@@ -13,25 +13,31 @@ export interface IUserInfo {
 export interface IUser {
     userInfo: IUserInfo
     tmpUser: IUserInfo
+    isShowMenu: boolean
 }
 
 export interface IUserStore {
     userData: IUser,
     setUserInfo: (value: IUserInfo) => void
     setTmpUser: (value: IUserInfo) => void
+    setIsShowMenu: (value: boolean) => void
 }
 
 const userStore = (): IUserStore => {
     return {
         userData: {
             userInfo: {},
-            tmpUser: {}
+            tmpUser: {},
+            isShowMenu: false
         },
         setUserInfo: function (value) {
             this.userData.userInfo = value
         },
         setTmpUser: function (value) {
             this.userData.tmpUser = value
+        },
+        setIsShowMenu: function (value) {
+            this.userData.isShowMenu = value
         }
     }
 }
