@@ -1019,6 +1019,39 @@ body {
     z-index: 1000;
 }
 
+/* 数字字体 */
+.fvnn {
+    font-variant-numeric: normal;
+}
+.fvno {
+    font-variant-numeric: ordinal;
+}
+.fvnsz {
+    font-variant-numeric: slashed-zero;
+}
+.fvnln {
+    font-variant-numeric: lining-nums;
+}
+.fvnon {
+    font-variant-numeric: oldstyle-nums;
+}
+.fvntn {
+    font-variant-numeric: tabular-nums;
+}
+.fvndf {
+    font-variant-numeric: diagonal-fractions;
+}
+.fvnsf {
+    font-variant-numeric: stacked-fractions;
+}
+
+/* 机械字体包 */
+@font-face {
+    font-family: NumFont;
+    src: url('./integer.ttf');
+    unicode-range: U+30-39;
+}
+
 
 .overscr {
     overflow: scroll;

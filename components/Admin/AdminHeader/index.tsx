@@ -5,7 +5,7 @@ import { useStore } from '@/store';
 import styles from './index.module.scss'
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
-import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SyncOutlined } from '@ant-design/icons';
 import { removeSession } from '@/utils';
 
 interface IProps {
@@ -20,6 +20,10 @@ const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
     const chooseSwitch = () => {
         updateSwitch(isSwitch)
     }
+    // 刷新
+    const refresh = () => {
+
+    }
     // 退出管理员登录
     const logoutAdmin = () => {
         removeSession('adminToken')
@@ -32,6 +36,9 @@ const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
                 {
                     isSwitch ? <MenuFoldOutlined className={styles.icon} /> : <MenuUnfoldOutlined className={styles.icon} />
                 }
+            </div>
+            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'ml1')} onClick={refresh}>
+                <SyncOutlined className={styles.icon} />
             </div>
             <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')} onClick={logoutAdmin}>
                 <LogoutOutlined className={styles.icon} />
