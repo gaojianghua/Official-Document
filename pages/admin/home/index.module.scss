@@ -56,6 +56,86 @@
         0px 2px 0px #f1f1f1,
         0px 1px 0px rgba(0, 0, 0, 0);
       }
+      .figure{
+        width: 100%;
+        .figureitem{
+          position: relative;
+          width: 82%;
+          height: 80%;
+          margin-left: 10%;
+          margin-top: 5%;
+          border-radius: 2px;
+          border-bottom: 2px solid #FFFFFF;
+          border-left: 2px solid #FFFFFF;
+          .top{
+            position: absolute;
+            top: -16px;
+            left: -11px;
+            transform: rotate(-90deg);
+            font-size: 20px;
+            color: #FFFFFF;
+          }
+          .right{
+            position: absolute;
+            bottom: -11px;
+            right: -16px;
+            font-size: 20px;
+            color: #FFFFFF;
+          }
+          .left{
+            height: 100%;
+            width: 50px;
+            position: absolute;
+            left: -52px;
+            bottom: 0;
+            .leftitem{
+              text-align: right;
+              height: 10%;
+              width: 100%;
+              font-size: 12px;
+              color: #fff;
+              padding-right: 6px;
+              position: relative;
+            }
+            .leftitem::after{
+              content: '';
+              position: absolute;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%);
+              width: 3px;
+              height: 1px;
+              background-color: #FFFFFF;
+            }
+          }
+          .bottom{
+            height: 30px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: -32px;
+            .bottomitem{
+              text-align: center;
+              height: 100%;
+              width: 14.285%;
+              font-size: 12px;
+              color: #fff;
+              padding-top: 6px;
+              position: relative;
+            }
+            .bottomitem::after{
+              content: '';
+              position: absolute;
+              left: 50%;
+              top: 0;
+              transform: translateX(-50%);
+              width: 1px;
+              height: 4px;
+              background-color: #FFFFFF;
+            }
+          }
+        }
+      }
     }
     .child:last-child{
       margin-left: 18px;

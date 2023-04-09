@@ -4,11 +4,34 @@ import { useStore } from '@/store';
 import styles from './index.module.scss'
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
+import { ForwardOutlined } from '@ant-design/icons';
 
 interface IData {
     name: string
     count: string
 }
+
+const arr = [
+    '10000',
+    '8000',
+    '6000',
+    '3000',
+    '1000',
+    '500',
+    '300',
+    '100',
+    '50',
+    '10'
+]
+const time = [
+    '4-2',
+    '4-3',
+    '4-4',
+    '4-5',
+    '4-6',
+    '4-7',
+    '4-8'
+]
 
 const AdminHome: NextPage = () => {
     const store = useStore()
@@ -70,14 +93,62 @@ const AdminHome: NextPage = () => {
             }
         </div>
         <div className={clsx(styles.chart, 'dflex', 'jsb')}>
-            <div className={clsx(styles.child)}>
+            <div className={clsx(styles.child, 'dflex', 'flexcolumn', 'acenter')}>
                 <div className={clsx(styles.title, 'textcenter')}>
                     用户统计
                 </div>
+                <div className={clsx(styles.figure, 'flex1')}>
+                    <div className={clsx(styles.figureitem)}>
+                        <ForwardOutlined className={clsx(styles.top)} />
+                        <ForwardOutlined className={clsx(styles.right)} />
+                        <div className={clsx(styles.left, 'dflex', 'flexcolumn')}>
+                            {
+                                arr.map((item, i )=>(
+                                    <div key={i} className={clsx(styles.leftitem)}>
+                                        {item}
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className={clsx(styles.bottom, 'dflex', 'acenter')}>
+                            {
+                                time.map((item, i )=>(
+                                    <div key={i} className={clsx(styles.bottomitem)}>
+                                        {item}
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className={clsx(styles.child)}>
+            <div className={clsx(styles.child, 'dflex', 'flexcolumn', 'acenter')}>
                 <div className={clsx(styles.title, 'textcenter')}>
                     系统统计
+                </div>
+                <div className={clsx(styles.figure, 'flex1')}>
+                    <div className={clsx(styles.figureitem)}>
+                        <ForwardOutlined className={clsx(styles.top)} />
+                        <ForwardOutlined className={clsx(styles.right)} />
+                        <div className={clsx(styles.left, 'dflex', 'flexcolumn')}>
+                            {
+                                arr.map((item, i )=>(
+                                    <div key={i} className={clsx(styles.leftitem)}>
+                                        {item}
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className={clsx(styles.bottom, 'dflex', 'acenter')}>
+                            {
+                                time.map((item, i )=>(
+                                    <div key={i} className={clsx(styles.bottomitem)}>
+                                        {item}
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
