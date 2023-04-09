@@ -1,4 +1,4 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
