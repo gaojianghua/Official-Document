@@ -28,7 +28,7 @@ const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
     const logoutAdmin = () => {
         removeSession('adminToken')
         store.public.setIsAdminPages(false)
-        router.push('/wolffy')
+        router.push('/home')
     }
     return (
         <div className={clsx(styles.header, 'dflex', 'acenter')}>

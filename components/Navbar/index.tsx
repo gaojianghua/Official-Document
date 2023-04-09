@@ -95,7 +95,7 @@ const Navbar: NextPage = () => {
             </section>
             <section className={styles.operationArea}>
                 {
-                    pathname === '/wolffy' && token ? (
+                    pathname === '/home' && token ? (
                             <Form>
                                 <Form.Item className={clsx(styles.formItem)}>
                                     <Button className={clsx(styles.btn, styles.tabBtn)}  type='primary' onClick={openManagement}>

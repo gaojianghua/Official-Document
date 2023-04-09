@@ -40,7 +40,7 @@ const Layout: NextPage<Props> = ({ children }) => {
         }else {
             store.public.setIsAdminPages(false)
             if (router.pathname.includes('admin')) {
-                router.push('/wolffy')
+                router.push('/home')
             }
         }
     }
