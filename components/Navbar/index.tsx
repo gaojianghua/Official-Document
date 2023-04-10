@@ -120,10 +120,10 @@ const Navbar: NextPage = () => {
                                         <div className={clsx('mt1', 'textmuted', 'textcenter')}>
                                             {store.user.userData.userInfo.signature}
                                         </div>
-                                        <div className={clsx('mt1', 'dflex', 'jsb' ,'acenter')} onClick={openMap}>
-                                            <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />
-                                            <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span>
-                                        </div>
+                                        {/*<div className={clsx('mt1', 'dflex', 'jsb' ,'acenter')} onClick={openMap}>*/}
+                                        {/*    <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />*/}
+                                        {/*    <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span>*/}
+                                        {/*</div>*/}
                                     <Form>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={updateInfo}>

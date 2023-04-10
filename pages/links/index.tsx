@@ -4,17 +4,19 @@ import { observer } from 'mobx-react-lite';
 import { SLink } from '@/types/res';
 import { ILinkProps } from '@/types/global';
 import LinkBtn from '@/components/LinkBtn'
+import { useEffect, useState } from 'react';
 
-export async function getStaticProps() {
-    const res = await getLinkList()
-    return {
-        props: {
-            data: res.data as SLink[]
-        }
+const Links: NextPage<ILinkProps> = () => {
+    const [data, setData] = useState<SLink[]>([])
+    useEffect(() => {
+        init()
+    }, [])
+
+    const init = async () => {
+        const res:any = await getLinkList()
+        setData(res.data)
     }
-}
 
-const Links: NextPage<ILinkProps> = ({data}) => {
     return (<>
         {
             data?.map(item => (
