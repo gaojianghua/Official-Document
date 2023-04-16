@@ -147,7 +147,6 @@ const MaskMark: NextPage = () => {
 
     return (
         <div className={clsx(styles.mark)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>
                     {

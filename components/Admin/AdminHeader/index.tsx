@@ -1,8 +1,7 @@
-import type { NextPage } from 'next'
-import { useState } from 'react';
+import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SyncOutlined } from '@ant-design/icons';
@@ -22,7 +21,26 @@ const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
     }
     // 刷新
     const refresh = () => {
-
+        switch (router.pathname) {
+            case '/admin/home':
+                store.public.setRefresh(!store.public.publicData.refresh);
+                break;
+            case '/admin/user':
+                store.user.setRefresh(!store.user.userData.refresh);
+                break;
+            case '/admin/class':
+                store.class.setRefresh(!store.class.classData.refresh);
+                break;
+            case '/admin/card':
+                store.mark.setRefresh(!store.mark.markData.refresh);
+                break;
+            case '/admin/link':
+                store.link.setRefresh(!store.link.linkData.refresh);
+                break;
+            case '/admin/apply':
+                store.model.setRefresh(!store.model.modelData.refresh);
+                break;
+        }
     }
     // 退出管理员登录
     const logoutAdmin = () => {

@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export interface Menu {
     id?: number
     class_id?: number
@@ -30,4 +32,10 @@ export interface Mark {
     sort_id?: number,
     one_type?: number,
     two_type?: number
+}
+
+export interface Paging {
+    page_num: number
+    page_size: number
+    search?: string
 }

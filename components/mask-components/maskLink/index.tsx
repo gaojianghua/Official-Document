@@ -66,7 +66,6 @@ const MaskLink: NextPage = () => {
 
     return (
         <div className={clsx(styles.register)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>{isAddOrEdit == 1 ? '新增链接' : '编辑链接'}
                     {isAdminPages ? '' : isLOrR == 1 ? '(工具栏)' : '(便捷栏)'}</div>
@@ -74,7 +73,7 @@ const MaskLink: NextPage = () => {
             </div>
             <Form
                 name='link'
-                initialValues={isAddOrEdit == 1 || tmpLink.link_name ?  tmpLink : {}}
+                initialValues={isAddOrEdit == 2 || tmpLink.link_name ?  tmpLink : {}}
                 onFinish={onFinish}
                 autoComplete='off'
             >

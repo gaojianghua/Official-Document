@@ -140,8 +140,6 @@ export const getTableScroll = (extraHeight: number = 0, id:string = '' ) => {
     }
     //窗体高度-表格内容顶部的高度-表格内容底部的高度
     // let height = document.body.clientHeight - tHeaderBottom - extraHeight
-    console.log(tHeaderBottom, extraHeight)
     let height = `calc(100vh - ${tHeaderBottom + extraHeight}px)`
-    console.log(height)
     return height
 }

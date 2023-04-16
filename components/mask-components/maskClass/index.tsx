@@ -70,7 +70,6 @@ const MaskLink: NextPage = () => {
     }
     return (
         <div className={clsx(styles.type)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>{isAddOrEdit == 1 ? '新增分类' : '编辑分类'}</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskRegister} />

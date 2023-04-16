@@ -5,7 +5,7 @@ import { StoreProvider } from '@/store';
 import Layout from 'components/Layout';
 import { NextPage } from 'next';
 import { getClassList, getPublicKey } from '@/service/api';
-import { Menu } from '@/types/res';
+import { Menu, Paging } from '@/types/res';
 
 interface IProps {
     initialValue: Record<any, any>
@@ -22,10 +22,13 @@ function MyApp({ initialValue, Component, pageProps }: IProps) {
 }
 
 MyApp.getInitialProps = async () => {
-    let res: any = await getClassList();
+    let res: any = await getClassList({
+        page_num: 1,
+        page_size: 20
+    } as Paging);
     let menu: Menu[] = [];
     if (res.code == 200) {
-        res.data.forEach((item: Menu) => {
+        res.data.list.forEach((item: Menu) => {
             if (item.router == '/home') {
                 menu.unshift(item);
             } else {

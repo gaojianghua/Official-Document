@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 import { cardDel, getAdminCardList, getAdminUserCardList, userCardDel } from '@/service/api';
 import { isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
-import { Mark } from '@/types/res';
+import { Mark, Paging } from '@/types/res';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
 
@@ -23,7 +23,15 @@ interface DataType {
 const AdminCard: NextPage = () => {
     const store = useStore();
     const { success } = store.mark.markData
+    const [total, setTotal] = useState(0)
+    const [search, setSearch] = useState('')
+    const [paging, setPaging] = useState<Paging>({
+        page_num: 1,
+        page_size: 20,
+        search: ''
+    })
     const [current, setCurrent] = useState(1);
+    const [tableCurrent, setTableCurrent] = useState(1);
     const [dataSource, setDataSource] = useState([]);
     const currentOne: ColumnsType<DataType> = [
         {
@@ -97,10 +105,10 @@ const AdminCard: NextPage = () => {
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getCardData();
+                getCardData(paging);
             }
         }
-    }, [current, success]);
+    }, [current, success, store.mark.markData.refresh]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.mark.setTmpMark(record);
@@ -133,32 +141,39 @@ const AdminCard: NextPage = () => {
             res = await userCardDel({ id: String(item.id) });
         }
         if (res.code == 200) {
-            getCardData();
+            getCardData(paging);
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     };
 
-    const getCardData = async () => {
+    const getCardData = async (query:Paging) => {
         let res: any;
         if (current == 1) {
-            res = await getAdminCardList();
+            res = await getAdminCardList(query);
         } else if (current == 2) {
-            res = await getAdminUserCardList();
+            res = await getAdminUserCardList(query);
         }
         if (res.code == 200) {
-            setDataSource(res.data);
+            setTotal(res.data.total)
+            setDataSource(res.data.list);
             store.mark.setSuccess(false)
         }
     };
     // 切换
     const selectCurrent = (e: number) => {
         setCurrent(() => e)
+        setTableCurrent(() => 1)
         e == 1 ? store.public.setIsUpdateCard(true) : store.public.setIsUpdateCard(false)
     };
     // 搜索
     const inputSubmit = (e: string) => {
-
+        setSearch(e)
+        let obj = {
+            ...paging,
+            search: e
+        }
+        getCardData(obj)
     };
     // 新增
     const addCard = () => {
@@ -166,6 +181,15 @@ const AdminCard: NextPage = () => {
         store.public.setIsAddAndEditor(1);
         store.mark.setTmpMark({})
         store.public.setMaskShow(true);
+    }
+    const tableChange = (e:any) => {
+        setTableCurrent(()=> e.current)
+        let obj = {
+            ...paging,
+            page_num: e.current,
+            search
+        }
+        getCardData(obj)
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
@@ -188,7 +212,7 @@ const AdminCard: NextPage = () => {
                     </div> : <></>
             }
         </div>
-        <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
+        <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>);
 };
 

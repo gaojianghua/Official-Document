@@ -112,7 +112,6 @@ const MaskLogin: NextPage = () => {
     }
     return (
         <div className={clsx(styles.login)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>{store.public.publicData.isAdministrator ? '管理员登录' : '用户登录'}</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskLogin} />

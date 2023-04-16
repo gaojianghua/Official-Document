@@ -10,6 +10,7 @@ import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { FireOutlined, LinkOutlined } from '@ant-design/icons';
+import { Paging } from '@/types/res';
 
 interface DataType {
     link_name: string;
@@ -21,6 +22,14 @@ interface DataType {
 const AdminApply: NextPage = () => {
     const store = useStore();
     const { success } = store.model.modelData
+    const [total, setTotal] = useState(0)
+    const [search, setSearch] = useState('')
+    const [tableCurrent, setTableCurrent] = useState(1);
+    const [paging, setPaging] = useState<Paging>({
+        page_num: 1,
+        page_size: 20,
+        search: ''
+    })
     const [dataSource, setDataSource] = useState([]);
     const columns: ColumnsType<DataType> = [
         {
@@ -56,8 +65,8 @@ const AdminApply: NextPage = () => {
         },
     ];
     useEffect(()=> {
-        getContributeData()
-    }, [success])
+        getContributeData(paging)
+    }, [success, store.model.modelData.refresh])
 
     // 打开添加弹框
     const openAdd = (record:any) => {
@@ -129,27 +138,42 @@ const AdminApply: NextPage = () => {
     const deleteLink = async (item:DataType) => {
         let res: any = await contributeDelete({ id: String(item.id) });
         if (res.code == 200) {
-            getContributeData();
+            getContributeData(paging);
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
 
-    const getContributeData = async () => {
-        let res: any = await getContributeList()
+    const getContributeData = async (query:Paging) => {
+        let res: any = await getContributeList(query)
         if(res.code == 200) {
-            setDataSource(res.data)
+            setTotal(res.data.total)
+            setDataSource(res.data.list)
             store.model.setSuccess(false)
         }
     }
     const inputSubmit = (e:string) => {
-
+        setSearch(e)
+        let obj = {
+            ...paging,
+            search: e
+        }
+        getContributeData(obj)
     };
+    const tableChange = (e:any) => {
+        setTableCurrent(()=> e.current)
+        let obj = {
+            ...paging,
+            page_num: e.current,
+            search
+        }
+        getContributeData(obj)
+    }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
             <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
         </div>
-        <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
+        <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>)
 }
 

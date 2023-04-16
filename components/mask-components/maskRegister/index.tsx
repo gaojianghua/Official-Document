@@ -86,7 +86,6 @@ const MaskRegister: NextPage = () => {
 
     return (
         <div className={clsx(styles.register)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>用户注册</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskRegister} />

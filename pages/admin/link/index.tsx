@@ -10,6 +10,7 @@ import { isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
+import { Paging } from '@/types/res';
 
 
 interface DataType {
@@ -22,7 +23,15 @@ interface DataType {
 const AdminLink: NextPage = () => {
     const store = useStore();
     const { success } = store.link.linkData
+    const [search, setSearch] = useState('')
     const [current, setCurrent] = useState(1);
+    const [total, setTotal] = useState(0)
+    const [tableCurrent, setTableCurrent] = useState(1);
+    const [paging, setPaging] = useState<Paging>({
+        page_num: 1,
+        page_size: 20,
+        search: ''
+    })
     const [dataSource, setDataSource] = useState([]);
     const columns: ColumnsType<DataType> = [
         {
@@ -53,10 +62,10 @@ const AdminLink: NextPage = () => {
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getLinkData();
+                getLinkData(paging);
             }
         }
-    }, [current, success]);
+    }, [current, success, store.link.linkData.refresh]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.public.setMaskComponentId(4);
@@ -89,32 +98,39 @@ const AdminLink: NextPage = () => {
             res = await userLinkDel({ id: String(item.id) });
         }
         if (res.code == 200) {
-            getLinkData();
+            getLinkData(paging);
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     };
 
-    const getLinkData = async () => {
+    const getLinkData = async (query:Paging) => {
         let res: any;
         if (current == 1) {
-            res = await getLinkList();
+            res = await getLinkList(query);
         } else if (current == 2) {
-            res = await getAdminUserLinkList();
+            res = await getAdminUserLinkList(query);
         }
         if (res.code == 200) {
-            setDataSource(res.data);
+            setDataSource(res.data.list);
+            setTotal(res.data.total)
             store.link.setSuccess(false)
         }
     };
     // 切换
     const selectCurrent = (e: number) => {
         setCurrent(() => e)
+        setTableCurrent(() => 1)
         e == 1 ? store.public.setIsUpdateLink(true) : store.public.setIsUpdateLink(false)
     };
     // 搜索
     const inputSubmit = (e: string) => {
-
+        setSearch(e)
+        let obj = {
+            ...paging,
+            search: e
+        }
+        getLinkData(obj)
     };
     // 新增
     const addCard = () => {
@@ -122,6 +138,15 @@ const AdminLink: NextPage = () => {
         store.public.setIsAddOrEdit(1);
         store.link.setTmpLink({})
         store.public.setMaskShow(true);
+    }
+    const tableChange = (e:any) => {
+        setTableCurrent(()=> e.current)
+        let obj = {
+            ...paging,
+            page_num: e.current,
+            search
+        }
+        getLinkData(obj)
     }
     return (
         <div className={styles.page}>
@@ -145,7 +170,7 @@ const AdminLink: NextPage = () => {
                         </div> : <></>
                 }
             </div>
-            <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
+            <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
         </div>
     );
 };

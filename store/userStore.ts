@@ -7,20 +7,22 @@ export interface IUserInfo {
     mobile?: string,
     province?: string,
     city?: string,
-    rectangle?: string
+    rectangle?: string,
 }
 
 export interface IUser {
     userInfo: IUserInfo
     tmpUser: IUserInfo
     isShowMenu: boolean
+    refresh: boolean
 }
 
 export interface IUserStore {
-    userData: IUser,
+    userData: IUser
     setUserInfo: (value: IUserInfo) => void
     setTmpUser: (value: IUserInfo) => void
     setIsShowMenu: (value: boolean) => void
+    setRefresh: (value: boolean) => void
 }
 
 const userStore = (): IUserStore => {
@@ -28,7 +30,8 @@ const userStore = (): IUserStore => {
         userData: {
             userInfo: {},
             tmpUser: {},
-            isShowMenu: false
+            isShowMenu: false,
+            refresh: false
         },
         setUserInfo: function (value) {
             this.userData.userInfo = value
@@ -38,6 +41,9 @@ const userStore = (): IUserStore => {
         },
         setIsShowMenu: function (value) {
             this.userData.isShowMenu = value
+        },
+        setRefresh: function(value) {
+            this.userData.refresh = value;
         }
     }
 }

@@ -6,7 +6,8 @@ export interface IModel {
     cancel: () => void,
     confirm: () => void,
     success: boolean,
-    isCardOrLink: boolean
+    isCardOrLink: boolean,
+    refresh: boolean
 }
 
 export interface IModelStore {
@@ -18,6 +19,7 @@ export interface IModelStore {
     setConfirm: (value: ()=>void) => void,
     setSuccess: (value: boolean) => void,
     setIsCardOrLink: (value: boolean) => void,
+    setRefresh: (value: boolean) => void,
 }
 
 const modelStore = (): IModelStore => {
@@ -29,7 +31,8 @@ const modelStore = (): IModelStore => {
             cancel: () => {},
             confirm: () => {},
             success: false,
-            isCardOrLink: false
+            isCardOrLink: false,
+            refresh: false,
         },
         setTmpData: function(value) {
             this.modelData.tmpData = value;
@@ -51,6 +54,9 @@ const modelStore = (): IModelStore => {
         },
         setIsCardOrLink: function(value) {
             this.modelData.isCardOrLink = value;
+        },
+        setRefresh: function(value) {
+            this.modelData.refresh = value;
         }
     };
 };

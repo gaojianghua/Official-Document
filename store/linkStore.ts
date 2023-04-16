@@ -4,6 +4,7 @@ export interface ILink {
     tmpLink: ULink & SLink,
     isLOrR: number, //1工具栏 2便捷栏
     success: boolean, //新增或编辑是否成功
+    refresh: boolean
 }
 
 export interface ILinkStore {
@@ -11,6 +12,7 @@ export interface ILinkStore {
     setTmpLink: (value: ULink & SLink) => void,
     setIsLOrR: (value: number) => void,
     setSuccess: (value: boolean) => void,
+    setRefresh: (value: boolean) => void,
 }
 
 const linkStore = (): ILinkStore => {
@@ -18,7 +20,8 @@ const linkStore = (): ILinkStore => {
         linkData: {
             tmpLink: {},
             isLOrR: 0,
-            success: false
+            success: false,
+            refresh: false,
         },
         setTmpLink: function(value) {
             this.linkData.tmpLink = value;
@@ -28,6 +31,9 @@ const linkStore = (): ILinkStore => {
         },
         setSuccess: function(value) {
             this.linkData.success = value;
+        },
+        setRefresh: function(value) {
+            this.linkData.refresh = value;
         }
     };
 };

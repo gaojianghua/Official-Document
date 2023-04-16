@@ -87,7 +87,7 @@ const Navbar: NextPage = () => {
                 {store.public.publicData.menu?.map((nav) => (
                     <Link key={nav?.id} href={nav?.router!}>
                         <div
-                            className={clsx('flexshrink dflex acenter', pathname === nav.router ? styles.active : styles.menu)}>
+                            className={clsx(styles.item, 'flexshrink dflex acenter', pathname === nav.router ? styles.active : styles.menu)}>
                             {nav?.class_name}
                         </div>
                     </Link>

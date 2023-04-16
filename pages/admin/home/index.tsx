@@ -40,7 +40,7 @@ const AdminHome: NextPage = () => {
 
     useEffect(()=> {
         getCardData()
-    }, [])
+    }, [store.public.publicData.refresh])
 
 
     const getCardData = async () => {

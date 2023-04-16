@@ -15,6 +15,7 @@ export interface IPublic {
     isAdminPages: boolean,
     isUpdateCard: boolean,
     isUpdateLink: boolean,
+    refresh: boolean
 }
 
 export interface IPublicStore {
@@ -32,6 +33,7 @@ export interface IPublicStore {
     setIsAdminPages: (value: boolean) => void,
     setIsUpdateCard: (value: boolean) => void,
     setIsUpdateLink: (value: boolean) => void,
+    setRefresh: (value: boolean) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -50,7 +52,8 @@ const publicStore = (): IPublicStore => {
             serverPublicKey: '',
             isAdminPages: false,
             isUpdateCard: true,
-            isUpdateLink: true
+            isUpdateLink: true,
+            refresh: false
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
@@ -90,6 +93,9 @@ const publicStore = (): IPublicStore => {
         },
         setIsUpdateLink: function(value) {
             this.publicData.isUpdateLink = value;
+        },
+        setRefresh: function(value) {
+            this.publicData.refresh = value;
         },
     };
 };

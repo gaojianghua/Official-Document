@@ -7,10 +7,11 @@ import { useState } from 'react';
 
 interface Props {
     inputSubmit: any
-    name?: string
+    name?: string,
+    type?: string
 }
 
-const MSearch: NextPage<Props> = ({inputSubmit, name = '确认'}) => {
+const MSearch: NextPage<Props> = ({inputSubmit, name = '确认', type = 'text'}) => {
     const [input, setInput] = useState('');
     const onFinish = () => {
         inputSubmit(input)
@@ -32,7 +33,7 @@ const MSearch: NextPage<Props> = ({inputSubmit, name = '确认'}) => {
                 name='input'
             >
                 <Input.Group className={clsx(styles.group, 'dflex')} compact>
-                    <Input type={'number'} className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
+                    <Input type={type} className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
                     <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>{name}</Button>
                 </Input.Group>
             </Form.Item>

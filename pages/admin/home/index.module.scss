@@ -3,13 +3,14 @@
   .list{
     height: 150px;
     .item{
-      width: 180px;
+      width: 100%;
       height: 150px;
       border-radius: 12px; // 圆角
       overflow: hidden; // 超出隐藏
       background-color: #e2e6eb22; // 背景色
       box-shadow: -10px -10px 15px #f5f9fd, 10px 10px 15px #d8dbe5;
       position: relative;
+      margin-right: 16px;
       p{
         font-size: 16px;
         position: absolute;
@@ -32,6 +33,9 @@
         0px 2px 0px #fb7299,
         0px 1px 0px rgba(0, 0, 0, 0);
       }
+    }
+    .item:last-child{
+      margin-right: 0;
     }
   }
   .chart{

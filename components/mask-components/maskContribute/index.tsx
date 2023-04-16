@@ -46,7 +46,6 @@ const MaskLink: NextPage = () => {
 
     return (
         <div className={clsx(styles.register)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>{isAddUseEdit ? '链接投稿' : '编辑链接'}</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskContribute} />

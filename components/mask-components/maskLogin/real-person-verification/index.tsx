@@ -95,7 +95,7 @@ const RealPersonVerification: NextPage<IProps> = (props) => {
                 <CloseCircleOutlined className={clsx(styles.close, 'cur')} onClick={closeVerCode} />
             </div>
             <div className={styles.versform}>
-                <MSearch inputSubmit={filterReslPerson}></MSearch>
+                <MSearch inputSubmit={filterReslPerson} type={'number'}></MSearch>
             </div>
         </div>
     );

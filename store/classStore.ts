@@ -5,6 +5,7 @@ export interface IClass {
     isOneOrTwo: number, //1一级 2二级
     isAddOrEdit: number, //1新增 2编辑
     success: boolean, //新增或编辑是否成功
+    refresh: boolean, //刷新
 }
 
 export interface IClassStore {
@@ -13,6 +14,7 @@ export interface IClassStore {
     setIsOneOrTwo: (value: number) => void,
     setSuccess: (value: boolean) => void,
     setIsAddOrEdit: (value: number) => void,
+    setRefresh: (value: boolean) => void,
 }
 
 const classStore = (): IClassStore => {
@@ -21,7 +23,8 @@ const classStore = (): IClassStore => {
             tmpClass: {},
             isOneOrTwo: 1,
             success: false,
-            isAddOrEdit: 1
+            isAddOrEdit: 1,
+            refresh: false
         },
         setTmpClass: function(value) {
             this.classData.tmpClass = value;
@@ -34,6 +37,9 @@ const classStore = (): IClassStore => {
         },
         setIsAddOrEdit: function(value) {
             this.classData.isAddOrEdit = value;
+        },
+        setRefresh: function(value) {
+            this.classData.refresh = value;
         }
     };
 };

@@ -77,7 +77,6 @@ const MaskUpdateUser: NextPage = () => {
 
     return (
         <div className={clsx(styles.register)}>
-            <MAvatar className={styles.avatar} />
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
                 <div className={clsx(styles.titleText)}>修改资料</div>
                 <CloseCircleOutlined className={clsx('cur')} onClick={closeMaskRegister} />

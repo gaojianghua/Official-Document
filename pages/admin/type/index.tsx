@@ -6,8 +6,8 @@ import styles from '@/pages/admin/link/index.module.scss';
 import clsx from 'clsx';
 import MSearch from 'C/mSearch';
 import AdminTable from 'C/Admin/AdminTable';
-import { cardDel, classDel, getClassList, userCardDel } from '@/service/api';
-import { Menu } from '@/types/res';
+import { classDel, getClassList } from '@/service/api';
+import { Menu, Paging } from '@/types/res';
 import { ColumnsType } from 'antd/es/table';
 import { observer } from 'mobx-react-lite';
 import { message } from 'antd';
@@ -15,6 +15,14 @@ import { message } from 'antd';
 const AdminType: NextPage = () => {
     const store = useStore()
     const { success } = store.class.classData
+    const [search, setSearch] = useState('')
+    const [total, setTotal] = useState(0)
+    const [tableCurrent, setTableCurrent] = useState(1);
+    const [paging, setPaging] = useState<Paging>({
+        page_num: 1,
+        page_size: 20,
+        search: ''
+    })
     const [dataSource, setDataSource] = useState<Menu[]>([]);
     const columns: ColumnsType<Menu> = [
         {
@@ -56,10 +64,10 @@ const AdminType: NextPage = () => {
     ];
     useEffect(()=> {
         if (success){
-            getMenuData()
+            getMenuData(paging)
         }
         setDataSource(store.public.publicData.menu)
-    }, [success])
+    }, [success, store.class.classData.refresh])
 
     // 打开编辑弹框
     const openEditor = (record: Menu) => {
@@ -90,17 +98,17 @@ const AdminType: NextPage = () => {
     const deleteClass = async (item: Menu) => {
         let res: any = await classDel({ id: String(item.id) });
         if (res.code == 200) {
-            getMenuData();
+            getMenuData(paging);
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
 
-    const getMenuData = async () => {
-        let res: any = await getClassList();
+    const getMenuData = async (query:Paging) => {
+        let res: any = await getClassList(query);
         let menu: Menu[] = [];
         if (res.code == 200) {
-            res.data.forEach((item: Menu) => {
+            res.data.list.forEach((item: Menu) => {
                 if (item.router == '/') {
                     menu.unshift(item);
                 } else {
@@ -108,6 +116,7 @@ const AdminType: NextPage = () => {
                 }
             });
             setDataSource(menu)
+            setTotal(res.data.total)
             store.public.setMenu(menu)
             store.class.setSuccess(false)
         }
@@ -117,15 +126,33 @@ const AdminType: NextPage = () => {
         store.class.setIsAddOrEdit(1)
         store.public.setMaskShow(true);
     }
+
+    const inputSubmit = (e: string) => {
+        setSearch(e)
+        let obj = {
+            ...paging,
+            search: e
+        }
+        getMenuData(obj)
+    }
+    const tableChange = (e:any) => {
+        setTableCurrent(()=> e.current)
+        let obj = {
+            ...paging,
+            page_num: e.current,
+            search
+        }
+        getMenuData(obj)
+    }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <></>
+            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
             <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}
                  onClick={addCard}>
                 新增
             </div>
         </div>
-        <AdminTable columns={columns} dataSource={dataSource}></AdminTable>
+        <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>)
 }
 
