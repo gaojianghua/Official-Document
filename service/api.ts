@@ -36,3 +36,7 @@ export const contributeUpdate = (params: any = {}, config = {}) => request.post(
 export const adminLogin = (params: any = {}, config = {}) => request.post('/api/user/verify', params, config)
 export const adminUserUpdate = (params: any = {}, config = {}) => request.post('/api/admin/user/update', params, config)
 export const getPublicKey = (params: any = {}, config = {}) => request.post('/api/user/public/key', params, config)
+export const getAdminLogsList = (params: any = {}, config = {}) => request.post('/api/adminLogs/list', params, config)
+export const getAdminPermissionList = (params: any = {}, config = {}) => request.post('/api/permission/list', params, config)
+export const getAdminRoleList = (params: any = {}, config = {}) => request.post('/api/role/list', params, config)
+export const getAdminList = (params: any = {}, config = {}) => request.post('/api/root/list', params, config)

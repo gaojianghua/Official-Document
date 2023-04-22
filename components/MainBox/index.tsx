@@ -231,10 +231,10 @@ const MainBox: NextPage<Props> = ({ children }) => {
                     >
                         <Input.Group className={clsx(styles.group, 'dflex')} compact>
                             <Input className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
-                            {input ? <div className={clsx(styles.close, 'dflex', 'jcenter', 'acenter', 'cur')} onClick={closeInput}>
+                            {input ? <div className={clsx(styles.close, 'cur')} onClick={closeInput} onMouseDown={e => e.preventDefault()}>
                                 <CloseOutlined />
                             </div>: <></>}
-                            <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>百度一下</Button>
+                            <Button type='primary' className={clsx(styles.btn)} htmlType='submit' onMouseDown={e => e.preventDefault()}>百度一下</Button>
                         </Input.Group>
                     </Form.Item>
                 </Form>

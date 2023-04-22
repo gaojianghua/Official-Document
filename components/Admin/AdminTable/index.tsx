@@ -29,7 +29,7 @@ const AdminTable: NextPage<IProps> = ({columns, dataSource,total,pageSize, table
                 rowKey={'id'}
                 key={'table'}
                 onChange={tableChange}
-                pagination={{defaultPageSize: pageSize, total: total, current}}
+                pagination={{defaultPageSize: pageSize, total: total, current, defaultCurrent: 1}}
                 scroll={{y: scrollY}}
             />
         </div>

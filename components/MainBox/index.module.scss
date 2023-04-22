@@ -426,21 +426,21 @@
         right: 140px;
         z-index: 5;
         transform: translateY(-50%);
-        border: 1px solid #dcdcdc;
+        border: 1px solid #fb7299;
         border-radius: 50%;
         width: 25px;
         height: 25px;
-        line-height: 25px;
         text-align: center;
-        font-size: 13px;
+        font-size: 12px;
+        line-height: 23px;
         backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         -webkit-backdrop-filter: saturate(150%) contrast(50%) blur(2px);
         background-color: rgba(255,255,255,.2);
-        color: #999;
+        color: #666;
       }
       .close:hover{
         color: #FFFFFF;
-        border-color: #FFFFFF;
+        border-color: #ababab;
         background-color: #fb7299;
       }
 

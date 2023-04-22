@@ -35,5 +35,15 @@ export const MenuList:IMenu[] = [
         path: '/admin/apply',
         name: '投稿管理',
         icon: 'SnippetsOutlined'
+    },
+    {
+        path: '/admin/root',
+        name: '权限管理',
+        icon: 'SafetyCertificateOutlined'
+    },
+    {
+        path: '/admin/logs',
+        name: '日志管理',
+        icon: 'SolutionOutlined'
     }
 ]
