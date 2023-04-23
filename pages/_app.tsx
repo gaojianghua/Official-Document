@@ -3,7 +3,7 @@ import '../styles/animate.css';
 import '../styles/main.css';
 import { StoreProvider } from '@/store';
 import Layout from 'components/Layout';
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 import { getClassList, getPublicKey } from '@/service/api';
 import { Menu, Paging } from '@/types/res';
 
@@ -21,7 +21,10 @@ function MyApp({ initialValue, Component, pageProps }: IProps) {
     </StoreProvider>);
 }
 
-MyApp.getInitialProps = async () => {
+MyApp.getInitialProps = async (ctx: NextPageContext) => {
+    // @ts-ignore
+    let index = ctx?.router.pathname.indexOf('admin')
+    if (index > -1) return {};
     let res: any = await getClassList({
         page_num: 1,
         page_size: 20
@@ -42,7 +45,8 @@ MyApp.getInitialProps = async () => {
             public: {
                 publicData: {
                     menu,
-                    serverPublicKey: publicKey.data.server_public_key
+                    serverPublicKey: publicKey.data.server_public_key,
+                    isInit: true
                 }
             }
         },

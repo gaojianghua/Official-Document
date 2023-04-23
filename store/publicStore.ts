@@ -15,7 +15,8 @@ export interface IPublic {
     isAdminPages: boolean,
     isUpdateCard: boolean,
     isUpdateLink: boolean,
-    refresh: boolean
+    refresh: boolean,
+    isInit: boolean
 }
 
 export interface IPublicStore {
@@ -34,6 +35,7 @@ export interface IPublicStore {
     setIsUpdateCard: (value: boolean) => void,
     setIsUpdateLink: (value: boolean) => void,
     setRefresh: (value: boolean) => void,
+    setIsInit: (value: boolean) => void,
 }
 
 const publicStore = (): IPublicStore => {
@@ -53,7 +55,8 @@ const publicStore = (): IPublicStore => {
             isAdminPages: false,
             isUpdateCard: true,
             isUpdateLink: true,
-            refresh: false
+            refresh: false,
+            isInit: false,
         },
         setIsManagement: function(value) {
             this.publicData.isManagement = value;
@@ -96,6 +99,9 @@ const publicStore = (): IPublicStore => {
         },
         setRefresh: function(value) {
             this.publicData.refresh = value;
+        },
+        setIsInit: function(value) {
+            this.publicData.isInit = value;
         },
     };
 };

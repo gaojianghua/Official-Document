@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react';
 import { useStore } from '@/store';
-import { getAdminUserList, userDelete } from '@/service/api';
+import { getAdminList, getAdminPermissionList, getAdminRoleList, userDelete } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
@@ -9,8 +9,7 @@ import { isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
-import { IUserInfo } from '@/store/userStore';
-import { Paging } from '@/types/res';
+import { IAdmin, Paging } from '@/types/res';
 
 const AdminRoot: NextPage = () => {
     const store = useStore();
@@ -24,24 +23,34 @@ const AdminRoot: NextPage = () => {
         page_size: 20,
         search: ''
     })
-    const columns: ColumnsType<IUserInfo> = [
+    const columns: ColumnsType<IAdmin> = [
         {
-            title: '昵称',
-            dataIndex: 'name',
+            title: 'IP地址',
+            dataIndex: 'ip',
             width: '100px',
         },
         {
-            title: '头像',
-            dataIndex: 'avatar',
-            render: (e)=> <img className={clsx(styles.imgs)} src={e} />
+            title: '账户',
+            dataIndex: 'account'
         },
         {
             title: '手机号',
             dataIndex: 'mobile',
         },
         {
-            title: '个性签名',
-            dataIndex: 'signature',
+            title: '邮箱',
+            dataIndex: 'email',
+        },
+        {
+            title: '超级管理员',
+            dataIndex: 'is_super',
+            width: '120px',
+            render: (_, record) => <div>{record.is_super == 1 ? '是' : '否'}</div>
+        },
+        {
+            title: '角色',
+            dataIndex: 'role_id',
+            width: '100px',
         },
         {
             title: '操作',
@@ -61,24 +70,30 @@ const AdminRoot: NextPage = () => {
     useEffect(()=> {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getUserList(paging);
+                if(current == 1) {
+                    getAdminListData(paging)
+                }else if (current == 2) {
+                    getAdminRoleListData(paging)
+                }else {
+                    getAdminPermissionListData(paging)
+                }
             }
         }
-    }, [store.user.userData.refresh])
+    }, [store.user.userData.refresh, current])
 
     // 打开编辑弹框
-    const openEditor = (record:IUserInfo) => {
-        store.user.setTmpUser(record)
+    const openEditor = (record:IAdmin) => {
+        // store.user.setTmpUser(record)
         store.public.setMaskComponentId(6);
         store.public.setMaskShow(true);
     }
 
     // 打开确定删除弹框
-    const openDelete = (item: IUserInfo) => {
+    const openDelete = (item: IAdmin) => {
         store.public.setMaskComponentId(7);
         store.model.setTitle('移除印记');
         store.model.setChildren(<div className={clsx('dflex', 'jcenter', 'acenter', 'textwhite')}>
-            确定移除 {item.name} 吗？
+            {/*确定移除 {item.name} 吗？*/}
         </div>);
         store.model.setConfirm(() => {
             deleteLink(item);
@@ -90,17 +105,33 @@ const AdminRoot: NextPage = () => {
     };
 
     // 删除用户
-    const deleteLink = async (item:IUserInfo) => {
+    const deleteLink = async (item:IAdmin) => {
         let res: any = await userDelete({ mobile: String(item.mobile) });
         if (res.code == 200) {
-            getUserList(paging);
+            getAdminListData(paging);
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
-
-    const getUserList = async (query:Paging) => {
-        const res: any = await getAdminUserList(query)
+    // 获取管理员数据
+    const getAdminListData = async (query:Paging) => {
+        const res: any = await getAdminList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    }
+    // 获取角色数据
+    const getAdminRoleListData = async (query:Paging) => {
+        const res: any = await getAdminRoleList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    }
+    // 获取权限数据
+    const getAdminPermissionListData = async (query:Paging) => {
+        const res: any = await getAdminPermissionList(query)
         if(res.code == 200) {
             setDataSource(res.data.list)
             setTotal(res.data.total)
@@ -112,7 +143,13 @@ const AdminRoot: NextPage = () => {
             ...paging,
             search: e
         }
-        getUserList(obj)
+        if(current == 1) {
+            getAdminListData(obj)
+        }else if (current == 2) {
+            getAdminRoleListData(obj)
+        }else {
+            getAdminPermissionListData(obj)
+        }
     };
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
@@ -121,13 +158,19 @@ const AdminRoot: NextPage = () => {
             page_num: e.current,
             search
         }
-        getUserList(obj)
+        if(current == 1) {
+            getAdminListData(obj)
+        }else if (current == 2) {
+            getAdminRoleListData(obj)
+        }else {
+            getAdminPermissionListData(obj)
+        }
     }
     // 切换
     const selectCurrent = (e: number) => {
         setCurrent(() => e)
         setTableCurrent(() => 1)
-        e == 1 ? store.public.setIsUpdateLink(true) : store.public.setIsUpdateLink(false)
+        //e == 1 ? store.public.setIsUpdateLink(true) : store.public.setIsUpdateLink(false)
     };
     // 新增
     const addAdmin = () => {
