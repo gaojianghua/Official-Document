@@ -25,7 +25,7 @@ request.interceptors.response.use(response => {
                 clearTimeout(time)
             }, 1000)
         }else if (response?.data.code !== 200) {
-            message.success(response?.data.message);
+            message.warning(response?.data.message);
         }
         return response?.data
     } else {
