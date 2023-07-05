@@ -14,6 +14,8 @@ import AdminHeader from 'C/Admin/AdminHeader';
 import AdminMenu from 'C/Admin/AdminMenu';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { imageType } from '@/config';
+import Head from 'next/head';
 
 interface Props {
     children: any;
@@ -50,6 +52,12 @@ const Layout: NextPage<Props> = ({ children }) => {
     }
     return (
         <>
+            <Head>
+                <title>Wolffy印记</title>
+                <meta data-n-head='ssr' name='description' content='next app vue react uniapp taro' />
+                <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
+                <link rel='icon' href={imageType.ico} />
+            </Head>
             {
                 store.public.publicData.isAdminPages ?
                     <div className={styles.all}>

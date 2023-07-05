@@ -10,7 +10,7 @@ const Column: NextPage<IColumnProps> = ({ data }) => {
         <>
             {
                 data?.list ? (
-                    <div className={clsx(styles.column)}>
+                    <div className={clsx(styles.column, 'mb2')}>
                         <div className={clsx(styles.columnTitle, 'dflex')}>
                             {/*{(ANTD_ICONS as any)[data?.column_Icon]?.render()}*/}
                             <div className={clsx(styles.columnTitle)}>
