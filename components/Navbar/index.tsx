@@ -107,12 +107,13 @@ const Navbar: NextPage = () => {
                 }
                 {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
-                            <Avatar src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
-                                 size={50} onClick={showHide} />
+                        <div onClick={showHide}>
+                            <Avatar className={styles.avBorder1} src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
+                                 size={50}  /></div>
                             {
                                 isShowMenu ?
                                     <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
-                                        <Avatar icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
+                                        <Avatar className={styles.avBorder2} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
                                                 src={store.user.userData.userInfo.avatar} size={80} />
                                         <div className={clsx('mt1', 'mainColor', 'fontdr')}>
                                             {store.user.userData.userInfo.name}
