@@ -10,15 +10,23 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { ULink, SLink } from '@/types/res';
 import { RadioChangeEvent } from 'antd/es';
+import { getSession } from '@/utils';
+import { useRouter } from 'next/router';
 
 
 const MaskLink: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { isAddOrEdit, isAdminPages, isUpdateLink } = store.public.publicData;
     const { isLOrR } = store.link.linkData;
     const [tmpLink] = useState(store.link.linkData.tmpLink)
     const [value, setValue] = useState(isLOrR)
     const onFinish = async (e: ULink) => {
+        if (store.public.publicData.isAdminPages && !getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         if (!e.src) return message.warning('请输入链接地址');
         let res: any;
         if (isUpdateLink) {

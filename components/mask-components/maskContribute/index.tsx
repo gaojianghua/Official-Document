@@ -4,9 +4,10 @@ import { useStore } from '@/store';
 import { Form, Input, Button, message } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { observer } from 'mobx-react-lite';
 import { applyContribute, contributeUpdate } from '@/service/api';
+import { getSession } from '@/utils';
+import { useRouter } from 'next/router';
 
 interface IContribute {
     link_name: string
@@ -14,11 +15,17 @@ interface IContribute {
     link_desc: string
 }
 
-const MaskLink: NextPage = () => {
+const MaskContribute: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { isAddUseEdit } = store.public.publicData
     const { tmpData } = store.model.modelData
     const onFinish = async (e: IContribute) => {
+        if (store.public.publicData.isAdminPages && !getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         if (!e.src) return message.warning('请输入链接地址')
         if (!e.link_name) return message.warning('请输入链接名称')
         if (!e.link_desc) return message.warning('请输入链接描述')
@@ -85,4 +92,4 @@ const MaskLink: NextPage = () => {
     );
 };
 
-export default observer(MaskLink);
+export default observer(MaskContribute);

@@ -4,14 +4,16 @@ import { useStore } from '@/store';
 import { Form, Input, Button, message, Radio, RadioChangeEvent, Cascader, Select } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { classAdd, classUpdate } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { getSession } from '@/utils';
 
 
-const MaskLink: NextPage = () => {
+const MaskClass: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { isAddOrEdit, isOneOrTwo} = store.class.classData
     const [tmpClass] = useState(store.class.classData.tmpClass)
     const [options, setOptions] = useState([])
@@ -33,7 +35,11 @@ const MaskLink: NextPage = () => {
     }
 
     const onFinish = async (e: any) => {
-        console.log(e)
+        if (store.public.publicData.isAdminPages && !getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         if (!e.class_name) return message.warning('请输入分类名称')
         if(isOneOrTwo == 1) {
             if (!e.router) return message.warning('请输入分类路由')
@@ -126,4 +132,4 @@ const MaskLink: NextPage = () => {
     );
 };
 
-export default observer(MaskLink);
+export default observer(MaskClass);

@@ -6,11 +6,12 @@ import MSearch from 'C/mSearch';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import { getAdminUserLinkList, getLinkList, linkDel, userLinkDel } from '@/service/api';
-import { isWindow } from '@/utils';
+import { getSession, isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { Paging } from '@/types/res';
+import { useRouter } from 'next/router';
 
 
 interface DataType {
@@ -22,6 +23,7 @@ interface DataType {
 
 const AdminLink: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { success } = store.link.linkData
     const [search, setSearch] = useState('')
     const [current, setCurrent] = useState(1);
@@ -62,7 +64,10 @@ const AdminLink: NextPage = () => {
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getLinkData(paging);
+                getLinkData({
+                    ...paging,
+                    page_num: tableCurrent
+                });
             }
         }
     }, [current, success, store.link.linkData.refresh]);
@@ -91,6 +96,11 @@ const AdminLink: NextPage = () => {
     };
     // 删除link
     const deleteLink = async (item: DataType) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any;
         if (current == 1) {
             res = await linkDel({ id: String(item.id) });
@@ -98,13 +108,21 @@ const AdminLink: NextPage = () => {
             res = await userLinkDel({ id: String(item.id) });
         }
         if (res.code == 200) {
-            getLinkData(paging);
+            getLinkData({
+                ...paging,
+                page_num: tableCurrent
+            });
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     };
 
     const getLinkData = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any;
         if (current == 1) {
             res = await getLinkList(query);

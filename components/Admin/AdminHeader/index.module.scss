@@ -18,6 +18,17 @@
         .icon{
             font-size: 22px;
         }
+        .rotate{
+            animation: rotate 1.2s linear;
+            @keyframes rotate {
+                to{
+                    transform: rotate(0);
+                }
+                from{
+                    transform: rotate(-720deg);
+                }
+            }
+        }
     }
     .unflod{
         transform: rotate(45deg);

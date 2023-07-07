@@ -6,21 +6,24 @@ import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SyncOutlined } from '@ant-design/icons';
 import { removeSession } from '@/utils';
+import { useState } from 'react';
 
 interface IProps {
     updateSwitch: any,
     isSwitch: boolean
 }
 
-const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
+const AdminHeader: NextPage<IProps> = ({ updateSwitch, isSwitch }) => {
     const router = useRouter();
-    const store = useStore()
+    const store = useStore();
+    const [rotate, setRotate] = useState(false);
     // 左侧菜单栏开关
     const chooseSwitch = () => {
-        updateSwitch(isSwitch)
-    }
+        updateSwitch(isSwitch);
+    };
     // 刷新
     const refresh = () => {
+        setRotate(true);
         switch (router.pathname) {
             case '/admin/home':
                 store.public.setRefresh(!store.public.publicData.refresh);
@@ -41,28 +44,34 @@ const AdminHeader: NextPage<IProps> = ({updateSwitch, isSwitch}) => {
                 store.model.setRefresh(!store.model.modelData.refresh);
                 break;
         }
-    }
+        let time = setTimeout(() => {
+            setRotate(false);
+            clearTimeout(time)
+        }, 1500);
+    };
     // 退出管理员登录
     const logoutAdmin = () => {
-        removeSession('adminToken')
-        store.public.setIsAdminPages(false)
-        router.push('/home')
-    }
+        removeSession('adminToken');
+        store.public.setIsAdminPages(false);
+        router.push('/home');
+    };
     return (
         <div className={clsx(styles.header, 'dflex', 'acenter')}>
-            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', isSwitch ? '' : styles.unflod)} onClick={chooseSwitch}>
+            <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', isSwitch ? '' : styles.unflod)}
+                 onClick={chooseSwitch}>
                 {
-                    isSwitch ? <MenuFoldOutlined className={styles.icon} /> : <MenuUnfoldOutlined className={styles.icon} />
+                    isSwitch ? <MenuFoldOutlined className={styles.icon} /> :
+                        <MenuUnfoldOutlined className={styles.icon} />
                 }
             </div>
             <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'ml1')} onClick={refresh}>
-                <SyncOutlined className={styles.icon} />
+                <SyncOutlined className={clsx(styles.icon, rotate ? styles.rotate : '')} />
             </div>
             <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')} onClick={logoutAdmin}>
                 <LogoutOutlined className={styles.icon} />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default observer(AdminHeader)
+export default observer(AdminHeader);

@@ -152,7 +152,7 @@ const MaskLogin: NextPage = () => {
                 {/*    </Button>*/}
                 {/*</Form.Item>*/}
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
-                    <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>
+                    <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit' onMouseDown={e => e.preventDefault()}>
                         {loading ?
                             <div className={clsx('dflex', 'acenter', 'jcenter')}>
                                 <p>刷新计算</p>

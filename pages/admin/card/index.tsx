@@ -6,11 +6,12 @@ import MSearch from 'C/mSearch';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import { cardDel, getAdminCardList, getAdminUserCardList, userCardDel } from '@/service/api';
-import { isWindow } from '@/utils';
+import { getSession, isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { Mark, Paging } from '@/types/res';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/router';
 
 interface DataType {
     key: React.Key;
@@ -22,6 +23,7 @@ interface DataType {
 
 const AdminCard: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { success } = store.mark.markData
     const [total, setTotal] = useState(0)
     const [search, setSearch] = useState('')
@@ -105,7 +107,10 @@ const AdminCard: NextPage = () => {
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getCardData(paging);
+                getCardData({
+                    ...paging,
+                    page_num: tableCurrent
+                });
             }
         }
     }, [current, success, store.mark.markData.refresh]);
@@ -134,6 +139,11 @@ const AdminCard: NextPage = () => {
     };
     // 删除card
     const deleteCard = async (item: Mark) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any;
         if (current == 1) {
             res = await cardDel({ id: String(item.id) });
@@ -141,13 +151,21 @@ const AdminCard: NextPage = () => {
             res = await userCardDel({ id: String(item.id) });
         }
         if (res.code == 200) {
-            getCardData(paging);
+            getCardData({
+                ...paging,
+                page_num: tableCurrent
+            });
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     };
 
     const getCardData = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any;
         if (current == 1) {
             res = await getAdminCardList(query);
@@ -177,13 +195,14 @@ const AdminCard: NextPage = () => {
     };
     // 新增
     const addCard = () => {
+        store.public.setIsUpdateCard(true)
         store.public.setMaskComponentId(2);
         store.public.setIsAddAndEditor(1);
         store.mark.setTmpMark({})
         store.public.setMaskShow(true);
     }
     const tableChange = (e:any) => {
-        setTableCurrent(()=> e.current)
+        setTableCurrent(()=>e.current)
         let obj = {
             ...paging,
             page_num: e.current,

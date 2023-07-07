@@ -7,14 +7,15 @@ import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-de
 import type { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import styles from './index.module.scss';
 import { ReactNode, useEffect, useState } from 'react';
-import { MAvatar } from 'components';
 import { beforeUpload, getSession } from '@/utils';
 import { imageType, uploadUrl } from '@/config';
 import { Mark, Menu } from '@/types/res';
 import { cardAdd, cardUpdate, userCardAdd, userCardUpdate } from '@/service/api';
+import { useRouter } from 'next/router';
 
 const MaskMark: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { isAddAndEditor, isUpdateCard } = store.public.publicData;
     const [loading, setLoading] = useState<boolean>(false);
     const [options, setOptions] = useState([]);
@@ -50,7 +51,11 @@ const MaskMark: NextPage = () => {
     };
     // 提交表单
     const onFinish = async (e: Mark) => {
-        console.log(e);
+        if (store.public.publicData.isAdminPages && !getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         if (!e.name) return message.warning('请输入印记卡片名称');
         if (!e.src) return message.warning('请输入印记卡片链接地址');
         let res: any;

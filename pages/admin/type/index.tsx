@@ -11,9 +11,11 @@ import { Menu, Paging } from '@/types/res';
 import { ColumnsType } from 'antd/es/table';
 import { observer } from 'mobx-react-lite';
 import { message } from 'antd';
+import { getSession } from '@/utils';
 
 const AdminType: NextPage = () => {
     const store = useStore()
+    const router = useRouter()
     const { success } = store.class.classData
     const [search, setSearch] = useState('')
     const [total, setTotal] = useState(0)
@@ -64,7 +66,10 @@ const AdminType: NextPage = () => {
     ];
     useEffect(()=> {
         if (success){
-            getMenuData(paging)
+            getMenuData({
+                ...paging,
+                page_num: tableCurrent
+            })
         }
         setDataSource(store.public.publicData.menu)
     }, [success, store.class.classData.refresh])
@@ -96,15 +101,28 @@ const AdminType: NextPage = () => {
 
     // 移除分类
     const deleteClass = async (item: Menu) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any = await classDel({ id: String(item.id) });
         if (res.code == 200) {
-            getMenuData(paging);
+            getMenuData({
+                ...paging,
+                page_num: tableCurrent
+            });
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
 
     const getMenuData = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any = await getClassList(query);
         let menu: Menu[] = [];
         if (res.code == 200) {

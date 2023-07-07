@@ -6,7 +6,7 @@ import { Mask } from 'components/index';
 import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
 import {useStore} from '@/store';
-import { getSession } from '@/utils';
+import { getSession, setSession } from '@/utils';
 import Meteor from 'C/meteor';
 import { observer } from 'mobx-react-lite';
 import AdminMain from 'C/Admin/AdminMain';
@@ -34,6 +34,13 @@ const Layout: NextPage<Props> = ({ children }) => {
     const init = () => {
         document.onclick = (e) => {
             store.user.setIsShowMenu(false)
+        }
+        if (store.public.publicData.menu.length != 0) {
+            let arr = JSON.stringify(store.public.publicData.menu)
+            setSession('menu', arr)
+        }else{
+            let menu = JSON.parse(getSession('menu')!)
+            store.public.setMenu(menu)
         }
         if (store.public.publicData.adminToken) {
             store.public.setIsAdminPages(true)

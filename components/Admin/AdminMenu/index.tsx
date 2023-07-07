@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useStore } from '@/store';
 import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import { MenuList } from '@/config/aminMenu';
@@ -16,7 +15,6 @@ interface IProps {
 
 const AdminMenu: NextPage<IProps> = ({ isSwitch }) => {
     const { pathname } = useRouter();
-    const store = useStore();
 
     return (
         <div className={clsx(styles.menu, 'p1', isSwitch ? '' : styles.unflod)}>

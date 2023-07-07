@@ -5,14 +5,16 @@ import { getAdminLogsList } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
-import { isWindow } from '@/utils';
+import { getSession, isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { IUserInfo } from '@/store/userStore';
 import { Paging } from '@/types/res';
+import { useRouter } from 'next/router';
 
 const AdminLogs: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const [dataSource, setDataSource] = useState([]);
     const [total, setTotal] = useState(0)
     const [search, setSearch] = useState('')
@@ -59,12 +61,20 @@ const AdminLogs: NextPage = () => {
     useEffect(()=> {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getLogsList(paging);
+                getLogsList({
+                    ...paging,
+                    page_num: tableCurrent
+                });
             }
         }
     }, [store.user.userData.refresh])
 
     const getLogsList = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         const res: any = await getAdminLogsList(query)
         if(res.code == 200) {
             setDataSource(res.data.list)

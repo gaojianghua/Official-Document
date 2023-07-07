@@ -3,6 +3,8 @@ import { message } from 'antd';
 import CryptoJS from "crypto-js";
 import * as forge from "node-forge";
 import { PRIVATE_KEY } from '@/constant'
+import { useStore } from '@/store';
+import { useRouter } from 'next/router';
 
 export const getSession = (key: string) => {
     if (!key) {

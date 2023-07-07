@@ -11,6 +11,8 @@ import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { FireOutlined, LinkOutlined } from '@ant-design/icons';
 import { Paging } from '@/types/res';
+import { getSession } from '@/utils';
+import { useRouter } from 'next/router';
 
 interface DataType {
     link_name: string;
@@ -21,6 +23,7 @@ interface DataType {
 
 const AdminApply: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { success } = store.model.modelData
     const [total, setTotal] = useState(0)
     const [search, setSearch] = useState('')
@@ -65,7 +68,10 @@ const AdminApply: NextPage = () => {
         },
     ];
     useEffect(()=> {
-        getContributeData(paging)
+        getContributeData({
+            ...paging,
+            page_num: tableCurrent
+        })
     }, [success, store.model.modelData.refresh])
 
     // 打开添加弹框
@@ -136,15 +142,28 @@ const AdminApply: NextPage = () => {
 
     // 删除用户
     const deleteLink = async (item:DataType) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any = await contributeDelete({ id: String(item.id) });
         if (res.code == 200) {
-            getContributeData(paging);
+            getContributeData({
+                ...paging,
+                page_num: tableCurrent
+            });
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
 
     const getContributeData = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any = await getContributeList(query)
         if(res.code == 200) {
             setTotal(res.data.total)

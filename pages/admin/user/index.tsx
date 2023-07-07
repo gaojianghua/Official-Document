@@ -5,15 +5,18 @@ import { getAdminUserList, userDelete } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
-import { isWindow } from '@/utils';
+import { getSession, isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
 import { IUserInfo } from '@/store/userStore';
 import { Paging } from '@/types/res';
+import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 const AdminUser: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const [dataSource, setDataSource] = useState([]);
     const [total, setTotal] = useState(0)
     const [search, setSearch] = useState('')
@@ -60,7 +63,10 @@ const AdminUser: NextPage = () => {
     useEffect(()=> {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
-                getUserList(paging);
+                getUserList({
+                    ...paging,
+                    page_num: tableCurrent
+                });
             }
         }
     }, [store.user.userData.refresh])
@@ -90,15 +96,28 @@ const AdminUser: NextPage = () => {
 
     // 删除用户
     const deleteLink = async (item:IUserInfo) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let res: any = await userDelete({ mobile: String(item.mobile) });
         if (res.code == 200) {
-            getUserList(paging);
+            getUserList({
+                ...paging,
+                page_num: tableCurrent
+            });
             store.public.setMaskShow(false);
             message.success('删除成功');
         }
     }
 
     const getUserList = async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         const res: any = await getAdminUserList(query)
         if(res.code == 200) {
             setDataSource(res.data.list)
@@ -130,4 +149,4 @@ const AdminUser: NextPage = () => {
     </div>)
 }
 
-export default AdminUser
+export default observer(AdminUser)

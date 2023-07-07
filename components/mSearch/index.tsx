@@ -33,8 +33,8 @@ const MSearch: NextPage<Props> = ({inputSubmit, name = '确认', type = 'text'})
                 name='input'
             >
                 <Input.Group className={clsx(styles.group, 'dflex')} compact>
-                    <Input type={type} className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
-                    <Button type='primary' className={clsx(styles.btn)} htmlType='submit'>{name}</Button>
+                    <Input autoComplete="off" type={type} className={clsx(styles.input, 'w100')} value={input} onChange={onChange} />
+                    <Button type='primary' className={clsx(styles.btn)} htmlType='submit' onMouseDown={e => e.preventDefault()}>{name}</Button>
                 </Input.Group>
             </Form.Item>
         </Form>

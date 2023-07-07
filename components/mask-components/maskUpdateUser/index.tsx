@@ -5,7 +5,6 @@ import ImgCrop from 'antd-img-crop';
 import { Form, Input, Button, message, Upload, Image } from 'antd';
 import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { IUserInfo } from '@/store/userStore';
@@ -13,10 +12,12 @@ import { UploadProps } from 'antd/es/upload/interface';
 import { adminUserUpdate, userUpdate } from '@/service/api';
 import { imageType, uploadUrl } from '@/config';
 import { beforeUpload, getSession, setSession } from '@/utils';
+import { useRouter } from 'next/router';
 
 
 const MaskUpdateUser: NextPage = () => {
     const store = useStore();
+    const router = useRouter()
     const { userInfo: userData, tmpUser } = store.user.userData
     const { isAdminPages } = store.public.publicData
     const [loading, setLoading] = useState<boolean>(false);
@@ -30,6 +31,11 @@ const MaskUpdateUser: NextPage = () => {
     };
     // 修改用户信息
     const updateUserInfo = async (e:IUserInfo) => {
+        if (isAdminPages && !getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
         let obj: IUserInfo = {
             id: String(tmpUser.id) || '',
             ...e,
@@ -88,7 +94,7 @@ const MaskUpdateUser: NextPage = () => {
                 autoComplete='off'
             >
                 <Form.Item className={clsx('w100', 'mb2')} name='avatar'>
-                    <ImgCrop rotate>
+                    <ImgCrop>
                         <Upload
                             showUploadList={false}
                             maxCount={1}

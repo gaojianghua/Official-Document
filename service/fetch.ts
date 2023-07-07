@@ -19,7 +19,7 @@ request.interceptors.response.use(response => {
             removeSession('token')
             removeSession('userInfo')
             removeSession('adminToken')
-            message.success(response?.data.message);
+            message.warning(response?.data.message);
             let time = setTimeout(()=> {
                 location.reload()
                 clearTimeout(time)

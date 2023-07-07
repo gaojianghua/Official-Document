@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8000",
+    "dev": "next dev -p 8888",
     "start": "next start -p 8000",
     "build": "next build && PORT=8000 npm start",
     "pm2start": "pm2 start npm --name woflly-imprinting -- run start",
