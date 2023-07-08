@@ -12,6 +12,7 @@ import { IUserInfo } from '@/store/userStore';
 import { Paging } from '@/types/res';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
+import { message } from 'antd';
 
 const AdminLogs: NextPage = () => {
     const store = useStore();
@@ -82,7 +83,8 @@ const AdminLogs: NextPage = () => {
             if (isWindow()) {
                 getLogsList({
                     ...paging,
-                    page_num: tableCurrent
+                    page_num: tableCurrent,
+                    search
                 });
             }
         }
@@ -101,6 +103,10 @@ const AdminLogs: NextPage = () => {
         }
     }
     const inputSubmit = (e:string) => {
+        if (!e) {
+            message.warning("请输入管理员姓名")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
@@ -108,6 +114,16 @@ const AdminLogs: NextPage = () => {
         }
         getLogsList(obj)
     };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getLogsList(obj)
+        }
+    }
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
         let obj = {
@@ -119,7 +135,7 @@ const AdminLogs: NextPage = () => {
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch inputChange={inputChange} placeholder="请输入姓名" inputSubmit={inputSubmit} name={'搜索'}></MSearch>
         </div>
         <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>)

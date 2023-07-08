@@ -66,7 +66,8 @@ const AdminLink: NextPage = () => {
             if (isWindow()) {
                 getLinkData({
                     ...paging,
-                    page_num: tableCurrent
+                    page_num: tableCurrent,
+                    search
                 });
             }
         }
@@ -110,7 +111,8 @@ const AdminLink: NextPage = () => {
         if (res.code == 200) {
             getLinkData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -143,6 +145,10 @@ const AdminLink: NextPage = () => {
     };
     // 搜索
     const inputSubmit = (e: string) => {
+        if (!e) {
+            message.warning("请输入链接名称")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
@@ -150,6 +156,16 @@ const AdminLink: NextPage = () => {
         }
         getLinkData(obj)
     };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getLinkData(obj)
+        }
+    }
     // 新增
     const addCard = () => {
         store.public.setIsUpdateLink(true)
@@ -180,7 +196,7 @@ const AdminLink: NextPage = () => {
                     onClick={() => selectCurrent(2)}>
                     用户链接
                 </div>
-                <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+                <MSearch inputChange={inputChange} placeholder="请输入名称" inputSubmit={inputSubmit} name={'搜索'}></MSearch>
                 {
                     current == 1 ?
                         <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}

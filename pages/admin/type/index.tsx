@@ -68,7 +68,8 @@ const AdminType: NextPage = () => {
         if (success){
             getMenuData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             })
         }
         setDataSource(store.public.publicData.menu)
@@ -110,7 +111,8 @@ const AdminType: NextPage = () => {
         if (res.code == 200) {
             getMenuData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -146,12 +148,26 @@ const AdminType: NextPage = () => {
     }
 
     const inputSubmit = (e: string) => {
+        if (!e) {
+            message.warning("请输入分类名称")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
             search: e
         }
         getMenuData(obj)
+    }
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getMenuData(obj)
+        }
     }
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
@@ -164,7 +180,7 @@ const AdminType: NextPage = () => {
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch inputChange={inputChange} placeholder="请输入名称" inputSubmit={inputSubmit} name={'搜索'}></MSearch>
             <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}
                  onClick={addCard}>
                 新增

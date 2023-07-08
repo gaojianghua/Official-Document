@@ -70,7 +70,8 @@ const AdminApply: NextPage = () => {
     useEffect(()=> {
         getContributeData({
             ...paging,
-            page_num: tableCurrent
+            page_num: tableCurrent,
+            search
         })
     }, [success, store.model.modelData.refresh])
 
@@ -151,7 +152,8 @@ const AdminApply: NextPage = () => {
         if (res.code == 200) {
             getContributeData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -172,6 +174,10 @@ const AdminApply: NextPage = () => {
         }
     }
     const inputSubmit = (e:string) => {
+        if (!e) {
+            message.warning("请输入投稿名称")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
@@ -179,6 +185,16 @@ const AdminApply: NextPage = () => {
         }
         getContributeData(obj)
     };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getContributeData(obj)
+        }
+    }
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
         let obj = {
@@ -190,7 +206,7 @@ const AdminApply: NextPage = () => {
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch inputChange={inputChange} placeholder="请输入名称" inputSubmit={inputSubmit} name={'搜索'}></MSearch>
         </div>
         <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>)

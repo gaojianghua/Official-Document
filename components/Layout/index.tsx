@@ -68,7 +68,7 @@ const Layout: NextPage<Props> = ({ children }) => {
             {
                 store.public.publicData.isAdminPages ?
                     <div className={styles.all}>
-                        <Meteor />
+                        {store.common.commonData.meteorShowerSwitch ? <Meteor /> : <></>}
                         <div className={clsx('positionabsolute', 'w100', 'h100', 'index3', 'dflex', 'p1')}>
                             <AdminMenu isSwitch={isSwitch}/>
                             <div className={clsx(styles.right, 'dflex', 'flexcolumn')}>
@@ -80,7 +80,7 @@ const Layout: NextPage<Props> = ({ children }) => {
                     </div>
                     :
                     <div className={styles.all}>
-                        <Meteor />
+                        {store.common.commonData.meteorShowerSwitch ? <Meteor /> : <></>}
                         <Navbar />
                         <MainBox>{children}</MainBox>
                         <Footer />

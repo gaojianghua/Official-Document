@@ -109,7 +109,8 @@ const AdminCard: NextPage = () => {
             if (isWindow()) {
                 getCardData({
                     ...paging,
-                    page_num: tableCurrent
+                    page_num: tableCurrent,
+                    search
                 });
             }
         }
@@ -153,7 +154,8 @@ const AdminCard: NextPage = () => {
         if (res.code == 200) {
             getCardData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -186,6 +188,10 @@ const AdminCard: NextPage = () => {
     };
     // 搜索
     const inputSubmit = (e: string) => {
+        if (!e) {
+            message.warning("请输入印记名称")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
@@ -193,6 +199,16 @@ const AdminCard: NextPage = () => {
         }
         getCardData(obj)
     };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getCardData(obj)
+        }
+    }
     // 新增
     const addCard = () => {
         store.public.setIsUpdateCard(true)
@@ -222,7 +238,7 @@ const AdminCard: NextPage = () => {
                 onClick={() => selectCurrent(2)}>
                 用户印记
             </div>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch inputChange={inputChange} placeholder="请输入名称" inputSubmit={inputSubmit} name={'搜索'}></MSearch>
             {
                 current == 1 ?
                     <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}

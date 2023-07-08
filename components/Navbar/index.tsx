@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { Avatar, Button, Form, message } from 'antd';
-import { EnvironmentOutlined, UserOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { MAvatar } from 'components';
 import styles from './index.module.scss';
 import { removeSession } from '@/utils';
@@ -16,6 +16,7 @@ import { logout } from '@/service/api';
 const Navbar: NextPage = () => {
     const store = useStore();
     const { isManagement, token } = store.public.publicData;
+    const [isSet, setIsSet] = useState(false);
     const { pathname } = useRouter();
     const [managementText, setManagementText] = useState('管理印记');
     const { isShowMenu } = store.user.userData
@@ -27,6 +28,12 @@ const Navbar: NextPage = () => {
             setManagementText('管理印记');
         }
     }, [isManagement]);
+
+    useEffect(()=> {
+        if (store.public.publicData.maskComponentId == 10 && !store.public.publicData.maskShow) {
+            setIsSet(false)
+        }
+    }, [store.public.publicData.maskShow, store.public.publicData.maskComponentId])
     // 打开编辑印记
     const openManagement = () => {
         if (!token) return
@@ -79,6 +86,12 @@ const Navbar: NextPage = () => {
         e.stopPropagation()
         store.user.setIsShowMenu(!isShowMenu)
     }
+    // 设置按钮
+    const openSet = () => {
+        store.public.setMaskComponentId(10)
+        store.public.setMaskShow(true)
+        setIsSet(true)
+    }
     return (
         <div className={styles.navbar}>
             <MAvatar className={clsx(styles.avatar, 'flexshrink')} />
@@ -105,6 +118,9 @@ const Navbar: NextPage = () => {
                             </Form>
                     ) : <></>
                 }
+                <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'ml2', !isSet ? '' : styles.unflod)} onClick={openSet}>
+                    <SettingOutlined className={styles.icon} />
+                </div>
                 {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
                         <div onClick={showHide}>

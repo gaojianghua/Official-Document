@@ -65,7 +65,8 @@ const AdminUser: NextPage = () => {
             if (isWindow()) {
                 getUserList({
                     ...paging,
-                    page_num: tableCurrent
+                    page_num: tableCurrent,
+                    search
                 });
             }
         }
@@ -105,7 +106,8 @@ const AdminUser: NextPage = () => {
         if (res.code == 200) {
             getUserList({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -125,6 +127,10 @@ const AdminUser: NextPage = () => {
         }
     }
     const inputSubmit = (e:string) => {
+        if (!e) {
+            message.warning("请输入用户昵称")
+            return
+        }
         setSearch(e)
         let obj = {
             ...paging,
@@ -132,6 +138,16 @@ const AdminUser: NextPage = () => {
         }
         getUserList(obj)
     };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            let obj = {
+                ...paging,
+                search: e
+            }
+            getUserList(obj)
+        }
+    }
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
         let obj = {
@@ -143,7 +159,7 @@ const AdminUser: NextPage = () => {
     }
     return (<div className={styles.page}>
         <div className={clsx(styles.pageTitle, 'dflex', 'acenter')}>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch placeholder="请输入昵称" inputChange={inputChange} inputSubmit={inputSubmit} name={'搜索'}></MSearch>
         </div>
         <AdminTable current={tableCurrent} tableChange={tableChange} total={total} pageSize={paging.page_size} columns={columns} dataSource={dataSource}></AdminTable>
     </div>)

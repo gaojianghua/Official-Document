@@ -120,8 +120,11 @@ const MaskLogin: NextPage = () => {
                 name='login'
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                autoComplete='off'
+                autoComplete="off"
             >
+                <Form.Item name="username" hidden>
+                    <Input autoComplete="username" />
+                </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem)}
                     name='mobile'
@@ -133,7 +136,7 @@ const MaskLogin: NextPage = () => {
                             className={clsx(styles.formItem)}
                             name='password'
                         >
-                            <Input type={'password'} placeholder='请输入密码!' className={clsx(styles.input, 'w100')} />
+                            <Input type="password" placeholder='请输入密码!' className={clsx(styles.input, 'w100')} autoComplete="new-password"/>
                         </Form.Item> :
                         <Form.Item
                             className={clsx(styles.formItem, 'w100')}

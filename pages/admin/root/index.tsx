@@ -76,17 +76,20 @@ const AdminRoot: NextPage = () => {
                 if(current == 1) {
                     getAdminListData({
                         ...paging,
-                        page_num: tableCurrent
+                        page_num: tableCurrent,
+                        search
                     })
                 }else if (current == 2) {
                     getAdminRoleListData({
                         ...paging,
-                        page_num: tableCurrent
+                        page_num: tableCurrent,
+                        search
                     })
                 }else {
                     getAdminPermissionListData({
                         ...paging,
-                        page_num: tableCurrent
+                        page_num: tableCurrent,
+                        search
                     })
                 }
             }
@@ -127,7 +130,8 @@ const AdminRoot: NextPage = () => {
         if (res.code == 200) {
             getAdminListData({
                 ...paging,
-                page_num: tableCurrent
+                page_num: tableCurrent,
+                search
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
@@ -174,6 +178,15 @@ const AdminRoot: NextPage = () => {
     }
     const inputSubmit = (e:string) => {
         setSearch(e)
+        _requestData(e)
+    };
+    const inputChange = (e:string) => {
+        setSearch(e)
+        if (!e) {
+            _requestData(e)
+        }
+    }
+    const _requestData = (e:string) => {
         let obj = {
             ...paging,
             search: e
@@ -185,7 +198,7 @@ const AdminRoot: NextPage = () => {
         }else {
             getAdminPermissionListData(obj)
         }
-    };
+    }
     const tableChange = (e:any) => {
         setTableCurrent(()=> e.current)
         let obj = {
@@ -228,7 +241,7 @@ const AdminRoot: NextPage = () => {
                 onClick={() => selectCurrent(3)}>
                 权限列表
             </div>
-            <MSearch inputSubmit={inputSubmit} name={'搜索'}></MSearch>
+            <MSearch placeholder="请输入名称" inputChange={inputChange} inputSubmit={inputSubmit} name={'搜索'}></MSearch>
             <div className={clsx(styles.switch, styles.add, 'dflex', 'acenter', 'cur', 'jcenter', 'mlauto')}
                  onClick={addAdmin}>
                 新增

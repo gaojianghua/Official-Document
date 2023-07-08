@@ -150,3 +150,25 @@ export const getTableScroll = (extraHeight: number = 0, id:string = '' ) => {
 export const timeFormat = (time:string) => {
     return dayjs(time).format('YYYY-MM-DD HH:mm:ss');
 }
+// 防抖
+export function debounce(fn: (...args: any[]) => void, delay: number) {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+}
+// 节流
+export function throttle(fn: (...args: any[]) => void, delay: number) {
+    let lastCall = 0;
+    return (...args: any[]) => {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+            return;
+        }
+        lastCall = now;
+        return fn(...args);
+    };
+}

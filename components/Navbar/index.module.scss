@@ -85,6 +85,22 @@
             background-color: #fb7299;
             margin-left: 20px;
         }
+        .switch{
+            width: 50px;
+            height: 50px;
+            padding: 12px 16px;
+            border-radius: 12px; // 圆角
+            overflow: hidden; // 超出隐藏
+            background-color: #e2e6eb22; // 背景色
+            box-shadow: -10px -10px 15px #f5f9fd, 10px 10px 15px #d8dbe5;
+            transition: all 0.2s linear;
+            .icon{
+                font-size: 22px;
+            }
+        }
+        .unflod{
+            transform: rotate(45deg);
+        }
 
         .avatar {
             margin-left: 20px;

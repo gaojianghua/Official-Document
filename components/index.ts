@@ -13,6 +13,8 @@ import MaskModel from 'C/mask-components/maskModel';
 import Meteor from 'C/meteor';
 import MaskMap from 'C/mask-components/maskMap';
 import MaskClass from 'C/mask-components/maskClass';
+import MaskSetMenu from 'C/mask-components/maskSetMenu';
+
 
 export {
     Card,
@@ -29,5 +31,6 @@ export {
     Meteor,
     MaskModel,
     MaskMap,
-    MaskClass
+    MaskClass,
+    MaskSetMenu
 }

@@ -1,0 +1,34 @@
+.register {
+    width: 350px;
+    padding: 24px;
+    position: relative;
+    z-index: 99;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    -webkit-backdrop-filter:saturate(150%) contrast(50%) blur(2px);
+    background-color:rgba(255, 255, 255,.4);
+
+    .title{
+        .titleText{
+            color: #fff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        svg{
+            color: #fff;
+            font-size: 24px;
+        }
+    }
+
+    .formItem{
+        height: 40px;
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+    :global(.ant-switch-checked) {
+        background-color: #fb7299;
+    }
+}
+
+

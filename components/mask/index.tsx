@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { MaskLogin, MaskMark, MaskRegister, MaskLink, MaskUpdateUser, MaskContribute, MaskModel, MaskMap, MaskClass } from 'components/index';
+import { MaskLogin, MaskMark, MaskRegister, MaskLink, MaskUpdateUser, MaskContribute, MaskModel, MaskMap, MaskClass, MaskSetMenu } from 'components/index';
+import React from 'react';
 
 const Mask: NextPage = () => {
     const store = useStore();
@@ -45,6 +46,10 @@ const Mask: NextPage = () => {
             case 9:
                 return (
                     <MaskClass />
+                );
+            case 10:
+                return (
+                    <MaskSetMenu />
                 );
             default:
                 break;

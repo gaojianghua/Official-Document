@@ -96,6 +96,9 @@ const MaskRegister: NextPage = () => {
                 onFinish={onFinish}
                 autoComplete='off'
             >
+                <Form.Item name="username" hidden>
+                    <Input autoComplete="username" />
+                </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem)}
                     name='mobile'
@@ -107,13 +110,13 @@ const MaskRegister: NextPage = () => {
                     className={clsx(styles.formItem, 'w100')}
                     name='password'
                 >
-                    <Input type={'password'} placeholder='请输入密码!' className={clsx(styles.input, 'w100')} />
+                    <Input type={'password'} placeholder='请输入密码!' className={clsx(styles.input, 'w100')} autoComplete="new-password" />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, 'w100')}
                     name='more_password'
                 >
-                    <Input type={'password'} placeholder='请再次输入密码!' className={clsx(styles.input, 'w100')} />
+                    <Input type={'password'} placeholder='请再次输入密码!' className={clsx(styles.input, 'w100')} autoComplete="new-password" />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, 'w100')}
