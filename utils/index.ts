@@ -3,8 +3,7 @@ import { message } from 'antd';
 import CryptoJS from "crypto-js";
 import * as forge from "node-forge";
 import { PRIVATE_KEY } from '@/constant'
-import { useStore } from '@/store';
-import { useRouter } from 'next/router';
+import dayjs from 'dayjs'
 
 export const getSession = (key: string) => {
     if (!key) {
@@ -144,4 +143,10 @@ export const getTableScroll = (extraHeight: number = 0, id:string = '' ) => {
     // let height = document.body.clientHeight - tHeaderBottom - extraHeight
     let height = `calc(100vh - ${tHeaderBottom + extraHeight}px)`
     return height
+}
+
+
+// 时间格式转换
+export const timeFormat = (time:string) => {
+    return dayjs(time).format('YYYY-MM-DD HH:mm:ss');
 }

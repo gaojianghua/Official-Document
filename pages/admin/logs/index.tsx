@@ -5,12 +5,13 @@ import { getAdminLogsList } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
-import { getSession, isWindow } from '@/utils';
+import { getSession, isWindow, timeFormat } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
 import { IUserInfo } from '@/store/userStore';
 import { Paging } from '@/types/res';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 const AdminLogs: NextPage = () => {
     const store = useStore();
@@ -26,36 +27,54 @@ const AdminLogs: NextPage = () => {
     })
     const columns: ColumnsType<IUserInfo> = [
         {
-            title: '昵称',
-            dataIndex: 'name',
-            width: '100px',
+            title: 'ID',
+            dataIndex: 'admin_id',
+            width: '80px',
+        },
+        {
+            title: 'IP',
+            dataIndex: 'ip',
+            width: '150px',
+        },
+        {
+            title: '姓名',
+            dataIndex: 'admin_name',
+            width: '150px',
         },
         {
             title: '头像',
             dataIndex: 'avatar',
-            render: (e)=> <img className={clsx(styles.imgs)} src={e} />
+            render: (e)=> <img className={clsx(styles.imgs)} src={e} />,
+            width: '150px',
         },
         {
             title: '手机号',
             dataIndex: 'mobile',
+            width: '200px',
         },
         {
-            title: '个性签名',
-            dataIndex: 'signature',
+            title: '状态码',
+            dataIndex: 'code',
+            width: '200px',
         },
         {
-            title: '操作',
-            dataIndex: '',
-            key: 'x',
-            render: (_, record) => <div className={clsx('dflex')}>
-                {/*<div className={clsx(styles.editor, 'cur')} onClick={()=>openEditor(record)}>*/}
-                {/*    编辑*/}
-                {/*</div>*/}
-                {/*<div className={clsx(styles.delete, 'cur')} onClick={()=>openDelete(record)}>*/}
-                {/*    移除*/}
-                {/*</div>*/}
-            </div>,
+            title: '请求方式',
+            dataIndex: 'method',
+            width: '200px',
         },
+        {
+            title: '请求地址',
+            dataIndex: 'url',
+            width: '250px',
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'created_at',
+            render: (e)=> {
+                let time = timeFormat(e)
+                return <div>{time}</div>
+            }
+        }
     ];
 
     useEffect(()=> {
@@ -67,7 +86,7 @@ const AdminLogs: NextPage = () => {
                 });
             }
         }
-    }, [store.user.userData.refresh])
+    }, [store.common.commonData.logsRefresh])
 
     const getLogsList = async (query:Paging) => {
         if (!getSession('adminToken')) {
@@ -106,4 +125,4 @@ const AdminLogs: NextPage = () => {
     </div>)
 }
 
-export default AdminLogs
+export default observer(AdminLogs)

@@ -4,6 +4,7 @@ import linkStore, { ILinkStore } from "./linkStore";
 import markStore, { IMarkStore } from './markStore';
 import modelStore, { IModelStore } from './modelStore';
 import classStore, { IClassStore } from './classStore';
+import commonStore, { ICommonStore } from './commonStore';
 
 
 export interface IStore {
@@ -13,6 +14,7 @@ export interface IStore {
     mark: IMarkStore,
     model: IModelStore,
     class: IClassStore,
+    common: ICommonStore,
 }
 
 export default function createStore(initialValue: any): () => IStore {
@@ -24,6 +26,7 @@ export default function createStore(initialValue: any): () => IStore {
             mark: { ...markStore(), ...initialValue?.mark },
             model: { ...modelStore(), ...initialValue?.model },
             class: { ...classStore(), ...initialValue?.class },
+            common: { ...commonStore(), ...initialValue?.common },
         }
     }
 }

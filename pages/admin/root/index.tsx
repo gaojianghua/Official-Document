@@ -11,6 +11,7 @@ import { ColumnsType } from 'antd/es/table';
 import { message } from 'antd';
 import { IAdmin, Paging } from '@/types/res';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 const AdminRoot: NextPage = () => {
     const store = useStore();
@@ -90,7 +91,7 @@ const AdminRoot: NextPage = () => {
                 }
             }
         }
-    }, [store.user.userData.refresh, current])
+    }, [store.common.commonData.rootRefresh, current])
 
     // 打开编辑弹框
     const openEditor = (record:IAdmin) => {
@@ -237,4 +238,4 @@ const AdminRoot: NextPage = () => {
     </div>)
 }
 
-export default AdminRoot
+export default observer(AdminRoot)

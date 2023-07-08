@@ -152,6 +152,7 @@ const AdminLink: NextPage = () => {
     };
     // 新增
     const addCard = () => {
+        store.public.setIsUpdateLink(true)
         store.public.setMaskComponentId(4);
         store.public.setIsAddOrEdit(1);
         store.link.setTmpLink({})

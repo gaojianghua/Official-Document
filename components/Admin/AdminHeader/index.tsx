@@ -43,6 +43,12 @@ const AdminHeader: NextPage<IProps> = ({ updateSwitch, isSwitch }) => {
             case '/admin/apply':
                 store.model.setRefresh(!store.model.modelData.refresh);
                 break;
+            case '/admin/logs':
+                store.common.setLogsRefresh(!store.common.commonData.logsRefresh);
+                break;
+            case '/admin/root':
+                store.common.setRootRefresh(!store.common.commonData.rootRefresh);
+                break;
         }
         let time = setTimeout(() => {
             setRotate(false);
