@@ -30,7 +30,7 @@ const AdminRoot: NextPage = () => {
         {
             title: 'IP地址',
             dataIndex: 'ip',
-            width: '100px',
+            width: '180px',
         },
         {
             title: '账户',

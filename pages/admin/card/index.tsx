@@ -46,18 +46,19 @@ const AdminCard: NextPage = () => {
             title: '地址',
             dataIndex: 'src',
             key: 'src',
+            width: '300px',
         },
         {
             title: '一级分类',
             dataIndex: 'one_type',
             key: 'one_type',
-            width: '100px'
+            width: '150px'
         },
         {
             title: '二级分类',
             dataIndex: 'two_type',
             key: 'two_type',
-            width: '100px'
+            width: '150px'
         }
     ]
     const currentTwo: ColumnsType<DataType> = [
@@ -71,14 +72,15 @@ const AdminCard: NextPage = () => {
             title: '地址',
             dataIndex: 'src',
             key: 'src',
+            width: '300px',
         }
     ]
     const common: ColumnsType<DataType> = [
         {
-            title: '标志',
+            title: 'LOGO',
             dataIndex: 'logo',
             key: 'logo',
-            width: '100px',
+            width: '150px',
             render: (e) => <img className={clsx(styles.imgs)} src={e} />,
         },
         {
