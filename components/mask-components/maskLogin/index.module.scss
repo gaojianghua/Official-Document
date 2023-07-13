@@ -71,6 +71,7 @@
             }
         }
         .orBtn{
+            z-index: 10 !important;
             right: 50%;
             transform: translateX(50%);
             padding: 0 20px;

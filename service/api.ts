@@ -49,3 +49,4 @@ export const getAdminList = (params: any = {}, config = {}) => request.post('/ap
 export const getAdminAdd = (params: any = {}, config = {}) => request.post('/api/admin/add', params, config)
 export const getAdminUpdate = (params: any = {}, config = {}) => request.post('/api/admin/update', params, config)
 export const getAdminDelete = (params: any = {}, config = {}) => request.post('/api/admin/delete', params, config)
+export const getSmsCode = (params: any = {}, config = {}) => request.post('/api/send_sms_code', params, config)
