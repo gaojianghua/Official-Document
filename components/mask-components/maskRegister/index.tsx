@@ -14,7 +14,8 @@ interface UserRegister {
     mobile: string,
     password: string
     name: string
-    more_password: string
+    more_password: string,
+    code: string
 }
 
 const MaskRegister: NextPage = () => {
@@ -31,6 +32,7 @@ const MaskRegister: NextPage = () => {
         if (!e.more_password) return message.warning('请再次输入密码');
         if (e.password != e.more_password) return message.warning('两次密码不一致');
         if (!e.name) return message.warning('请输入昵称');
+        if (!e.code) return message.warning('请输入验证码');
         setFormData(e)
         setCalculationNumber()
     };
@@ -83,7 +85,10 @@ const MaskRegister: NextPage = () => {
         setIsRealPerson(2)
         setLoading(false)
     }
+    // 获取验证码
+    const getCode = () => {
 
+    };
     return (
         <div className={clsx(styles.register)}>
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
@@ -123,6 +128,15 @@ const MaskRegister: NextPage = () => {
                     name='name'
                 >
                     <Input type={'text'} placeholder='请输入昵称!' className={clsx(styles.input, 'w100')} />
+                </Form.Item>
+                <Form.Item
+                    className={clsx(styles.formItem, 'w100')}
+                    name='code'
+                >
+                    <Input.Group className={clsx(styles.group, 'dflex')} compact>
+                        <Input placeholder='请输入验证码!' className={clsx(styles.input, 'w100')} />
+                        <Button type='primary' className={clsx(styles.btn)} onClick={getCode}>获取验证码</Button>
+                    </Input.Group>
                 </Form.Item>
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>

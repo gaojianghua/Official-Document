@@ -570,6 +570,11 @@ body {
     margin-right: 50px;
 }
 
+.mxauto{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .my0 {
     margin-top: 0;
     margin-bottom: 0;
@@ -603,6 +608,11 @@ body {
 .my5 {
     margin-top: 50px;
     margin-bottom: 50px;
+}
+
+.myauto{
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .mt0 {

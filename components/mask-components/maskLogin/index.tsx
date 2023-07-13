@@ -4,7 +4,6 @@ import { useStore } from '@/store';
 import { Form, Input, Button, message, Spin } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { adminLogin, login } from '@/service/api';
 import { useState } from 'react';
 import { setDataEncryte, setSession } from '@/utils';
@@ -14,7 +13,8 @@ import { useRouter } from 'next/router'
 
 interface UserLogin {
     mobile: string,
-    password: string
+    password?: string,
+    code?: string
 }
 
 const MaskLogin: NextPage = () => {
@@ -28,7 +28,11 @@ const MaskLogin: NextPage = () => {
     const onFinish = async (e: UserLogin) => {
         if (!e.mobile) return message.warning('请输入手机号')
         if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号')
-        if (!e.password) return message.warning('请输入密码')
+        if (isCodeOrPassword) {
+            if (!e.password) return message.warning('请输入密码')
+        }else {
+            if (!e.code) return message.warning('请输入验证码')
+        }
         setFormData(e)
         setCalculationNumber()
     };
@@ -148,13 +152,13 @@ const MaskLogin: NextPage = () => {
                             </Input.Group>
                         </Form.Item>
                 }
-                {/*<Form.Item className={clsx(styles.formItem, 'dflex', 'jcenter')}>*/}
-                {/*    <Button className={clsx(styles.btn, styles.orBtn)} type='primary'*/}
-                {/*            onClick={() => setIsCodeOrPassword(!isCodeOrPassword)}>*/}
-                {/*        {isCodeOrPassword ? '验证码登录' : '密码登录'}*/}
-                {/*    </Button>*/}
-                {/*</Form.Item>*/}
-                <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
+                <Form.Item className={clsx(styles.formItem, 'dflex', 'jcenter')}>
+                    <Button className={clsx(styles.btn, styles.orBtn)} type='primary'
+                            onClick={() => setIsCodeOrPassword(!isCodeOrPassword)}>
+                        {isCodeOrPassword ? '验证码登录' : '密码登录'}
+                    </Button>
+                </Form.Item>
+                <Form.Item className={clsx(styles.formItem, 'w100')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit' onMouseDown={e => e.preventDefault()}>
                         {loading ?
                             <div className={clsx('dflex', 'acenter', 'jcenter')}>
