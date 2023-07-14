@@ -1,7 +1,8 @@
 import request from '@/service/fetch';
 
 export const register = (params: any, config = {}) => request.post('/api/user/register', params, config)
-export const login = (params: any, config = {}) => request.post('/api/user/login', params, config)
+export const loginPassword = (params: any, config = {}) => request.post('/api/user/login/password', params, config)
+export const loginCode = (params: any, config = {}) => request.post('/api/user/login/code', params, config)
 export const logout = (params: any = {}, config = {}) => request.post('/api/user/logout', params, config)
 export const userUpdate = (params: any = {}, config = {}) => request.post('/api/user/update', params, config)
 export const userDelete = (params: any = {}, config = {}) => request.post('/api/admin/user/delete', params, config)
@@ -33,7 +34,8 @@ export const applyContribute = (params: any = {}, config = {}) => request.post('
 export const getContributeList = (params: any = {}, config = {}) => request.post('/api/admin/contribute/list', params, config)
 export const contributeDelete = (params: any = {}, config = {}) => request.post('/api/admin/contribute/del', params, config)
 export const contributeUpdate = (params: any = {}, config = {}) => request.post('/api/admin/contribute/update', params, config)
-export const adminLogin = (params: any = {}, config = {}) => request.post('/api/admin/login', params, config)
+export const adminLoginPassword = (params: any = {}, config = {}) => request.post('/api/admin/login/password', params, config)
+export const adminLoginCode = (params: any = {}, config = {}) => request.post('/api/admin/login/code', params, config)
 export const adminUserUpdate = (params: any = {}, config = {}) => request.post('/api/admin/user/update', params, config)
 export const getPublicKey = (params: any = {}, config = {}) => request.post('/api/user/public/key', params, config)
 export const getAdminLogsList = (params: any = {}, config = {}) => request.post('/api/adminLogs/list', params, config)

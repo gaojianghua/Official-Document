@@ -5,8 +5,8 @@ import { Form, Input, Button, message, Spin } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { MAvatar } from 'components';
-import { register } from '@/service/api';
-import { useState } from 'react';
+import { getSmsCode, register } from '@/service/api';
+import { ChangeEvent, useState } from 'react';
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';
 import { setDataEncryte } from '@/utils';
 
@@ -23,6 +23,9 @@ const MaskRegister: NextPage = () => {
     const [loading, setLoading] = useState(false);
     const [isRealPerson, setIsRealPerson] = useState(0);
     const [calculation, setCalculation] = useState(true);
+    const [isGetSms, setIsGetSms] = useState(true);
+    const [smsText, setSmsText] = useState(59);
+    const [phone, setPhone] = useState('');
     const [formData, setFormData] = useState<UserRegister>();
 
     const onFinish = async (e: UserRegister) => {
@@ -32,7 +35,7 @@ const MaskRegister: NextPage = () => {
         if (!e.more_password) return message.warning('请再次输入密码');
         if (e.password != e.more_password) return message.warning('两次密码不一致');
         if (!e.name) return message.warning('请输入昵称');
-        if (!e.code) return message.warning('请输入验证码');
+        if (!e.code) return message.warning('请输入短信验证码');
         setFormData(e)
         setCalculationNumber()
     };
@@ -85,9 +88,32 @@ const MaskRegister: NextPage = () => {
         setIsRealPerson(2)
         setLoading(false)
     }
+    // 手机号输入框变化
+    const phoneChange = (e:ChangeEvent<HTMLInputElement>) => {
+        setPhone(e.target.value)
+    }
     // 获取验证码
-    const getCode = () => {
-
+    const getCode = async () => {
+        if (!isGetSms) return;
+        if (!phone) return message.warning('请输入手机号');
+        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(phone)) return message.warning('请输入正确的手机号');
+        let res: any = await getSmsCode({
+            mobile: phone
+        });
+        if (res.code == 200) {
+            let num = 59
+            setIsGetSms(false)
+            let time = setInterval(() => {
+                num--;
+                if (num == -1) {
+                    setIsGetSms(true);
+                    num = 59
+                    clearInterval(time);
+                }
+                setSmsText(num);
+            }, 1000);
+            message.success('验证码发送成功');
+        }
     };
     return (
         <div className={clsx(styles.register)}>
@@ -109,7 +135,7 @@ const MaskRegister: NextPage = () => {
                     name='mobile'
                 >
                     <Input type={'number'} maxLength={11} placeholder='请输入手机号!'
-                           className={clsx(styles.input, 'w100')} />
+                           className={clsx(styles.input, 'w100')} onChange={phoneChange} />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, 'w100')}
@@ -133,10 +159,10 @@ const MaskRegister: NextPage = () => {
                     className={clsx(styles.formItem, 'w100')}
                     name='code'
                 >
-                    <Input.Group className={clsx(styles.group, 'dflex')} compact>
+                    <div className={clsx(styles.group, 'dflex')}>
                         <Input placeholder='请输入验证码!' className={clsx(styles.input, 'w100')} />
-                        <Button type='primary' className={clsx(styles.btn)} onClick={getCode}>获取验证码</Button>
-                    </Input.Group>
+                        <Button type='primary' className={clsx(styles.btn, 'index10')} onClick={getCode}>{isGetSms ? '获取验证码' : smsText + ' S'}</Button>
+                    </div>
                 </Form.Item>
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>
