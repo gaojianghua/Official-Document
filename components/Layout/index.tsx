@@ -68,10 +68,6 @@ const Layout: NextPage<Props> = ({ children }) => {
                 <link rel="dns-prefetch" href="https://gaojianghua.cn" />
                 <link rel="preconnect" href="https://wolffy.gaojianghua.cn" crossOrigin={'true'} />
                 <link rel="dns-prefetch" href="https://wolffy.gaojianghua.cn" />
-                <link rel="preload" href="../styles/main.css" as="style" />
-                <link rel="preload" href="../styles/globals.css" as="style" />
-                <link rel="preload" href="../service/api" as="script" />
-                <link rel="preload" href="../service/fetch" as="script" />
             </Head>
             {
                 store.public.publicData.isAdminPages ?
