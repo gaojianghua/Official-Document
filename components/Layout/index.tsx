@@ -64,6 +64,14 @@ const Layout: NextPage<Props> = ({ children }) => {
                 <meta data-n-head='ssr' name='description' content='next app vue react uniapp taro' />
                 <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
                 <link rel='icon' href={imageType.ico} />
+                <link rel="preconnect" href="https://gaojianghua.cn" crossOrigin={'true'} />
+                <link rel="dns-prefetch" href="https://gaojianghua.cn" />
+                <link rel="preconnect" href="https://wolffy.gaojianghua.cn" crossOrigin={'true'} />
+                <link rel="dns-prefetch" href="https://wolffy.gaojianghua.cn" />
+                <link rel="preload" href="../styles/main.css" as="style" />
+                <link rel="preload" href="../styles/globals.css" as="style" />
+                <link rel="preload" href="../service/api" as="script" />
+                <link rel="preload" href="../service/fetch" as="script" />
             </Head>
             {
                 store.public.publicData.isAdminPages ?

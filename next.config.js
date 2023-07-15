@@ -1,6 +1,9 @@
 const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  build: {
+    polyfillModulePreload: true
+  },
   reactStrictMode: true,
   swcMinify: true,
   output:"standalone",
