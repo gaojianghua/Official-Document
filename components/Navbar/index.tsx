@@ -78,6 +78,7 @@ const Navbar: NextPage = () => {
     };
     // 打开定位地图
     const openMap = () => {
+        if (!store.user.userData.userInfo.city) return
         store.public.setMaskComponentId(8);
         store.public.setMaskShow(true);
     }
@@ -139,7 +140,9 @@ const Navbar: NextPage = () => {
                                         </div>
                                         <div className={clsx('mt1', 'dflex', 'jsb' ,'acenter')} onClick={openMap}>
                                             <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />
-                                            <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span>
+                                            {store.user.userData.userInfo.city ?
+                                                <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span> : <span>- - -</span>
+                                            }
                                         </div>
                                     <Form>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
