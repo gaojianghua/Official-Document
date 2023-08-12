@@ -14,12 +14,12 @@ const Footer: NextPage = () => {
             </div>
             <div className={clsx('dflex', 'flexcolumn', 'acenter', 'mt2', 'mx3')}>
                 <div className={clsx(styles.urls, 'dflex')}>
-                    <Button type='primary' className={clsx(styles.btnn)} target='_blank' href='#'>博客社区</Button>
+                    <Button type='primary' className={clsx(styles.btnn)} target='_blank' href='https://blog.gaojianghua.cn'>博客社区</Button>
                     <div className={clsx('px2')} />
                     <Button type='primary' className={clsx(styles.btnn)} target='_blank'
-                            href='https://gaojianghua.cn/docs/'>作者文档</Button>
+                            href='https://docs.gaojianghua.cn'>作者文档</Button>
                     <div className={clsx('px2')} />
-                    <Button type='primary' className={clsx(styles.btnn)} target='_blank' href='#'>服务官网</Button>
+                    <Button type='primary' className={clsx(styles.btnn)} target='_blank' href='https://gaojianghua.cn'>服务官网</Button>
                 </div>
                 <div className={clsx(styles.text, 'cur')}>邮箱：g598670138@163.com 个人微信号：woshigaojianghua</div>
                 <a target='_blank' rel='noreferrer' href='https://beian.miit.gov.cn'
