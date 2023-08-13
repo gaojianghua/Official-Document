@@ -37,6 +37,7 @@
             font-size: 16px;
             font-weight: bold;
         }
+
         .input::placeholder{
             color: #11111145;
             font-size: 15px;
@@ -52,6 +53,45 @@
             border-radius: 44px;
             background: #fb7299;
             border-color: #fff;
+        }
+
+        .codel {
+            padding: 0 0 0 2px;
+            width: 51px;
+            position: absolute;
+            top: 3px;
+            right: 54px;
+            height: 34px;
+            border-right-width: .5px;
+            border-radius: 44px 0 0 44px;
+            color: #fb7299 !important;
+            background: #fff;
+            border-color: #fff;
+        }
+        .coder {
+            padding: 0 2px 0 0;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 51px;
+            height: 34px;
+            border-left-width: .5px;
+            border-radius: 0 44px 44px 0;
+            color: #fb7299 !important;
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .coder:hover, .codel:hover{
+            background: #fb7299;
+            border-color: #fff;
+            color: #fff!important;
+        }
+
+        .activeCode{
+            background: #fb7299;
+            border-color: #fff;
+            color: #fff!important;
         }
 
         .input:hover, .input:focus{

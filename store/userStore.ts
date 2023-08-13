@@ -1,13 +1,16 @@
 
 export interface IUserInfo {
-    id?: string,
-    name?: string,
-    avatar?: string,
-    signature?: string,
-    mobile?: string,
-    province?: string,
-    city?: string,
-    rectangle?: string,
+    id?: string
+    name?: string
+    avatar?: string
+    signature?: string
+    mobile?: number
+    email?: string
+    province?: string
+    city?: string
+    rectangle?: string
+    code?: string
+    is_admin?: number
 }
 
 export interface IUser {

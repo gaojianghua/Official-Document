@@ -11,7 +11,7 @@ import RealPersonVerification from 'C/mask-components/maskLogin/real-person-veri
 import { setDataEncryte } from '@/utils';
 
 interface UserRegister {
-    mobile: string,
+    mobile: number,
     password: string
     name: string
     more_password: string,
@@ -30,7 +30,7 @@ const MaskRegister: NextPage = () => {
 
     const onFinish = async (e: UserRegister) => {
         if (!e.mobile) return message.warning('请输入手机号');
-        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
+        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(String(e.mobile))) return message.warning('请输入正确的手机号');
         if (!e.password) return message.warning('请输入密码');
         if (!e.more_password) return message.warning('请再次输入密码');
         if (e.password != e.more_password) return message.warning('两次密码不一致');
@@ -62,6 +62,7 @@ const MaskRegister: NextPage = () => {
         let jsonObjEncryteData = setDataEncryte(jsonObj, store.public.publicData.serverPublicKey)
         let form = {
             ...formData,
+            mobile: Number(formData?.mobile),
             password: encryteData.serverRsaData,
             aes_key: encryteData.aes_key,
             iv: encryteData.iv,
@@ -98,7 +99,7 @@ const MaskRegister: NextPage = () => {
         if (!phone) return message.warning('请输入手机号');
         if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(phone)) return message.warning('请输入正确的手机号');
         let res: any = await getSmsCode({
-            mobile: phone
+            mobile: Number(phone)
         });
         if (res.code == 200) {
             let num = 59

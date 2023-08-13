@@ -5,10 +5,10 @@ import { Form, Input, Button, message, Spin } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import {
-    adminLoginCode,
-    adminLoginPassword,
+    adminLoginCode, adminLoginEmail,
+    adminLoginPassword, getEmailCode,
     getSmsCode,
-    loginCode,
+    loginCode, loginEmail,
     loginPassword,
 } from '@/service/api';
 import { ChangeEvent, useState } from 'react';
@@ -18,9 +18,10 @@ import RealPersonVerification from 'C/mask-components/maskLogin/real-person-veri
 import { useRouter } from 'next/router';
 
 interface UserLogin {
-    mobile: string,
-    password: string,
-    code: string
+    mobile?: number,
+    password?: string,
+    code?: string,
+    email?: string
 }
 
 const MaskLogin: NextPage = () => {
@@ -29,18 +30,25 @@ const MaskLogin: NextPage = () => {
     const [isCodeOrPassword, setIsCodeOrPassword] = useState(true);
     const [loading, setLoading] = useState(false);
     const [isRealPerson, setIsRealPerson] = useState(0);
+    const [isTypeCode, setIsTypeCode] = useState(0);
     const [calculation, setCalculation] = useState(true);
     const [isGetSms, setIsGetSms] = useState(true);
     const [smsText, setSmsText] = useState(59);
     const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
     const [formData, setFormData] = useState<UserLogin>();
     const onFinish = async (e: any) => {
-        if (!e.mobile) return message.warning('请输入手机号');
-        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
+        if (isTypeCode === 0) {
+            if (!e.mobile) return message.warning('请输入手机号');
+            if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
+        }else{
+            if (!e.email) return message.warning('请输入邮箱');
+            if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)) return message.warning('请输入正确的邮箱');
+        }
         if (isCodeOrPassword) {
             if (!e.password) return message.warning('请输入密码');
         } else {
-            if (!e.code) return message.warning('请输入短信验证码');
+            if (!e.code) return message.warning(isTypeCode === 0 ? '请输入短信验证码' : '请输入邮箱验证码');
         }
         setFormData(e);
         setCalculationNumber();
@@ -69,6 +77,7 @@ const MaskLogin: NextPage = () => {
             let encryteData = setDataEncryte(data, store.public.publicData.serverPublicKey);
             form = {
                 ...formData,
+                mobile: Number(formData?.mobile),
                 password: encryteData.serverRsaData,
                 aes_key: encryteData.aes_key,
                 iv: encryteData.iv,
@@ -78,13 +87,24 @@ const MaskLogin: NextPage = () => {
             };
             res = await adminLoginPassword(form);
         } else {
-            form = {
-                ...formData,
-                json_obj_data: jsonObjEncryteData.serverRsaData,
-                json_obj_aes: jsonObjEncryteData.aes_key,
-                json_obj_iv: jsonObjEncryteData.iv,
-            };
-            res = await adminLoginCode(form);
+            if(isTypeCode === 0) {
+                form = {
+                    ...formData,
+                    mobile: Number(formData?.mobile),
+                    json_obj_data: jsonObjEncryteData.serverRsaData,
+                    json_obj_aes: jsonObjEncryteData.aes_key,
+                    json_obj_iv: jsonObjEncryteData.iv,
+                };
+                res = await adminLoginCode(form);
+            }else {
+                form = {
+                    ...formData,
+                    json_obj_data: jsonObjEncryteData.serverRsaData,
+                    json_obj_aes: jsonObjEncryteData.aes_key,
+                    json_obj_iv: jsonObjEncryteData.iv,
+                };
+                res = await adminLoginEmail(form);
+            }
         }
         if (res.code == 200) {
             store.public.setAdminToken(res.data.crypto_data);
@@ -106,6 +126,7 @@ const MaskLogin: NextPage = () => {
             let encryteData = setDataEncryte(data, store.public.publicData.serverPublicKey);
             form = {
                 ...formData,
+                mobile: Number(formData?.mobile),
                 password: encryteData.serverRsaData,
                 aes_key: encryteData.aes_key,
                 iv: encryteData.iv,
@@ -115,13 +136,24 @@ const MaskLogin: NextPage = () => {
             };
             res = await loginPassword(form);
         } else {
-            form = {
-                ...formData,
-                json_obj_data: jsonObjEncryteData.serverRsaData,
-                json_obj_aes: jsonObjEncryteData.aes_key,
-                json_obj_iv: jsonObjEncryteData.iv,
-            };
-            res = await loginCode(form);
+            if(isTypeCode === 0) {
+                form = {
+                    ...formData,
+                    mobile: Number(formData?.mobile),
+                    json_obj_data: jsonObjEncryteData.serverRsaData,
+                    json_obj_aes: jsonObjEncryteData.aes_key,
+                    json_obj_iv: jsonObjEncryteData.iv,
+                };
+                res = await loginCode(form);
+            }else {
+                form = {
+                    ...formData,
+                    json_obj_data: jsonObjEncryteData.serverRsaData,
+                    json_obj_aes: jsonObjEncryteData.aes_key,
+                    json_obj_iv: jsonObjEncryteData.iv,
+                };
+                res = await loginEmail(form);
+            }
         }
         if (res.code == 200) {
             store.public.setToken(res.data.access_token);
@@ -134,17 +166,26 @@ const MaskLogin: NextPage = () => {
         }
     };
     // 手机号输入框变化
-    const phoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setPhone(e.target.value);
+    const phoneOrEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        isTypeCode === 0 ? setPhone(e.target.value) : setEmail(e.target.value)
     };
     // 获取验证码
     const getCode = async () => {
         if (!isGetSms) return;
-        if (!phone) return message.warning('请输入手机号');
-        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(phone)) return message.warning('请输入正确的手机号');
-        let res: any = await getSmsCode({
-            mobile: phone,
-        });
+        let res: any
+        if (isTypeCode === 0) {
+            if (!phone) return message.warning('请输入手机号');
+            if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(phone)) return message.warning('请输入正确的手机号');
+            res = await getSmsCode({
+                mobile: Number(phone),
+            });
+        }else {
+            if (!email) return message.warning('请输入邮箱');
+            if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)) return message.warning('请输入正确的邮箱');
+            res = await getEmailCode({
+                email
+            });
+        }
         if (res.code == 200) {
             let num = 59;
             setIsGetSms(false);
@@ -188,10 +229,21 @@ const MaskLogin: NextPage = () => {
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem)}
-                    name='mobile'
+                    name={isTypeCode===0 ? 'mobile' : 'email'}
                 >
-                    <Input type={'number'} maxLength={11} placeholder='请输入手机号!'
-                           className={clsx(styles.input, 'w100')} onChange={phoneChange} />
+                    <div className={clsx(styles.group, 'dflex')}>
+                        <Input type={isTypeCode===0 ? 'number' : 'email'} maxLength={isTypeCode===0 ? 11 : 50} placeholder={isTypeCode===0 ? '请输入手机号!' : '请输入邮箱'}
+                               className={clsx(styles.input, 'w100')} onChange={phoneOrEmailChange} />
+                        {
+                            !isCodeOrPassword ?
+                                <div className={clsx('dflex')}>
+                                    <Button type='primary' className={clsx(styles.codel,'index10', isTypeCode === 0 ? styles.activeCode : '')}
+                                            onClick={()=> setIsTypeCode(0)}>手机</Button>
+                                    <Button type='primary' className={clsx(styles.coder, 'index10', isTypeCode === 1 ? styles.activeCode : '')}
+                                            onClick={()=> setIsTypeCode(1)}>邮箱</Button>
+                                </div> : <></>
+                        }
+                    </div>
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, isCodeOrPassword ? 'dblock' : 'dflexNone')}
@@ -204,7 +256,7 @@ const MaskLogin: NextPage = () => {
                     className={clsx(styles.formItem, !isCodeOrPassword ? 'dblock' : 'dflexNone')}
                     name='code'
                 >
-                    <div className={clsx(styles.group, 'dflex')} >
+                    <div className={clsx(styles.group, 'dflex')}>
                         <Input type={'number'} maxLength={6} placeholder='请输入验证码!'
                                className={clsx(styles.input, 'w100')} />
                         <Button type='primary' className={clsx(styles.btn, 'index10')}

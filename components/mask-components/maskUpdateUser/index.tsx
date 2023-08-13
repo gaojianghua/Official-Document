@@ -6,10 +6,10 @@ import { Form, Input, Button, message, Upload, Image } from 'antd';
 import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { IUserInfo } from '@/store/userStore';
 import { UploadProps } from 'antd/es/upload/interface';
-import { adminUserUpdate, userUpdate } from '@/service/api';
+import { adminUserUpdate, userUpdate, getEmailCode } from '@/service/api';
 import { imageType, uploadUrl } from '@/config';
 import { beforeUpload, getSession, setSession } from '@/utils';
 import { useRouter } from 'next/router';
@@ -17,35 +17,43 @@ import { useRouter } from 'next/router';
 
 const MaskUpdateUser: NextPage = () => {
     const store = useStore();
-    const router = useRouter()
-    const { userInfo: userData, tmpUser } = store.user.userData
-    const { isAdminPages } = store.public.publicData
+    const router = useRouter();
+    const { userInfo: userData, tmpUser } = store.user.userData;
+    const { isAdminPages } = store.public.publicData;
     const [loading, setLoading] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState(isAdminPages ? tmpUser : userData);
+    const [isGetEmail, setIsGetEmail] = useState(true);
+    const [smsText, setSmsText] = useState(59);
+    const [email, setEmail] = useState(isAdminPages ? tmpUser.email : userData.email);
     const onFinish = async (e: IUserInfo) => {
-        if (!e.mobile) return message.warning('请输入手机号')
-        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号')
-        if (!e.name) return message.warning('请输入昵称')
-        if (!e.signature) return message.warning('请输入个性签名')
-        updateUserInfo(e)
+        if (!e.mobile) return message.warning('请输入手机号');
+        if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile + '')) return message.warning('请输入正确的手机号');
+        if (!e.name) return message.warning('请输入昵称');
+        if (!e.signature) return message.warning('请输入个性签名');
+        updateUserInfo(e);
+    };
+    // 邮箱输入框变化
+    const emailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
     };
     // 修改用户信息
-    const updateUserInfo = async (e:IUserInfo) => {
+    const updateUserInfo = async (e: IUserInfo) => {
         if (isAdminPages && !getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
+            store.public.setIsAdminPages(false);
+            router.push('/home');
+            return;
         }
         let obj: IUserInfo = {
             id: String(tmpUser.id) || '',
             ...e,
+            mobile: Number(e.mobile!),
             avatar: userInfo.avatar,
         };
-        let res: any
+        let res: any;
         if (isAdminPages) {
-            res = await adminUserUpdate(obj)
-        }else{
-            res = await userUpdate(obj)
+            res = await adminUserUpdate(obj);
+        } else {
+            res = await userUpdate(obj);
         }
         if (res.code == 200) {
             if (!isAdminPages) {
@@ -55,7 +63,29 @@ const MaskUpdateUser: NextPage = () => {
             closeMaskRegister();
             message.success('修改资料成功');
         }
-    }
+    };
+    // 获取邮箱验证码
+    const getCode = async () => {
+        if (!isGetEmail) return;
+        if (!email) return message.warning('请输入邮箱');
+        let res: any = await getEmailCode({
+            email,
+        });
+        if (res.code == 200) {
+            let num = 59;
+            setIsGetEmail(false);
+            let time = setInterval(() => {
+                num--;
+                if (num == -1) {
+                    setIsGetEmail(true);
+                    num = 59;
+                    clearInterval(time);
+                }
+                setSmsText(num);
+            }, 1000);
+            message.success('验证码发送成功');
+        }
+    };
     // 关闭弹框
     const closeMaskRegister = () => {
         store.public.setMaskShow(false);
@@ -135,6 +165,27 @@ const MaskUpdateUser: NextPage = () => {
                 >
                     <Input placeholder='请输入个性签名!' className={clsx(styles.input, 'w100')} />
                 </Form.Item>
+                <Form.Item
+                    className={clsx(styles.formItem, 'w100')}
+                    name='email'
+                >
+                    <Input type={'email'} placeholder='请输入邮箱!'
+                           className={clsx(styles.input, 'w100')} onChange={emailChange} />
+                </Form.Item>
+                {
+                    !store.user.userData.userInfo.email || email != store.user.userData.userInfo.email ?
+                        <Form.Item
+                            className={clsx(styles.formItem, 'w100')}
+                            name='code'
+                        >
+                            <div className={clsx(styles.group, 'dflex')}>
+                                <Input type={'number'} maxLength={6} placeholder='请输入验证码!'
+                                       className={clsx(styles.input, 'w100')} />
+                                <Button type='primary' className={clsx(styles.btn, 'index10')}
+                                        onClick={getCode}>{isGetEmail ? '获取验证码' : smsText + ' S'}</Button>
+                            </div>
+                        </Form.Item> : <></>
+                }
                 <Form.Item className={clsx(styles.formItem, 'w100', 'mt2')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'>
                         修改资料

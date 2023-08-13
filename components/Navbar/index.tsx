@@ -56,7 +56,7 @@ const Navbar: NextPage = () => {
     };
     // 申请投稿
     const apply = () => {
-        if (store.user.userData.userInfo.mobile === '15257184434') {
+        if (store.user.userData.userInfo.is_admin === 1) {
             store.public.setIsAdministrator(true)
             store.public.setMaskComponentId(1);
             store.public.setMaskShow(true);
@@ -152,7 +152,7 @@ const Navbar: NextPage = () => {
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={apply}>
-                                                {store.user.userData.userInfo.mobile === '15257184434' ? '系统管理' : '投稿申请'}
+                                                {store.user.userData.userInfo.is_admin === 1 ? '系统管理' : '投稿申请'}
                                             </Button>
                                         </Form.Item>
                                         <Form.Item className={clsx(styles.formItem,styles.menuItem, 'mt1')}>
