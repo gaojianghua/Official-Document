@@ -207,9 +207,8 @@ const MaskMark: NextPage = () => {
                         beforeUpload={beforeUpload}
                         onChange={handleLgChange}
                         action={uploadUrl}>
-                        {tmpMark.logo ? <Image src={tmpMark.logo} alt='logo' width="80" height={80} style={{
-                            borderRadius: '5px',
-                            border: '1px double #fb7299',
+                        {tmpMark.logo ? <Image src={tmpMark.logo} alt='logo' width={80} height={80} style={{
+                            borderRadius: '5px'
                         }} /> : uploadButton(1)}
                     </Upload>
                 </Form.Item>
@@ -226,9 +225,8 @@ const MaskMark: NextPage = () => {
                             beforeUpload={beforeUpload}
                             onChange={handleBgChange}
                             action={uploadUrl}>
-                            {tmpMark.image_bg ? <Image src={tmpMark.image_bg} alt='image_bg' width="296" height={156} style={{
-                                borderRadius: '5px',
-                                border: '1px double #fb7299',
+                            {tmpMark.image_bg ? <Image src={tmpMark.image_bg} alt='image_bg' width={296} height={156} style={{
+                                borderRadius: '5px'
                             }} /> : uploadButton(2)}
                         </Upload>
                 </Form.Item>
