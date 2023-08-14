@@ -1,13 +1,14 @@
 import type { NextPage } from 'next';
 import styles from './index.module.scss';
 import clsx from 'clsx';
+import Image from 'next/image'
 import { Button } from 'antd';
 
 const Footer: NextPage = () => {
     return (
         <div className={clsx(styles.footer, 'dflex', 'jcenter', 'acenter', 'mt2')}>
             <div className={clsx('dflex', 'flexcolumn', 'jcenter', 'acenter')}>
-                <img className={styles.extends} src='https://official-document.oss-cn-hangzhou.aliyuncs.com/qrcode_for_gh_4c360c5cb61a_258.jpg' alt='微信公众号' />
+                <Image width={80} height={80} src='https://official-document.oss-cn-hangzhou.aliyuncs.com/qrcode_for_gh_4c360c5cb61a_258.jpg' alt='微信公众号' />
                 <span className={clsx(styles.desc, 'my1', 'lineh', 'cur')}>
                     公众号：程序员印记
                 </span>
@@ -27,7 +28,7 @@ const Footer: NextPage = () => {
                     浙ICP备2022001576号</a>
             </div>
             <div className={clsx('dflex', 'flexcolumn', 'jcenter', 'acenter')}>
-                <img className={styles.extends} src='https://official-document.oss-cn-hangzhou.aliyuncs.com/IMG_7086(20230730-131307).JPG' alt='技术交流群' />
+                <Image width={80} height={80} src='https://official-document.oss-cn-hangzhou.aliyuncs.com/IMG_7086(20230730-131307).JPG' alt='技术交流群' />
                 <span className={clsx(styles.desc, 'my1', 'lineh', 'cur')}>
                     技术交流群：指间运动
                 </span>

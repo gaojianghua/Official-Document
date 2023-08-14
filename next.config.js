@@ -1,8 +1,8 @@
 const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  build: {
-    polyfillModulePreload: true
+  images: {
+    domains: ['gaojianghua.oss-cn-hangzhou.aliyuncs.com', 'official-document.oss-cn-hangzhou.aliyuncs.com'],
   },
   reactStrictMode: true,
   swcMinify: true,

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/store';
 import { getAdminUserList, userDelete } from '@/service/api';
 import clsx from 'clsx';
@@ -13,6 +13,7 @@ import { IUserInfo } from '@/store/userStore';
 import { Paging } from '@/types/res';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
 
 const AdminUser: NextPage = () => {
     const store = useStore();
@@ -35,7 +36,7 @@ const AdminUser: NextPage = () => {
         {
             title: '头像',
             dataIndex: 'avatar',
-            render: (e)=> <img className={clsx(styles.imgs)} src={e} />
+            render: (e)=> <Image width={50} height={50} alt={'avatar'} src={e} />
         },
         {
             title: '手机号',
@@ -60,6 +61,19 @@ const AdminUser: NextPage = () => {
         },
     ];
 
+    const getUserList = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        const res: any = await getAdminUserList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    },[router, store.public])
+
     useEffect(()=> {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
@@ -70,7 +84,7 @@ const AdminUser: NextPage = () => {
                 });
             }
         }
-    }, [store.user.userData.refresh])
+    }, [getUserList, store.public.publicData.adminToken , paging, search, tableCurrent, store.public.publicData.isAdminPages, store.user.userData.refresh])
 
     // 打开编辑弹框
     const openEditor = (record:IUserInfo) => {
@@ -111,19 +125,6 @@ const AdminUser: NextPage = () => {
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
-        }
-    }
-
-    const getUserList = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        const res: any = await getAdminUserList(query)
-        if(res.code == 200) {
-            setDataSource(res.data.list)
-            setTotal(res.data.total)
         }
     }
     const inputSubmit = (e:string) => {

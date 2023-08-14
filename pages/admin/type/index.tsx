@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import styles from '@/pages/admin/link/index.module.scss';
@@ -64,6 +64,29 @@ const AdminType: NextPage = () => {
             </div>,
         },
     ];
+
+    const getMenuData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        let res: any = await getClassList(query);
+        let menu: Menu[] = [];
+        if (res.code == 200) {
+            res.data.list.forEach((item: Menu) => {
+                if (item.router == '/') {
+                    menu.unshift(item);
+                } else {
+                    menu.push(item);
+                }
+            });
+            setDataSource(menu)
+            setTotal(res.data.total)
+            store.public.setMenu(menu)
+            store.class.setSuccess(false)
+        }
+    },[store.public, store.class, router])
     useEffect(()=> {
         if (success){
             getMenuData({
@@ -73,7 +96,7 @@ const AdminType: NextPage = () => {
             })
         }
         setDataSource(store.public.publicData.menu)
-    }, [success, store.class.classData.refresh])
+    }, [getMenuData, search, paging, tableCurrent, success,store.public.publicData.menu, store.class.classData.refresh])
 
     // 打开编辑弹框
     const openEditor = (record: Menu) => {
@@ -116,29 +139,6 @@ const AdminType: NextPage = () => {
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
-        }
-    }
-
-    const getMenuData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        let res: any = await getClassList(query);
-        let menu: Menu[] = [];
-        if (res.code == 200) {
-            res.data.list.forEach((item: Menu) => {
-                if (item.router == '/') {
-                    menu.unshift(item);
-                } else {
-                    menu.push(item);
-                }
-            });
-            setDataSource(menu)
-            setTotal(res.data.total)
-            store.public.setMenu(menu)
-            store.class.setSuccess(false)
         }
     }
     const addCard = () => {

@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/store';
 import { getAdminLogsList } from '@/service/api';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import MSearch from 'C/mSearch';
+import Image from 'next/image';
 import { getSession, isWindow, timeFormat } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { ColumnsType } from 'antd/es/table';
@@ -45,7 +46,7 @@ const AdminLogs: NextPage = () => {
         {
             title: '头像',
             dataIndex: 'avatar',
-            render: (e)=> <img className={clsx(styles.imgs)} src={e} />,
+            render: (e)=> <Image width={50} height={50} alt={'avatar'} src={e} />,
             width: '150px',
         },
         {
@@ -78,19 +79,7 @@ const AdminLogs: NextPage = () => {
         }
     ];
 
-    useEffect(()=> {
-        if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
-            if (isWindow()) {
-                getLogsList({
-                    ...paging,
-                    page_num: tableCurrent,
-                    search
-                });
-            }
-        }
-    }, [store.common.commonData.logsRefresh])
-
-    const getLogsList = async (query:Paging) => {
+    const getLogsList = useCallback(async (query:Paging) => {
         if (!getSession('adminToken')) {
             store.public.setIsAdminPages(false)
             router.push('/home')
@@ -101,7 +90,18 @@ const AdminLogs: NextPage = () => {
             setDataSource(res.data.list)
             setTotal(res.data.total)
         }
-    }
+    },[router, store.public])
+    useEffect(()=> {
+        if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
+            if (isWindow()) {
+                getLogsList({
+                    ...paging,
+                    page_num: tableCurrent,
+                    search
+                });
+            }
+        }
+    }, [getLogsList, paging, search, tableCurrent, store.public.publicData.adminToken, store.public.publicData.isAdminPages, store.common.commonData.logsRefresh])
     const inputSubmit = (e:string) => {
         if (!e) {
             message.warning("请输入管理员姓名")

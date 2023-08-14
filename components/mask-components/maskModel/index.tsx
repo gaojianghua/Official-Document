@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useStore } from '@/store';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { observer } from 'mobx-react-lite';
 
 const MaskModel: NextPage = () => {
     const store = useStore()
@@ -35,4 +36,4 @@ const MaskModel: NextPage = () => {
         </div>
     );
 }
-export default MaskModel
+export default observer(MaskModel)

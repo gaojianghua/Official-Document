@@ -4,7 +4,6 @@ import { useStore } from '@/store';
 import { Form, Input, Button, message, Spin } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { getSmsCode, register } from '@/service/api';
 import { ChangeEvent, useState } from 'react';
 import RealPersonVerification from 'C/mask-components/maskLogin/real-person-verification';

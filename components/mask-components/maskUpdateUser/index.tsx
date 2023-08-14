@@ -2,7 +2,8 @@ import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { useStore } from '@/store';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, Button, message, Upload, Image } from 'antd';
+import Image from 'next/image';
+import { Form, Input, Button, message, Upload } from 'antd';
 import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
@@ -137,9 +138,7 @@ const MaskUpdateUser: NextPage = () => {
                             beforeUpload={beforeUpload}
                             onChange={handleAvatarChange}
                             action={uploadUrl}>
-                            {userInfo.avatar ? <Image preview={false} src={userInfo.avatar} alt='avatar' style={{
-                                width: '100px',
-                                height: '100px',
+                            {userInfo.avatar ? <Image width={100} height={100} src={userInfo.avatar} alt='avatar' style={{
                                 borderRadius: '50%',
                             }} /> : uploadButton()}
                         </Upload>

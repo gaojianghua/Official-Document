@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/store';
 import styles from './index.module.scss'
 import { observer } from 'mobx-react-lite';
@@ -36,14 +36,7 @@ const time = [
 const AdminHome: NextPage = () => {
     const store = useStore()
     const [data, setData] = useState<IData[]>([])
-
-
-    useEffect(()=> {
-        getCardData()
-    }, [store.public.publicData.refresh])
-
-
-    const getCardData = async () => {
+    const getCardData = useCallback(async () => {
         // let uid: string
         // store.public.publicData.menu.forEach((item) => {
         //     if (item.router == pathname) {
@@ -80,7 +73,11 @@ const AdminHome: NextPage = () => {
                 }
             ])
         // }
-    }
+    },[])
+    useEffect(()=> {
+        getCardData()
+    }, [getCardData, store.public.publicData.refresh])
+
     return (<div className={clsx(styles.page, 'dflex', 'flexcolumn')}>
         <div className={clsx(styles.list, 'dflex', 'jsb')}>
             {

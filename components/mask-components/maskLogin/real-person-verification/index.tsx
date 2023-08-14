@@ -1,9 +1,8 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
-import { Form, Input, Button, message } from 'antd';
 import MSearch from 'C/mSearch';
 import styles from './index.module.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { getRandomNum } from '@/utils';
@@ -17,22 +16,24 @@ interface IProps {
 
 const RealPersonVerification: NextPage<IProps> = (props) => {
     const { reslPerson, closeVerCode, calculation } = props
-    const arr = ['＋', '－', '＊']
+    const arr = useMemo(() => {
+        // arr数组的初始化
+        return ['＋', '－', '＊'];
+    }, []);
     const [numberOne, setNumberOne] = useState(0);
     const [numberTwo, setNumberTwo] = useState(0);
     const [char, setChar] = useState('');
 
-    useEffect(() => {
-        init()
-    }, [calculation])
-
-    const init = () => {
+    const init = useCallback(() => {
         let num = getRandomNum(0, 3)
         let numberOne = getRandomNum(3, 100)
         setNumberOne(numberOne)
         setChar(arr[num])
         num == 1 ? setNumberTwo(getRandomNum(0, numberOne)) : setNumberTwo(getRandomNum(0, 100))
-    }
+    },[arr])
+    useEffect(() => {
+        init()
+    }, [init, calculation])
     const filterReslPerson = (e: number) => {
         let integer: number = 0
         let index: number = arr.map(item => item).indexOf(char)

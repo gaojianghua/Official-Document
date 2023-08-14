@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/animate.css';
 import '../styles/main.css';
 import { StoreProvider } from '@/store';
 import Layout from 'components/Layout';
@@ -13,21 +12,21 @@ interface IProps {
     pageProps: any
 }
 
-function MyApp({ initialValue, Component, pageProps }: IProps) {
-    return (<StoreProvider initialValue={initialValue}>
+function MyApp(props: IProps) {
+    return (<StoreProvider initialValue={props.initialValue}>
         <Layout>
-            <Component {...pageProps} initialValue={initialValue} />
+            <props.Component {...props.pageProps} initialValue={props.initialValue} />
         </Layout>
     </StoreProvider>);
 }
 
 MyApp.getInitialProps = async (ctx: NextPageContext) => {
     // @ts-ignore
-    let index = ctx?.router.pathname.indexOf('admin')
+    let index = ctx?.router.pathname.indexOf('admin');
     if (index > -1) return {};
     let res: any = await getClassList({
         page_num: 1,
-        page_size: 20
+        page_size: 20,
     } as Paging);
     let menu: Menu[] = [];
     if (res.code == 200) {
@@ -39,7 +38,7 @@ MyApp.getInitialProps = async (ctx: NextPageContext) => {
             }
         });
     }
-    let publicKey: any = await getPublicKey()
+    let publicKey: any = await getPublicKey();
     return {
         initialValue: {
             public: {
@@ -49,8 +48,8 @@ MyApp.getInitialProps = async (ctx: NextPageContext) => {
                     isInit: true
                 }
             }
-        },
-    };
-};
+        }
+    }
+}
 
 export default MyApp;

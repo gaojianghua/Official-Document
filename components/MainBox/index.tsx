@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import { Button, Form, Input, message } from 'antd';
 import styles from './index.module.scss';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useStore } from '@/store';
 import { getUserLinkList, userLinkDel } from '@/service/api';
@@ -27,20 +27,8 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const [rManage, setRManage] = useState(false);
     const { token } = store.public.publicData;
     const { success } = store.link.linkData;
-    useEffect(() => {
-        if (token) {
-            getUserLinkListData();
-        } else {
-            setLList(() => []);
-            setRList(() => []);
-        }
-        if (success) {
-            getUserLinkListData();
-            store.link.setSuccess(false);
-        }
-    }, [token,success]);
     // 获取数据
-    const getUserLinkListData = async () => {
+    const getUserLinkListData = useCallback(async () => {
         if (!token) return;
         let larray: ULink[] = [];
         let rarray: ULink[] = [];
@@ -64,7 +52,19 @@ const MainBox: NextPage<Props> = ({ children }) => {
             setLList(larray);
             setRList(rarray);
         }
-    };
+    },[token])
+    useEffect(() => {
+        if (token) {
+            getUserLinkListData();
+        } else {
+            setLList(() => []);
+            setRList(() => []);
+        }
+        if (success) {
+            getUserLinkListData();
+            store.link.setSuccess(false);
+        }
+    }, [getUserLinkListData, store.link, token,success]);
     // 搜索
     const onFinish = () => {
         if (!input) return message.warning('请输入关键词');

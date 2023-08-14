@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/store';
 import { getAdminList, getAdminPermissionList, getAdminRoleList, userDelete } from '@/service/api';
 import clsx from 'clsx';
@@ -69,7 +69,45 @@ const AdminRoot: NextPage = () => {
             </div>,
         },
     ];
-
+    // 获取管理员数据
+    const getAdminListData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        const res: any = await getAdminList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    },[router, store.public])
+    // 获取角色数据
+    const getAdminRoleListData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        const res: any = await getAdminRoleList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    },[router, store.public])
+    // 获取权限数据
+    const getAdminPermissionListData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        const res: any = await getAdminPermissionList(query)
+        if(res.code == 200) {
+            setDataSource(res.data.list)
+            setTotal(res.data.total)
+        }
+    },[router, store.public])
     useEffect(()=> {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
@@ -94,7 +132,7 @@ const AdminRoot: NextPage = () => {
                 }
             }
         }
-    }, [store.common.commonData.rootRefresh, current])
+    }, [getAdminListData, getAdminRoleListData, getAdminPermissionListData,paging, tableCurrent ,search,store.public.publicData.adminToken , store.public.publicData.isAdminPages, store.common.commonData.rootRefresh, current])
 
     // 打开编辑弹框
     const openEditor = (record:IAdmin) => {
@@ -135,45 +173,6 @@ const AdminRoot: NextPage = () => {
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
-        }
-    }
-    // 获取管理员数据
-    const getAdminListData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        const res: any = await getAdminList(query)
-        if(res.code == 200) {
-            setDataSource(res.data.list)
-            setTotal(res.data.total)
-        }
-    }
-    // 获取角色数据
-    const getAdminRoleListData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        const res: any = await getAdminRoleList(query)
-        if(res.code == 200) {
-            setDataSource(res.data.list)
-            setTotal(res.data.total)
-        }
-    }
-    // 获取权限数据
-    const getAdminPermissionListData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        const res: any = await getAdminPermissionList(query)
-        if(res.code == 200) {
-            setDataSource(res.data.list)
-            setTotal(res.data.total)
         }
     }
     const inputSubmit = (e:string) => {

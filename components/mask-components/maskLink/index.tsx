@@ -4,7 +4,6 @@ import { useStore } from '@/store';
 import { Button, Form, Input, message, Radio } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
-import { MAvatar } from 'components';
 import { linkAdd, linkUpdate, userLinkAdd, userLinkUpdate } from '@/service/api';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';

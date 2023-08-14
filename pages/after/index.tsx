@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { Column } from 'components';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import { getCardList } from '@/service/api';
@@ -10,13 +10,7 @@ const After: NextPage = () => {
     const { pathname } = useRouter();
     const store = useStore()
 
-
-    useEffect(()=> {
-        getCardData()
-    }, [])
-
-
-    const getCardData = async () => {
+    const getCardData = useCallback(async () => {
         let uid: string
         store.public.publicData.menu.forEach((item) => {
             if (item.router == pathname) {
@@ -28,7 +22,12 @@ const After: NextPage = () => {
         if(res.code == 200) {
             setUrlList(res.data)
         }
-    }
+    },[store.public.publicData.menu, pathname])
+
+    useEffect(()=> {
+        getCardData()
+    }, [getCardData])
+
     return (<>
         {
             urlList?.map((item, index) => (

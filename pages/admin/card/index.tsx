@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import { useStore } from '@/store';
 import MSearch from 'C/mSearch';
@@ -9,6 +9,7 @@ import { cardDel, getAdminCardList, getAdminUserCardList, userCardDel } from '@/
 import { getSession, isWindow } from '@/utils';
 import AdminTable from 'C/Admin/AdminTable';
 import { Mark, Paging } from '@/types/res';
+import Image from 'next/image';
 import { message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
@@ -81,13 +82,13 @@ const AdminCard: NextPage = () => {
             dataIndex: 'logo',
             key: 'logo',
             width: '150px',
-            render: (e) => <img className={clsx(styles.imgs)} src={e} />,
+            render: (e) => <Image alt={'logo'} width={50} height={50} src={e} />,
         },
         {
             title: '背景',
             dataIndex: 'image_bg',
             key: 'image_bg',
-            render: (e) => <img className={clsx(styles.bgs)} src={e} />,
+            render: (e) => <Image alt={'背景图片'} width={200} height={100}  src={e} />,
         },
         {
             title: '操作',
@@ -106,6 +107,25 @@ const AdminCard: NextPage = () => {
     const columns: ColumnsType<DataType> = current == 1 ? [...currentOne, ...common]:
         [...currentTwo, ...common];
 
+    const getCardData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        let res: any;
+        if (current == 1) {
+            res = await getAdminCardList(query);
+        } else if (current == 2) {
+            res = await getAdminUserCardList(query);
+        }
+        if (res.code == 200) {
+            setTotal(res.data.total)
+            setDataSource(res.data.list);
+            store.mark.setSuccess(false)
+        }
+    },[store.public, router, store.mark, current])
+
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
@@ -116,7 +136,7 @@ const AdminCard: NextPage = () => {
                 });
             }
         }
-    }, [current, success, store.mark.markData.refresh]);
+    }, [getCardData, paging, search, current,store.public.publicData.adminToken, tableCurrent, store.public.publicData.isAdminPages, success, store.mark.markData.refresh]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.mark.setTmpMark(record);
@@ -161,25 +181,6 @@ const AdminCard: NextPage = () => {
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
-        }
-    };
-
-    const getCardData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        let res: any;
-        if (current == 1) {
-            res = await getAdminCardList(query);
-        } else if (current == 2) {
-            res = await getAdminUserCardList(query);
-        }
-        if (res.code == 200) {
-            setTotal(res.data.total)
-            setDataSource(res.data.list);
-            store.mark.setSuccess(false)
         }
     };
     // 切换

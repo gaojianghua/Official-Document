@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import styles from './index.module.scss'
@@ -15,21 +15,21 @@ const Home: NextPage = () => {
   const { isManagement, token } = store.public.publicData;
   const { success } = store.mark.markData;
   const [ cardArr, setCardArr ] = useState<Mark[]>([])
+  // 获取数据
+  const getUserCardListData = useCallback(async () => {
+    let res: any = await getUserCardList()
+    if (res.code == 200) {
+      setCardArr(res.data)
+      store.mark.setSuccess(false)
+    }
+  },[store.mark])
   useEffect(() => {
     if (token || success) {
       getUserCardListData()
     } else {
       setCardArr(() => [])
     }
-  },[token, success])
-  // 获取数据
-  const getUserCardListData = async () => {
-    let res: any = await getUserCardList()
-    if (res.code == 200) {
-        setCardArr(res.data)
-        store.mark.setSuccess(false)
-    }
-  }
+  },[getUserCardListData, token, success])
   // 增加一个新增印记的编辑框
   const addMarkBox = () => {
     store.public.setIsUpdateCard(false)
@@ -67,6 +67,7 @@ const Home: NextPage = () => {
         }
       })
       setCardArr([...arr])
+      store.public.setMaskShow(false)
       message.success('移除成功')
     }
   }

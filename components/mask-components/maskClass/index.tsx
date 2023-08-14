@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { useStore } from '@/store';
-import { Form, Input, Button, message, Radio, RadioChangeEvent, Cascader, Select } from 'antd';
+import { Form, Input, Button, message, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { classAdd, classUpdate } from '@/service/api';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSession } from '@/utils';
 
@@ -18,11 +18,7 @@ const MaskClass: NextPage = () => {
     const [tmpClass] = useState(store.class.classData.tmpClass)
     const [options, setOptions] = useState([])
 
-    useEffect(() => {
-        init()
-    }, [])
-
-    const init = () => {
+    const init = useCallback(() => {
         let arr: any = []
         store.public.publicData.menu.forEach((item, i) => {
             let obj = {
@@ -32,8 +28,10 @@ const MaskClass: NextPage = () => {
             arr.push(obj)
         })
         setOptions(arr)
-    }
-
+    }, [store.public.publicData.menu])
+    useEffect(() => {
+        init()
+    }, [init])
     const onFinish = async (e: any) => {
         if (store.public.publicData.isAdminPages && !getSession('adminToken')) {
             store.public.setIsAdminPages(false)

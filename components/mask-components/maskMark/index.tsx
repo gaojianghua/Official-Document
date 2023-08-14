@@ -2,11 +2,12 @@ import type { NextPage } from 'next';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { Button, Form, Image, Input, message, TreeSelect, Upload } from 'antd';
+import { Button, Form, Input, message, TreeSelect, Upload } from 'antd';
+import Image from 'next/image'
 import { CloseCircleOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import styles from './index.module.scss';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { beforeUpload, getSession } from '@/utils';
 import { imageType, uploadUrl } from '@/config';
 import { Mark, Menu } from '@/types/res';
@@ -20,16 +21,7 @@ const MaskMark: NextPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [options, setOptions] = useState([]);
     const [tmpMark, setTmpMark] = useState<Mark>(store.mark.markData.tmpMark);
-
-    useEffect(() => {
-        init();
-    }, []);
-
-    const init = () => {
-        setOptions(getChildren(store.public.publicData.menu, 0));
-    };
-
-    const getChildren = (list: Menu[], id:number) => {
+    const getChildren = useCallback((list: Menu[], id:number) => {
         if (!list || list.length == 0) return [];
         let arr: any = [];
         list.forEach((item: Menu, i) => {
@@ -43,8 +35,13 @@ const MaskMark: NextPage = () => {
             arr.push(obj);
         });
         return arr;
-    };
-
+    },[])
+    const init = useCallback(() => {
+        setOptions(getChildren(store.public.publicData.menu, 0));
+    },[getChildren, store.public.publicData.menu])
+    useEffect(() => {
+        init();
+    }, [init]);
     // 关闭新增或者编辑弹窗
     const closeMaskMark = () => {
         store.public.setMaskShow(false);
@@ -210,10 +207,9 @@ const MaskMark: NextPage = () => {
                         beforeUpload={beforeUpload}
                         onChange={handleLgChange}
                         action={uploadUrl}>
-                        {tmpMark.logo ? <Image preview={false} src={tmpMark.logo} alt='logo' style={{
-                            width: '80px',
-                            height: '80px',
+                        {tmpMark.logo ? <Image src={tmpMark.logo} alt='logo' width="80" height={80} style={{
                             borderRadius: '5px',
+                            border: '1px double #fb7299',
                         }} /> : uploadButton(1)}
                     </Upload>
                 </Form.Item>
@@ -230,10 +226,9 @@ const MaskMark: NextPage = () => {
                             beforeUpload={beforeUpload}
                             onChange={handleBgChange}
                             action={uploadUrl}>
-                            {tmpMark.image_bg ? <Image preview={false} src={tmpMark.image_bg} alt='image_bg' style={{
-                                width: '296px',
-                                height: '156px',
+                            {tmpMark.image_bg ? <Image src={tmpMark.image_bg} alt='image_bg' width="296" height={156} style={{
                                 borderRadius: '5px',
+                                border: '1px double #fb7299',
                             }} /> : uploadButton(2)}
                         </Upload>
                 </Form.Item>

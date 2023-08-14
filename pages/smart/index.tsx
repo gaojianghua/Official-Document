@@ -1,22 +1,16 @@
 import type { NextPage } from 'next'
 import { Column } from 'components';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from '@/store';
 import { getCardList } from '@/service/api';
+import { router } from 'next/client';
 
 const Smart: NextPage = () => {
     const [urlList, setUrlList] = useState([])
     const { pathname } = useRouter();
     const store = useStore()
-
-
-    useEffect(()=> {
-        getCardData()
-    }, [])
-
-
-    const getCardData = async () => {
+    const getCardData = useCallback(async () => {
         let uid: string
         store.public.publicData.menu.forEach((item) => {
             if (item.router == pathname) {
@@ -28,7 +22,12 @@ const Smart: NextPage = () => {
         if(res.code == 200) {
             setUrlList(res.data)
         }
-    }
+    },[pathname, store.public.publicData.menu])
+
+    useEffect(()=> {
+        getCardData()
+    }, [getCardData])
+
     return (<>
         {
             urlList?.map((item, index) => (

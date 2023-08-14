@@ -4,13 +4,13 @@
  * @LastEditors  : 15257184434 g598670138@163.com
  * @LastEditTime : 2023-02-07 17:18:12
  * @FilePath     : \Official-Document\components\mavatar\index.tsx
- * @Description  : 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ * @Description  :
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import type { NextPage } from 'next';
 import clsx from 'clsx';
-import { Image } from 'antd'
+import Image from 'next/image'
 import styles from './index.module.scss'
 import { IAvatarProps } from 'types/global';
 import { imageType } from '@/config';
@@ -18,9 +18,10 @@ import { imageType } from '@/config';
 const MAvatar: NextPage<IAvatarProps> = ({className}) => {
     return (<div className={clsx(className, 'dflex', 'acenter', 'jcenter')}>
         <Image
-            rootClassName={clsx(styles.image)}
-            preview={false}
-            alt={''}
+            width={50}
+            height={50}
+            className={clsx(styles.image)}
+            alt={'avatar'}
             src={imageType.logo}
         />
     </div>);

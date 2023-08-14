@@ -4,7 +4,7 @@ import Footer from 'components/Footer';
 import MainBox from 'components/MainBox';
 import { Mask } from 'components/index';
 import styles from './index.module.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {useStore} from '@/store';
 import { getSession, setSession } from '@/utils';
 import Meteor from 'C/meteor';
@@ -25,13 +25,7 @@ const Layout: NextPage<Props> = ({ children }) => {
     const store = useStore()
     const router = useRouter()
     const [isSwitch, setIsSwitch] = useState(true)
-    useEffect(() => {
-        store.public.setToken(getSession('token')!)
-        store.public.setAdminToken(getSession('adminToken')!)
-        store.user.setUserInfo( JSON.parse(getSession('userInfo')!) || {})
-        init()
-    }, []);
-    const init = () => {
+    const init = useCallback(() => {
         document.onclick = (e) => {
             store.user.setIsShowMenu(false)
         }
@@ -52,7 +46,13 @@ const Layout: NextPage<Props> = ({ children }) => {
                 router.push('/home')
             }
         }
-    }
+    },[router, store.public, store.user])
+    useEffect(() => {
+        store.public.setToken(getSession('token')!)
+        store.public.setAdminToken(getSession('adminToken')!)
+        store.user.setUserInfo( JSON.parse(getSession('userInfo')!) || {})
+        init()
+    }, [init, store.user, store.public]);
     const updateSwitch = () => {
         setIsSwitch(() => !isSwitch)
         return isSwitch

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import { useStore } from '@/store';
 import MSearch from 'C/mSearch';
@@ -60,7 +60,24 @@ const AdminLink: NextPage = () => {
             </div>,
         },
     ];
-
+    const getLinkData = useCallback(async (query:Paging) => {
+        if (!getSession('adminToken')) {
+            store.public.setIsAdminPages(false)
+            router.push('/home')
+            return
+        }
+        let res: any;
+        if (current == 1) {
+            res = await getLinkList(query);
+        } else if (current == 2) {
+            res = await getAdminUserLinkList(query);
+        }
+        if (res.code == 200) {
+            setDataSource(res.data.list);
+            setTotal(res.data.total)
+            store.link.setSuccess(false)
+        }
+    },[store.public, router, store.link, current])
     useEffect(() => {
         if (store.public.publicData.adminToken && store.public.publicData.isAdminPages) {
             if (isWindow()) {
@@ -71,7 +88,7 @@ const AdminLink: NextPage = () => {
                 });
             }
         }
-    }, [current, success, store.link.linkData.refresh]);
+    }, [getLinkData, paging, search, current, store.public.publicData.adminToken, store.public.publicData.isAdminPages, tableCurrent, success, store.link.linkData.refresh]);
     // 打开编辑弹框
     const openEditor = (record: any) => {
         store.public.setMaskComponentId(4);
@@ -116,25 +133,6 @@ const AdminLink: NextPage = () => {
             });
             store.public.setMaskShow(false);
             message.success('删除成功');
-        }
-    };
-
-    const getLinkData = async (query:Paging) => {
-        if (!getSession('adminToken')) {
-            store.public.setIsAdminPages(false)
-            router.push('/home')
-            return
-        }
-        let res: any;
-        if (current == 1) {
-            res = await getLinkList(query);
-        } else if (current == 2) {
-            res = await getAdminUserLinkList(query);
-        }
-        if (res.code == 200) {
-            setDataSource(res.data.list);
-            setTotal(res.data.total)
-            store.link.setSuccess(false)
         }
     };
     // 切换

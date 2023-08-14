@@ -4,19 +4,12 @@ import { useStore } from '@/store';
 import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import { isWindow } from '@/utils';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { CloseCircleOutlined } from '@ant-design/icons';
-
-
 
 const MaskMap: NextPage = () => {
     const store = useStore();
-
-    useEffect(() => {
-        init()
-    }, [])
-
-    const init = () => {
+    const init = useCallback(() => {
         if (isWindow()) {
             const AMapLoader = require('@amap/amap-jsapi-loader')
             // @ts-ignore
@@ -37,7 +30,11 @@ const MaskMap: NextPage = () => {
                 console.log(e);
             });
         }
-    }
+    },[store.user.userData.userInfo.rectangle])
+
+    useEffect(() => {
+        init()
+    }, [init])
     // 关闭弹框
     const closeMaskMap = () => {
         store.public.setMaskShow(false);

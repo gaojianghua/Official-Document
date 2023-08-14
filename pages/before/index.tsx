@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { Column } from 'components';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getCardList } from '@/service/api';
 import { useStore } from '@/store';
@@ -10,11 +10,8 @@ const Before: NextPage = () => {
     const [before, setBefore] = useState([]);
     const { pathname } = useRouter();
     const store = useStore();
-    useEffect(() => {
-        getCardData()
-    },[]);
     // 获取card数据
-    const getCardData = async () => {
+    const getCardData = useCallback(async () => {
         let uid: string;
         store.public.publicData.menu.forEach((item) => {
             if (item.router == pathname) {
@@ -26,7 +23,11 @@ const Before: NextPage = () => {
         if (res.code == 200) {
             setBefore(res.data);
         }
-    };
+    },[store.public.publicData.menu, pathname])
+    useEffect(() => {
+        getCardData()
+    },[getCardData]);
+
     return (<>
         {
             before?.map((item, index) => (
