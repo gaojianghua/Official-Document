@@ -32,6 +32,7 @@ const Home: NextPage = () => {
   },[getUserCardListData, token, success])
   // 增加一个新增印记的编辑框
   const addMarkBox = () => {
+    store.mark.setTmpMark({})
     store.public.setIsUpdateCard(false)
     store.public.setMaskComponentId(2)
     store.public.setIsAddAndEditor(1)

@@ -24,7 +24,7 @@ const MaskMark: NextPage = () => {
     const getChildren = useCallback((list: Menu[], id:number) => {
         if (!list || list.length == 0) return [];
         let arr: any = [];
-        list.forEach((item: Menu, i) => {
+        list.forEach((item: Menu) => {
             let obj = {
                 value: item.class_id,
                 label: item.class_name,
@@ -207,8 +207,8 @@ const MaskMark: NextPage = () => {
                         beforeUpload={beforeUpload}
                         onChange={handleLgChange}
                         action={uploadUrl}>
-                        {tmpMark.logo ? <Image src={tmpMark.logo} alt='logo' width={80} height={80} style={{
-                            borderRadius: '5px'
+                        {tmpMark.logo ? <Image src={tmpMark.logo} alt='logo' width={78} height={78} style={{
+                            borderRadius: '12px'
                         }} /> : uploadButton(1)}
                     </Upload>
                 </Form.Item>
@@ -225,8 +225,8 @@ const MaskMark: NextPage = () => {
                             beforeUpload={beforeUpload}
                             onChange={handleBgChange}
                             action={uploadUrl}>
-                            {tmpMark.image_bg ? <Image src={tmpMark.image_bg} alt='image_bg' width={296} height={156} style={{
-                                borderRadius: '5px'
+                            {tmpMark.image_bg ? <Image src={tmpMark.image_bg} alt='image_bg' width={294} height={154} style={{
+                                borderRadius: '12px'
                             }} /> : uploadButton(2)}
                         </Upload>
                 </Form.Item>
