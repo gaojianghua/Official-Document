@@ -41,7 +41,7 @@ const MaskLogin: NextPage = () => {
         if (isTypeCode === 0) {
             if (!e.mobile) return message.warning('请输入手机号');
             if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(e.mobile)) return message.warning('请输入正确的手机号');
-        }else{
+        } else {
             if (!e.email) return message.warning('请输入邮箱');
             if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)) return message.warning('请输入正确的邮箱');
         }
@@ -87,7 +87,7 @@ const MaskLogin: NextPage = () => {
             };
             res = await adminLoginPassword(form);
         } else {
-            if(isTypeCode === 0) {
+            if (isTypeCode === 0) {
                 form = {
                     ...formData,
                     mobile: Number(formData?.mobile),
@@ -96,7 +96,7 @@ const MaskLogin: NextPage = () => {
                     json_obj_iv: jsonObjEncryteData.iv,
                 };
                 res = await adminLoginCode(form);
-            }else {
+            } else {
                 form = {
                     ...formData,
                     json_obj_data: jsonObjEncryteData.serverRsaData,
@@ -136,7 +136,7 @@ const MaskLogin: NextPage = () => {
             };
             res = await loginPassword(form);
         } else {
-            if(isTypeCode === 0) {
+            if (isTypeCode === 0) {
                 form = {
                     ...formData,
                     mobile: Number(formData?.mobile),
@@ -145,7 +145,7 @@ const MaskLogin: NextPage = () => {
                     json_obj_iv: jsonObjEncryteData.iv,
                 };
                 res = await loginCode(form);
-            }else {
+            } else {
                 form = {
                     ...formData,
                     json_obj_data: jsonObjEncryteData.serverRsaData,
@@ -179,7 +179,7 @@ const MaskLogin: NextPage = () => {
             res = await getSmsCode({
                 mobile: Number(phone),
             });
-        }else {
+        } else {
             if (!email) return message.warning('请输入邮箱');
             if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)) return message.warning('请输入正确的邮箱');
             res = await getEmailCode({
@@ -211,6 +211,11 @@ const MaskLogin: NextPage = () => {
         setIsRealPerson(2);
         setLoading(false);
     };
+    // 切换密码或验证码
+    const switchCodeOrPassword = () => {
+        setIsCodeOrPassword(!isCodeOrPassword)
+        setIsTypeCode(0)
+    };
     return (
         <div className={clsx(styles.login)}>
             <div className={clsx(styles.title, 'mb2', 'dflex', 'jsb', 'acenter')}>
@@ -229,18 +234,18 @@ const MaskLogin: NextPage = () => {
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem)}
-                    name={isTypeCode===0 ? 'mobile' : 'email'}
+                    name={isTypeCode === 0 ? 'mobile' : 'email'}
                 >
                     <div className={clsx(styles.group, 'dflex')}>
-                        <Input type={isTypeCode===0 ? 'number' : 'email'} maxLength={isTypeCode===0 ? 11 : 50} placeholder={isTypeCode===0 ? '请输入手机号!' : '请输入邮箱'}
-                               className={clsx(styles.input, 'w100')} onChange={phoneOrEmailChange} />
+                        <Input type={isTypeCode === 0 ? 'number' : 'email'} maxLength={isTypeCode === 0 ? 11 : 50} placeholder={isTypeCode === 0 ? '请输入手机号!' : '请输入邮箱'}
+                            className={clsx(styles.input, 'w100')} onChange={phoneOrEmailChange} />
                         {
                             !isCodeOrPassword ?
                                 <div className={clsx('dflex')}>
-                                    <Button type='primary' className={clsx(styles.codel,'index10', isTypeCode === 0 ? styles.activeCode : '')}
-                                            onClick={()=> setIsTypeCode(0)}>手机</Button>
+                                    <Button type='primary' className={clsx(styles.codel, 'index10', isTypeCode === 0 ? styles.activeCode : '')}
+                                        onClick={() => setIsTypeCode(0)}>手机</Button>
                                     <Button type='primary' className={clsx(styles.coder, 'index10', isTypeCode === 1 ? styles.activeCode : '')}
-                                            onClick={()=> setIsTypeCode(1)}>邮箱</Button>
+                                        onClick={() => setIsTypeCode(1)}>邮箱</Button>
                                 </div> : <></>
                         }
                     </div>
@@ -250,7 +255,7 @@ const MaskLogin: NextPage = () => {
                     name='password'
                 >
                     <Input type='password' placeholder='请输入密码!' className={clsx(styles.input, 'w100')}
-                           autoComplete='new-password' />
+                        autoComplete='new-password' />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, !isCodeOrPassword ? 'dblock' : 'dflexNone')}
@@ -258,20 +263,20 @@ const MaskLogin: NextPage = () => {
                 >
                     <div className={clsx(styles.group, 'dflex')}>
                         <Input type={'number'} maxLength={6} placeholder='请输入验证码!'
-                               className={clsx(styles.input, 'w100')} />
+                            className={clsx(styles.input, 'w100')} />
                         <Button type='primary' className={clsx(styles.btn, 'index10')}
-                                onClick={getCode}>{isGetSms ? '获取验证码' : smsText + ' S'}</Button>
+                            onClick={getCode}>{isGetSms ? '获取验证码' : smsText + ' S'}</Button>
                     </div>
                 </Form.Item>
                 <Form.Item className={clsx(styles.formItem, 'dflex', 'jcenter')}>
                     <Button className={clsx(styles.btn, styles.orBtn)} type='primary'
-                            onClick={() => setIsCodeOrPassword(!isCodeOrPassword)}>
+                        onClick={switchCodeOrPassword}>
                         {isCodeOrPassword ? '验证码登录' : '密码登录'}
                     </Button>
                 </Form.Item>
                 <Form.Item className={clsx(styles.formItem, 'w100')}>
                     <Button className={clsx(styles.btn, styles.loginBtn)} type='primary' htmlType='submit'
-                            onMouseDown={e => e.preventDefault()}>
+                        onMouseDown={e => e.preventDefault()}>
                         {loading ?
                             <div className={clsx('dflex', 'acenter', 'jcenter')}>
                                 <p>刷新计算</p>
@@ -295,16 +300,16 @@ const MaskLogin: NextPage = () => {
                         <div className={clsx(styles.agreement, 'dflex', 'acenter', 'jcenter', 'mt2')}>
                             <span>注册登录即表示同意</span>
                             <span className={clsx('ml1', 'cur')}><a rel='noreferrer' className={clsx(styles.agreChild)}
-                                                                    target='_blank' href='#'>用户协议</a></span>
+                                target='_blank' href='#'>用户协议</a></span>
                             <span className={clsx('ml1', 'cur')}><a rel='noreferrer' className={clsx(styles.agreChild)}
-                                                                    target='_blank' href='#'>隐私政策</a></span>
+                                target='_blank' href='#'>隐私政策</a></span>
                         </div>
                     )
             }
             <div
                 className={clsx(styles.realPerson, isRealPerson == 1 ? styles.show : isRealPerson == 2 ? styles.hide : '')}>
                 <RealPersonVerification calculation={calculation} closeVerCode={closeVerCode}
-                                        reslPerson={reslPerson}></RealPersonVerification>
+                    reslPerson={reslPerson}></RealPersonVerification>
             </div>
         </div>
     );
