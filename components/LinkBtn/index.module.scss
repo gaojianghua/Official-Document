@@ -15,3 +15,10 @@
 .linkBtn:nth-child(-n+6) {
   margin-top: 0px;
 }
+.linkBtn:hover{
+  border-color: #fb7299;
+  background-color: #fff;
+  a{
+    color: #fb7299!important;
+  }
+}

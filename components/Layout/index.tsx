@@ -63,6 +63,7 @@ const Layout: NextPage<Props> = ({ children }) => {
                 <title>Wolffy印记</title>
                 <meta data-n-head='ssr' name='description' content='next app vue react uniapp taro' />
                 <meta data-n-head='ssr' name='description' content='官网印记 灰太狼' />
+                <meta name="baidu-site-verification" content="codeva-USHVEW0uoT" />
                 <link rel='icon' href={imageType.ico} />
                 <link rel="preconnect" href="https://gaojianghua.cn" crossOrigin={'true'} />
                 <link rel="dns-prefetch" href="https://gaojianghua.cn" />
