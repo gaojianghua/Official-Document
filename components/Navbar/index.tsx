@@ -29,7 +29,7 @@ const Navbar: NextPage = () => {
         }
     }, [isManagement]);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (store.public.publicData.maskComponentId == 10 && !store.public.publicData.maskShow) {
             setIsSet(false)
         }
@@ -60,7 +60,7 @@ const Navbar: NextPage = () => {
             store.public.setIsAdministrator(true)
             store.public.setMaskComponentId(1);
             store.public.setMaskShow(true);
-        }else {
+        } else {
             store.public.setMaskComponentId(5);
             store.public.setMaskShow(true);
         }
@@ -110,13 +110,13 @@ const Navbar: NextPage = () => {
             <section className={styles.operationArea}>
                 {
                     pathname === '/home' && token ? (
-                            <Form>
-                                <Form.Item className={clsx(styles.formItem)}>
-                                    <Button className={clsx(styles.btn, styles.tabBtn)}  type='primary' onClick={openManagement}>
-                                        {managementText}
-                                    </Button>
-                                </Form.Item>
-                            </Form>
+                        <Form>
+                            <Form.Item className={clsx(styles.formItem)}>
+                                <Button className={clsx(styles.btn, styles.tabBtn)} type='primary' onClick={openManagement}>
+                                    {managementText}
+                                </Button>
+                            </Form.Item>
+                        </Form>
                     ) : <></>
                 }
                 <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', 'ml2', !isSet ? '' : styles.unflod)} onClick={openSet}>
@@ -126,24 +126,24 @@ const Navbar: NextPage = () => {
                     store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
                         <div onClick={showHide}>
                             <Avatar className={styles.avBorder1} src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
-                                 size={50}  /></div>
-                            {
-                                isShowMenu ?
-                                    <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
-                                        <Avatar className={styles.avBorder2} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
-                                                src={store.user.userData.userInfo.avatar} size={80} />
-                                        <div className={clsx('mt1', 'mainColor', 'fontdr')}>
-                                            {store.user.userData.userInfo.name}
-                                        </div>
-                                        <div className={clsx('mt1', 'textmuted', 'textcenter')}>
-                                            {store.user.userData.userInfo.signature}
-                                        </div>
-                                        <div className={clsx('mt1', 'dflex', 'jsb' ,'acenter')} onClick={openMap}>
-                                            <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />
-                                            {store.user.userData.userInfo.city ?
-                                                <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span> : <span>- - -</span>
-                                            }
-                                        </div>
+                                size={50} /></div>
+                        {
+                            isShowMenu ?
+                                <div className={clsx(styles.userMenu, 'positionabsolute', 'dflex', 'flexcolumn', 'acenter')}>
+                                    <Avatar className={styles.avBorder2} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
+                                        src={store.user.userData.userInfo.avatar} size={80} />
+                                    <div className={clsx('mt1', 'mainColor', 'fontdr')}>
+                                        {store.user.userData.userInfo.name}
+                                    </div>
+                                    <div className={clsx('mt1', 'textmuted', 'textcenter')}>
+                                        {store.user.userData.userInfo.signature}
+                                    </div>
+                                    <div className={clsx('mt1', 'dflex', 'jsb', 'acenter')} onClick={openMap}>
+                                        <EnvironmentOutlined className={clsx('fontdr', 'mr1')} />
+                                        {store.user.userData.userInfo.city ?
+                                            <span>{store.user.userData.userInfo.province} - {store.user.userData.userInfo.city}</span> : <span>- - -</span>
+                                        }
+                                    </div>
                                     <Form>
                                         <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={updateInfo}>
@@ -155,25 +155,25 @@ const Navbar: NextPage = () => {
                                                 {store.user.userData.userInfo.is_admin === 1 ? '系统管理' : '投稿申请'}
                                             </Button>
                                         </Form.Item>
-                                        <Form.Item className={clsx(styles.formItem,styles.menuItem, 'mt1')}>
+                                        <Form.Item className={clsx(styles.formItem, styles.menuItem, 'mt1')}>
                                             <Button className={clsx(styles.btn)} type='primary' onClick={openLogout}>
                                                 退出登录
                                             </Button>
                                         </Form.Item>
                                     </Form>
-                                    </div>
-                                    : <></>
-                            }
-                        </div>
+                                </div>
+                                : <></>
+                        }
+                    </div>
                         : <>
                             <Form className={clsx('dflex')}>
-                                <Form.Item className={clsx(styles.formItem, 'wauto' , 'ml2')}>
-                                    <Button className={clsx(styles.btn,styles.tabBtn)} type='primary' onClick={openLogin}>
+                                <Form.Item className={clsx(styles.formItem, 'wauto', 'ml2')}>
+                                    <Button className={clsx(styles.btn, styles.tabBtn)} type='primary' onClick={openLogin}>
                                         登录
                                     </Button>
                                 </Form.Item>
                                 <Form.Item className={clsx(styles.formItem, 'wauto', 'ml2')}>
-                                    <Button className={clsx(styles.btn,styles.tabBtn)} type='primary' onClick={openRegister}>
+                                    <Button className={clsx(styles.btn, styles.tabBtn)} type='primary' onClick={openRegister}>
                                         注册
                                     </Button>
                                 </Form.Item>
