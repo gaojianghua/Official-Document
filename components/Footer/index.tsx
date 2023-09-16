@@ -1,3 +1,10 @@
+/*
+ * @Author: 高江华 g598670138@163.com
+ * @Date: 2023-08-18 17:33:30
+ * @LastEditors: 高江华
+ * @LastEditTime: 2023-09-16 14:55:51
+ * @Description: file content
+ */
 import type { NextPage } from 'next';
 import styles from './index.module.scss';
 import clsx from 'clsx';
@@ -6,14 +13,14 @@ import { Button } from 'antd';
 
 const Footer: NextPage = () => {
     return (
-        <div className={clsx(styles.footer, 'dflex', 'jcenter', 'acenter', 'mt2')}>
+        <div className={clsx(styles.footer, 'dflex', 'jcenter', 'acenter')}>
             <div className={clsx('dflex', 'flexcolumn', 'jcenter', 'acenter')}>
                 <Image width={80} height={80} src='https://official-document.oss-cn-hangzhou.aliyuncs.com/qrcode_for_gh_4c360c5cb61a_258.jpg' alt='微信公众号' />
                 <span className={clsx(styles.desc, 'my1', 'lineh', 'cur')}>
                     公众号：程序员印记
                 </span>
             </div>
-            <div className={clsx('dflex', 'flexcolumn', 'acenter', 'mt2', 'mx3')}>
+            <div className={clsx('dflex', 'flexcolumn', 'acenter', 'mx3')}>
                 <div className={clsx(styles.urls, 'dflex')}>
                     <Button type='primary' className={clsx(styles.btnn)} target='_blank' href='https://blog.gaojianghua.cn'>博客社区</Button>
                     <div className={clsx('px2')} />

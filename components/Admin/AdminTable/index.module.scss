@@ -22,6 +22,11 @@
     border-color: #ffffff !important;
   }
 
+  :global(.ant-select-selector){
+    border-color: #fb7299 !important;
+    background-color: transparent !important;
+  }
+
   :global(.ant-pagination-next > .ant-pagination-item-link) {
     background-color: transparent !important;
     border-color: #ffffff !important;
