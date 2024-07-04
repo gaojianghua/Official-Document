@@ -25,11 +25,11 @@ const MainBox: NextPage<Props> = ({ children }) => {
     const [rList, setRList] = useState<ULink[]>([]);
     const [lManage, setLManage] = useState(false);
     const [rManage, setRManage] = useState(false);
-    const { token } = store.public.publicData;
+    const { accessToken } = store.public.publicData;
     const { success } = store.link.linkData;
     // 获取数据
     const getUserLinkListData = useCallback(async () => {
-        if (!token) return;
+        if (!accessToken) return;
         let larray: ULink[] = [];
         let rarray: ULink[] = [];
         let res: any = await getUserLinkList();
@@ -52,9 +52,9 @@ const MainBox: NextPage<Props> = ({ children }) => {
             setLList(larray);
             setRList(rarray);
         }
-    },[token])
+    },[accessToken])
     useEffect(() => {
-        if (token) {
+        if (accessToken) {
             getUserLinkListData();
         } else {
             setLList(() => []);
@@ -64,7 +64,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
             getUserLinkListData();
             store.link.setSuccess(false);
         }
-    }, [getUserLinkListData, store.link, token,success]);
+    }, [getUserLinkListData, store.link, accessToken,success]);
     // 搜索
     const onFinish = () => {
         if (!input) return message.warning('请输入关键词');
@@ -80,12 +80,12 @@ const MainBox: NextPage<Props> = ({ children }) => {
     };
     // 左侧链接管理开关
     const openLManage = () => {
-        if (!token) return message.warning('请先登录');
+        if (!accessToken) return message.warning('请先登录');
         setLManage(!lManage);
     };
     // 右侧链接管理开关
     const openRManage = () => {
-        if (!token) return message.warning('请先登录');
+        if (!accessToken) return message.warning('请先登录');
         setRManage(!rManage);
     };
     // 输入框内容变化
@@ -142,7 +142,7 @@ const MainBox: NextPage<Props> = ({ children }) => {
                 {
                     lManage ?
                         <div className={clsx(styles.addLItem, 'dflex', 'cur', 'flexshrink', 'acenter', 'jcenter')}
-                             onClick={() => addLink(1)}>
+                            onClick={() => addLink(1)}>
                             <PlusOutlined style={{ fontSize: '18px', marginRight: '5px' }} />新增
                         </div> : <></>
                 }

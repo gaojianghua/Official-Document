@@ -110,7 +110,7 @@ const AdminHeader: NextPage<IProps> = ({ updateSwitch, isSwitch }) => {
     return (
         <div className={clsx(styles.header, 'dflex', 'acenter')}>
             <div className={clsx(styles.switch, 'dflex', 'acenter', 'cur', 'jcenter', isSwitch ? '' : styles.unflod)}
-                 onClick={chooseSwitch}>
+                onClick={chooseSwitch}>
                 {
                     isSwitch ? <MenuFoldOutlined className={styles.icon} /> :
                         <MenuUnfoldOutlined className={styles.icon} />

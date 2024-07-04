@@ -15,7 +15,7 @@ import { logout } from '@/service/api';
 
 const Navbar: NextPage = () => {
     const store = useStore();
-    const { isManagement, token } = store.public.publicData;
+    const { isManagement, accessToken } = store.public.publicData;
     const [isSet, setIsSet] = useState(false);
     const { pathname } = useRouter();
     const [managementText, setManagementText] = useState('管理印记');
@@ -36,7 +36,7 @@ const Navbar: NextPage = () => {
     }, [store.public.publicData.maskShow, store.public.publicData.maskComponentId])
     // 打开编辑印记
     const openManagement = () => {
-        if (!token) return
+        if (!accessToken) return
         store.public.setIsManagement(!isManagement);
     };
     // 打开登录弹框
@@ -69,9 +69,11 @@ const Navbar: NextPage = () => {
     const openLogout = async () => {
         let res: any = await logout()
         if (res.code == 200) {
-            store.public.setToken('')
+            store.public.setAccessToken('')
+            store.public.setRefreshToken('')
             store.user.setUserInfo({})
-            removeSession('token')
+            removeSession('accessToken')
+            removeSession('refreshToken')
             removeSession('userInfo')
             message.success('退出登录成功')
         }
@@ -109,7 +111,7 @@ const Navbar: NextPage = () => {
             </section>
             <section className={styles.operationArea}>
                 {
-                    pathname === '/home' && token ? (
+                    pathname === '/home' && accessToken ? (
                         <Form>
                             <Form.Item className={clsx(styles.formItem)}>
                                 <Button className={clsx(styles.btn, styles.tabBtn)} type='primary' onClick={openManagement}>
@@ -123,7 +125,7 @@ const Navbar: NextPage = () => {
                     <SettingOutlined className={styles.icon} />
                 </div>
                 {
-                    store.public.publicData.token ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
+                    store.public.publicData.accessToken ? <div className={clsx('positionrelative', 'ml2', 'cur')}>
                         <div onClick={showHide}>
                             <Avatar className={styles.avBorder1} src={store.user.userData.userInfo.avatar} icon={store.user.userData.userInfo.avatar ? '' : <UserOutlined />}
                                 size={50} /></div>

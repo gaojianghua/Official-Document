@@ -12,7 +12,7 @@ import { message } from 'antd';
 
 const Home: NextPage = () => {
   const store = useStore();
-  const { isManagement, token } = store.public.publicData;
+  const { isManagement, accessToken } = store.public.publicData;
   const { success } = store.mark.markData;
   const [ cardArr, setCardArr ] = useState<Mark[]>([])
   // 获取数据
@@ -24,12 +24,12 @@ const Home: NextPage = () => {
     }
   },[store.mark])
   useEffect(() => {
-    if (token || success) {
+    if (accessToken || success) {
       getUserCardListData()
     } else {
       setCardArr(() => [])
     }
-  },[getUserCardListData, token, success])
+  },[getUserCardListData, accessToken, success])
   // 增加一个新增印记的编辑框
   const addMarkBox = () => {
     store.mark.setTmpMark({})

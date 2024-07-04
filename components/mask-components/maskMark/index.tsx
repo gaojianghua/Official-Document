@@ -202,7 +202,8 @@ const MaskMark: NextPage = () => {
                         name='image'
                         data={imageType}
                         headers={{
-                            'Authorization': 'Bearer ' + getSession('token'),
+                            'Access-Token': 'Bearer ' + getSession('accessToken'),
+                            'Refresh-Token': 'Bearer ' + getSession('refreshToken')
                         }}
                         beforeUpload={beforeUpload}
                         onChange={handleLgChange}
@@ -220,7 +221,8 @@ const MaskMark: NextPage = () => {
                             name='image'
                             data={imageType}
                             headers={{
-                                'Authorization': 'Bearer ' + getSession('token'),
+                                'Access-Token': 'Bearer ' + getSession('accessToken'),
+                                'Refresh-Token': 'Bearer ' + getSession('refreshToken')
                             }}
                             beforeUpload={beforeUpload}
                             onChange={handleBgChange}

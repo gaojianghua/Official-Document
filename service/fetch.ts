@@ -1,5 +1,12 @@
+/*
+ * @Author: 高江华 g598670138@163.com
+ * @Date: 2023-07-07 11:19:36
+ * @LastEditors: 高江华
+ * @LastEditTime: 2024-07-04 12:12:47
+ * @Description: file content
+ */
 import axios from "axios";
-import { getSession, removeSession } from '@/utils';
+import { getSession, removeSession, setSession } from '@/utils';
 import { message } from 'antd';
 import { config } from '@/config';
 
@@ -9,14 +16,19 @@ const request = axios.create({
 
 
 request.interceptors.request.use(config => {
-    config.headers!.Authorization = 'Bearer ' +  getSession('token');
+    config.headers!['Access-Token'] = 'Bearer ' +  getSession('accessToken');
+    config.headers!['Refresh-Token'] = 'Bearer ' +  getSession('refreshToken');
     config.headers!.AdminToken = getSession('adminToken')!;
     return config
 }, error => Promise.reject(error))
 request.interceptors.response.use(response => {
     if (response?.status === 200) {
+        if (response?.headers!['new-token']) {
+            setSession('accessToken', response?.headers!['new-token']);
+        }
         if (response?.data.code === 40100) {
-            removeSession('token')
+            removeSession('accessToken')
+            removeSession('refreshToken')
             removeSession('userInfo')
             removeSession('adminToken')
             message.warning(response?.data.message);

@@ -7,7 +7,8 @@ export interface IPublic {
     isAddAndEditor: number, // 1add, 2editor
     isAddOrEdit: number, // 1add, 2editor
     isAddUseEdit: number, // 1add, 2editor
-    token: string,
+    accessToken: string,
+    refreshToken: string,
     adminToken: string,
     menu: Menu[],
     isAdministrator: boolean,
@@ -27,7 +28,8 @@ export interface IPublicStore {
     setIsAddAndEditor: (value: number) => void,
     setIsAddOrEdit: (value: number) => void,
     setIsAddUseEdit: (value: number) => void,
-    setToken: (value: string) => void,
+    setAccessToken: (value: string) => void,
+    setRefreshToken: (value: string) => void,
     setAdminToken: (value: string) => void,
     setMenu: (value: Menu[]) => void,
     setIsAdministrator: (value: boolean) => void,
@@ -47,7 +49,8 @@ const publicStore = (): IPublicStore => {
             isAddAndEditor: 0,
             isAddOrEdit: 0,
             isAddUseEdit: 0,
-            token: '',
+            accessToken: '',
+            refreshToken: '',
             adminToken: '',
             menu: [],
             isAdministrator: false,
@@ -76,8 +79,11 @@ const publicStore = (): IPublicStore => {
         setIsAddUseEdit: function(value) {
             this.publicData.isAddUseEdit = value;
         },
-        setToken: function(value) {
-            this.publicData.token = value;
+        setAccessToken: function(value) {
+            this.publicData.accessToken = value;
+        },
+        setRefreshToken: function(value) {
+            this.publicData.refreshToken = value;
         },
         setAdminToken: function(value) {
             this.publicData.adminToken = value;

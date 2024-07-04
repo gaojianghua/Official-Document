@@ -156,9 +156,11 @@ const MaskLogin: NextPage = () => {
             }
         }
         if (res.code == 200) {
-            store.public.setToken(res.data.access_token);
+            store.public.setAccessToken(res.data.access_token);
+            store.public.setRefreshToken(res.data.refresh_token);
             store.user.setUserInfo(res.data.userInfo);
-            setSession('token', res.data.access_token);
+            setSession('accessToken', res.data.access_token);
+            setSession('refreshToken', res.data.refresh_token);
             setSession('userInfo', res.data.userInfo);
             setLoading(false);
             closeMaskLogin();

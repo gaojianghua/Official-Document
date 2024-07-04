@@ -133,7 +133,8 @@ const MaskUpdateUser: NextPage = () => {
                             name='image'
                             data={imageType}
                             headers={{
-                                'Authorization': 'Bearer ' + getSession('token'),
+                                'Access-Token': 'Bearer ' + getSession('accessToken'),
+                                'Refresh-Token': 'Bearer ' + getSession('refreshToken')
                             }}
                             beforeUpload={beforeUpload}
                             onChange={handleAvatarChange}
@@ -149,14 +150,14 @@ const MaskUpdateUser: NextPage = () => {
                     name='name'
                 >
                     <Input type={'text'} placeholder='请输入昵称!'
-                           className={clsx(styles.input, 'w100')} />
+                        className={clsx(styles.input, 'w100')} />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem)}
                     name='mobile'
                 >
                     <Input type={'number'} placeholder='请输入手机号!'
-                           className={clsx(styles.input, 'w100')} />
+                        className={clsx(styles.input, 'w100')} />
                 </Form.Item>
                 <Form.Item
                     className={clsx(styles.formItem, 'w100')}
@@ -169,7 +170,7 @@ const MaskUpdateUser: NextPage = () => {
                     name='email'
                 >
                     <Input type={'email'} placeholder='请输入邮箱!'
-                           className={clsx(styles.input, 'w100')} onChange={emailChange} />
+                        className={clsx(styles.input, 'w100')} onChange={emailChange} />
                 </Form.Item>
                 {
                     !store.user.userData.userInfo.email || email != store.user.userData.userInfo.email ?
@@ -179,7 +180,7 @@ const MaskUpdateUser: NextPage = () => {
                         >
                             <div className={clsx(styles.group, 'dflex')}>
                                 <Input type={'number'} maxLength={6} placeholder='请输入验证码!'
-                                       className={clsx(styles.input, 'w100')} />
+                                    className={clsx(styles.input, 'w100')} />
                                 <Button type='primary' className={clsx(styles.btn, 'index10')}
                                         onClick={getCode}>{isGetEmail ? '获取验证码' : smsText + ' S'}</Button>
                             </div>

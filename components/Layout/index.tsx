@@ -48,7 +48,8 @@ const Layout: NextPage<Props> = ({ children }) => {
         }
     },[router, store.public, store.user])
     useEffect(() => {
-        store.public.setToken(getSession('token')!)
+        store.public.setAccessToken(getSession('accessToken')!)
+        store.public.setRefreshToken(getSession('refreshToken')!)
         store.public.setAdminToken(getSession('adminToken')!)
         store.user.setUserInfo( JSON.parse(getSession('userInfo')!) || {})
         init()
